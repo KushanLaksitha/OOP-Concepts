@@ -1,1073 +1,165 @@
-<!DOCTYPE html>
-<html lang="si">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C++ OOP ඉගෙනුම් මාර්ගය</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .nav-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            padding: 30px;
-            justify-content: center;
-            background: #f8f9fa;
-        }
-
-        .nav-btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-btn.intro { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .nav-btn.classes { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-        .nav-btn.access { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-        .nav-btn.inheritance { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-        .nav-btn.polymorphism { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
-        .nav-btn.constructors { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; }
-        .nav-btn.templates { background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%); }
-        .nav-btn.benefits { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #333; }
-
-        .content {
-            padding: 40px;
-            display: none;
-        }
-
-        .content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .content h2 {
-            color: #667eea;
-            font-size: 2em;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
-        }
-
-        .content h3 {
-            color: #764ba2;
-            font-size: 1.5em;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-
-        .content p {
-            line-height: 1.8;
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .code-example {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            overflow-x: auto;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .code-example pre {
-            margin: 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95em;
-        }
-
-        .video-container {
-            margin: 25px 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .video-container h4 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .video-link {
-            display: inline-block;
-            padding: 12px 25px;
-            background: #ff0000;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .video-link:hover {
-            background: #cc0000;
-            transform: scale(1.05);
-        }
-
-        .key-point {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            padding: 15px;
-            border-left: 5px solid #667eea;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-
-        .example-box {
-            background: #f0f7ff;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 2px solid #4facfe;
-        }
-
-        ul {
-            margin-left: 30px;
-            margin-bottom: 15px;
-        }
-
-        li {
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-
-        .keyword {
-            color: #ff79c6;
-            font-weight: bold;
-        }
-
-        .comment {
-            color: #6272a4;
-            font-style: italic;
-        }
-
-        .string {
-            color: #f1fa8c;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🎓 C++ Object Oriented Programming</h1>
-            <p>සිංහලෙන් OOP ඉගෙන ගන්න - අන්තර්ක්‍රියාකාරී ඉගෙනුම් වේදිකාව</p>
-        </div>
-
-        <div class="nav-buttons">
-            <button class="nav-btn intro" onclick="showContent('intro')">හැඳින්වීම</button>
-            <button class="nav-btn classes" onclick="showContent('classes')">Classes & Objects</button>
-            <button class="nav-btn access" onclick="showContent('access')">Access Specifiers</button>
-            <button class="nav-btn inheritance" onclick="showContent('inheritance')">Inheritance</button>
-            <button class="nav-btn polymorphism" onclick="showContent('polymorphism')">Polymorphism</button>
-            <button class="nav-btn constructors" onclick="showContent('constructors')">Constructors</button>
-            <button class="nav-btn templates" onclick="showContent('templates')">Templates</button>
-            <button class="nav-btn benefits" onclick="showContent('benefits')">Benefits & Summary</button>
-        </div>
-
-        <!-- Intro Content -->
-        <div id="intro" class="content active">
-            <h2>🌟 Object Oriented Programming (OOP) හැඳින්වීම</h2>
+<!-- Function Overriding Content -->
+        <div id="overriding" class="content">
+            <h2>🎭 Function Overriding (ක්‍රියා අභිබවනය)</h2>
             
-            <p><strong>OOP කියන්නේ මොකක්ද?</strong></p>
-            <p>Object Oriented Programming (OOP) යනු වස්තූන් (objects) සහ පන්ති (classes) මත පදනම්ව ක්‍රමලේඛන කිරීමේ ක්‍රමවේදයකි. මෙහිදී අපි ඇත්ත ලෝකයේ වස්තූන්ට සමානව කේතය සංවිධානය කරනවා.</p>
+            <p>Function Overriding යනු parent class එකේ virtual function එකක් child class එකේදී නැවත ලිවීමයි. මෙය Runtime Polymorphism (Dynamic Polymorphism) එකක්.</p>
 
             <div class="key-point">
-                <strong>🎯 OOP හි ප්‍රධාන සංකල්ප 4ක් තියෙනවා:</strong>
+                <strong>🎯 Function Overriding හි අවශ්‍යතා:</strong>
                 <ul>
-                    <li><strong>Encapsulation (ඇසුරුම් කිරීම)</strong> - දත්ත සහ ක්‍රියා එකට බඳින්න</li>
-                    <li><strong>Abstraction (වියුක්තකරණය)</strong> - සංකීර්ණ විස්තර සඟවන්න</li>
-                    <li><strong>Inheritance (උරුමය)</strong> - පන්ති වලින් ගුණාංග උරුම කරගන්න</li>
-                    <li><strong>Polymorphism (බහුරූපිතාව)</strong> - එකම ක්‍රියාව විවිධ ආකාර වලට ක්‍රියාත්මක වෙන්න</li>
+                    <li>Parent සහ child classes අතර inheritance තිබිය යුතුයි</li>
+                    <li>Function එකේ නම එකම විය යුතුයි</li>
+                    <li>Parameters එකම විය යුතුයි (type සහ count)</li>
+                    <li>Return type එකම විය යුතුයි (හෝ covariant)</li>
+                    <li>Parent class එකේ function එක <strong>virtual</strong> විය යුතුයි</li>
                 </ul>
             </div>
 
-            <h3>📖 සරල උදාහරණයක්:</h3>
-            <p>මෝටර් රථයක් ගැන හිතන්න. මෝටර් රථයට වර්ණය, ආකෘතිය වගේ ගුණාංග (attributes) තියෙනවා. එලෙසම එය ධාවනය වෙන්න, නවත්වන්න වගේ ක්‍රියා (methods) කරන්න පුළුවන්.</p>
-
-            <div class="code-example">
-                <pre><span class="keyword">class</span> Car {
-    <span class="comment">// ගුණාංග (Attributes)</span>
-    string color;
-    string model;
-    
-    <span class="comment">// ක්‍රියා (Methods)</span>
-    <span class="keyword">void</span> start() {
-        cout << <span class="string">"මෝටර් රථය ධාවනය වෙනවා"</span>;
-    }
-};</pre>
-            </div>
-
-            <div class="video-container">
-                <h4>🎥 සිංහල YouTube වීඩියෝ නිර්දේශ:</h4>
-                <a href="https://www.youtube.com/results?search_query=OOP+C%2B%2B+sinhala+tutorial" target="_blank" class="video-link">📺 OOP C++ Sinhala Tutorials</a>
-                <br><br>
-                <a href="https://www.youtube.com/results?search_query=object+oriented+programming+sinhala" target="_blank" class="video-link">📺 OOP සිංහල පැහැදිලි කිරීම්</a>
-            </div>
-        </div>
-
-        <!-- Classes & Objects Content -->
-        <div id="classes" class="content">
-            <h2>🏗️ Classes and Objects</h2>
-            
-            <h3>Class (පන්තිය) කියන්නේ මොකක්ද?</h3>
-            <p>Class එකක් කියන්නේ objects නිර්මාණය කිරීම සඳහා භාවිතා කරන blueprint එකක් හෝ template එකක්. ගෙයක් හදන්න භාවිතා කරන ප්‍රාතිරූපයක් (plan) වගේ.</p>
-
-            <h3>Object (වස්තුව) කියන්නේ මොකක්ද?</h3>
-            <p>Object එකක් කියන්නේ class එකක instance එකක්. එනම් ප්‍රාතිරූපය පාවිච්චි කරලා හැදූ ඇත්ත ගෙය වගේ.</p>
-
+            <h3>🐾 සරල උදාහරණය - සතුන්:</h3>
             <div class="example-box">
-                <h4>🎓 උදාහරණය - Student පන්තිය:</h4>
-                <div class="code-example">
-                    <pre><span class="keyword">#include</span> &lt;iostream&gt;
-<span class="keyword">#include</span> &lt;string&gt;
-<span class="keyword">using namespace</span> std;
-
-<span class="keyword">class</span> Student {
-    <span class="keyword">public:</span>
-        <span class="comment">// ගුණාංග (Attributes)</span>
-        string name;
-        int age;
-        string grade;
-        
-        <span class="comment">// ක්‍රියා (Methods)</span>
-        <span class="keyword">void</span> displayInfo() {
-            cout << <span class="string">"නම: "</span> << name << endl;
-            cout << <span class="string">"වයස: "</span> << age << endl;
-            cout << <span class="string">"ශ්‍රේණිය: "</span> << grade << endl;
-        }
-        
-        <span class="keyword">void</span> study() {
-            cout << name << <span class="string">" පාඩම් කරනවා..."</span> << endl;
-        }
-};
-
-<span class="keyword">int</span> main() {
-    <span class="comment">// Object නිර්මාණය කිරීම</span>
-    Student student1;
-    
-    <span class="comment">// ගුණාංග සකස් කිරීම</span>
-    student1.name = <span class="string">"කසුන් පෙරේරා"</span>;
-    student1.age = 16;
-    student1.grade = <span class="string">"11 ශ්‍රේණිය"</span>;
-    
-    <span class="comment">// Methods භාවිතා කිරීම</span>
-    student1.displayInfo();
-    student1.study();
-    
-    <span class="keyword">return</span> 0;
-}</pre>
-                </div>
-            </div>
-
-            <div class="key-point">
-                <strong>💡 මතක තබා ගන්න:</strong>
-                <ul>
-                    <li>Class එක = Blueprint (ප්‍රාතිරූපය)</li>
-                    <li>Object එක = ඒ blueprint එකෙන් හැදූ ඇත්ත වස්තුව</li>
-                    <li>එක class එකකින් වස්තූන් කීපයක් හදන්න පුළුවන්</li>
-                </ul>
-            </div>
-
-            <div class="video-container">
-                <h4>🎥 සිංහල වීඩියෝ:</h4>
-                <a href="https://www.youtube.com/results?search_query=C%2B%2B+classes+objects+sinhala" target="_blank" class="video-link">📺 Classes & Objects Sinhala</a>
-            </div>
-        </div>
-
-        <!-- Access Specifiers Content -->
-        <div id="access" class="content">
-            <h2>🔐 Access Specifiers (ප්‍රවේශ නියමන)</h2>
-            
-            <p>Access specifiers භාවිතා කරන්නේ class එකක සාමාජිකයන්ට (members) කාටද ප්‍රවේශ විය හැකිද කියන එක පාලනය කරන්න.</p>
-
-            <h3>C++ වල Access Specifiers 3ක් තියෙනවා:</h3>
-
-            <div class="example-box">
-                <h4>1️⃣ Public (පොදු)</h4>
-                <p>🟢 <strong>Public members</strong> වලට class එකෙන් පිටතින් ප්‍රවේශ විය හැකියි.</p>
-                <div class="code-example">
-                    <pre><span class="keyword">class</span> Example {
-    <span class="keyword">public:</span>
-        int publicVar;  <span class="comment">// ඕනෑම කෙනෙකුට access කරන්න පුළුවන්</span>
-};</pre>
-                </div>
-            </div>
-
-            <div class="example-box">
-                <h4>2️⃣ Private (පෞද්ගලික)</h4>
-                <p>🔴 <strong>Private members</strong> වලට class එක ඇතුළතින් පමණක් ප්‍රවේශ විය හැකියි.</p>
-                <div class="code-example">
-                    <pre><span class="keyword">class</span> Example {
-    <span class="keyword">private:</span>
-        int privateVar;  <span class="comment">// class එක ඇතුළතින් පමණක්</span>
-};</pre>
-                </div>
-            </div>
-
-            <div class="example-box">
-                <h4>3️⃣ Protected (ආරක්ෂිත)</h4>
-                <p>🟡 <strong>Protected members</strong> වලට class එක සහ එහි උරුම (inherited) පන්ති වලින් ප්‍රවේශ විය හැකියි.</p>
-                <div class="code-example">
-                    <pre><span class="keyword">class</span> Example {
-    <span class="keyword">protected:</span>
-        int protectedVar;  <span class="comment">// class එක සහ child classes වලින්</span>
-};</pre>
-                </div>
-            </div>
-
-            <h3>🏦 සම්පූර්ණ උදාහරණය - බැංකු ගිණුම:</h3>
-            <div class="code-example">
-                <pre><span class="keyword">#include</span> &lt;iostream&gt;
-<span class="keyword">using namespace</span> std;
-
-<span class="keyword">class</span> BankAccount {
-    <span class="keyword">private:</span>
-        <span class="comment">// Private - පිටතින් access කරන්න බෑ</span>
-        double balance;
-        string accountNumber;
-    
-    <span class="keyword">public:</span>
-        <span class="comment">// Public - ඕනෑම කෙනෙකුට use කරන්න පුළුවන්</span>
-        string ownerName;
-        
-        <span class="keyword">void</span> deposit(double amount) {
-            <span class="keyword">if</span>(amount > 0) {
-                balance += amount;
-                cout << <span class="string">"රු. "</span> << amount << <span class="string">" තැන්පත් කළා"</span> << endl;
-            }
-        }
-        
-        <span class="keyword">void</span> withdraw(double amount) {
-            <span class="keyword">if</span>(amount <= balance) {
-                balance -= amount;
-                cout << <span class="string">"රු. "</span> << amount << <span class="string">" ආපසු ගත්තා"</span> << endl;
-            } <span class="keyword">else</span> {
-                cout << <span class="string">"ප්‍රමාණවත් මුදලක් නැහැ!"</span> << endl;
-            }
-        }
-        
-        <span class="keyword">double</span> getBalance() {
-            <span class="keyword">return</span> balance;
-        }
-};</pre>
-            </div>
-
-            <div class="key-point">
-                <strong>🎯 කැමති විදියට මතක තියාගන්න:</strong>
-                <ul>
-                    <li><strong>Private</strong> = ඔබේ දුරකථනයේ password - ඔබ විතරයි දන්නේ</li>
-                    <li><strong>Public</strong> = ඔබේ Facebook profile - හැමෝම බලන්න පුළුවන්</li>
-                    <li><strong>Protected</strong> = පවුලේ රහස - ඔබ සහ ඔබේ දරුවන්ට විතරයි දන්නේ</li>
-                </ul>
-            </div>
-
-            <div class="video-container">
-                <h4>🎥 සිංහල වීඩියෝ:</h4>
-                <a href="https://www.youtube.com/results?search_query=C%2B%2B+access+specifiers+sinhala" target="_blank" class="video-link">📺 Access Specifiers Sinhala</a>
-            </div>
-        </div>
-
-        <!-- Inheritance Content -->
-        <div id="inheritance" class="content">
-            <h2>🌳 Inheritance (උරුමය)</h2>
-            
-            <p>Inheritance කියන්නේ එක class එකකට (child/derived) තවත් class එකක (parent/base) ගුණාංග සහ methods උරුම කර ගැනීමට ඉඩ සලසන මාර්ගයක්.</p>
-
-            <div class="key-point">
-                <strong>🎯 උරුමය භාවිතා කරන්නේ ඇයි?</strong>
-                <ul>
-                    <li>කේතය නැවත භාවිතා කිරීම (Code Reusability)</li>
-                    <li>සංකීර්ණතාවය අඩු කිරීම</li>
-                    <li>Hierarchical relationships නිර්මාණය කිරීම</li>
-                </ul>
-            </div>
-
-            <h3>🚗 සරල උදාහරණය - වාහන:</h3>
-            <div class="code-example">
-                <pre><span class="keyword">#include</span> &lt;iostream&gt;
-<span class="keyword">using namespace</span> std;
-
-<span class="comment">// Parent Class (Base Class)</span>
-<span class="keyword">class</span> Vehicle {
-    <span class="keyword">protected:</span>
-        string brand;
-        int year;
-    
-    <span class="keyword">public:</span>
-        <span class="keyword">void</span> setBrand(string b) {
-            brand = b;
-        }
-        
-        <span class="keyword">void</span> displayInfo() {
-            cout << <span class="string">"වාහන සන්නාමය: "</span> << brand << endl;
-            cout << <span class="string">"වර්ෂය: "</span> << year << endl;
-        }
-};
-
-<span class="comment">// Child Class (Derived Class)</span>
-<span class="keyword">class</span> Car : <span class="keyword">public</span> Vehicle {
-    <span class="keyword">private:</span>
-        int doors;
-    
-    <span class="keyword">public:</span>
-        <span class="keyword">void</span> setDoors(int d) {
-            doors = d;
-        }
-        
-        <span class="keyword">void</span> displayCarInfo() {
-            displayInfo();  <span class="comment">// Parent class method</span>
-            cout << <span class="string">"දොර ගණන: "</span> << doors << endl;
-        }
-};
-
-<span class="keyword">int</span> main() {
-    Car myCar;
-    myCar.setBrand(<span class="string">"Toyota"</span>);
-    myCar.setDoors(4);
-    myCar.displayCarInfo();
-    
-    <span class="keyword">return</span> 0;
-}</pre>
-            </div>
-
-            <h3>👨‍👩‍👧 තවත් උදාහරණයක් - පවුල:</h3>
-            <div class="code-example">
-                <pre><span class="keyword">class</span> Person {
-    <span class="keyword">protected:</span>
-        string name;
-        int age;
-    
-    <span class="keyword">public:</span>
-        <span class="keyword">void</span> eat() {
-            cout << name << <span class="string">" කන්න කයිද කනවා"</span> << endl;
-        }
-        
-        <span class="keyword">void</span> sleep() {
-            cout << name << <span class="string">" නිදාගන්නවා"</span> << endl;
-        }
-};
-
-<span class="comment">// Student උරුම කර ගන්නවා Person වලින්</span>
-<span class="keyword">class</span> Student : <span class="keyword">public</span> Person {
-    <span class="keyword">private:</span>
-        string school;
-    
-    <span class="keyword">public:</span>
-        <span class="keyword">void</span> study() {
-            cout << name << <span class="string">" පාඩම් කරනවා"</span> << endl;
-        }
-};
-
-<span class="comment">// Teacher ද උරුම කර ගන්නවා Person වලින්</span>
-<span class="keyword">class</span> Teacher : <span class="keyword">public</span> Person {
-    <span class="keyword">private:</span>
-        string subject;
-    
-    <span class="keyword">public:</span>
-        <span class="keyword">void</span> teach() {
-            cout << name << <span class="string">" උගන්වනවා"</span> << endl;
-        }
-};</pre>
-            </div>
-
-            <div class="example-box">
-                <h4>🎨 Inheritance වර්ග:</h4>
-                <ul>
-                    <li><strong>Single Inheritance</strong> - එක parent එකක් සිට උරුම කර ගැනීම</li>
-                    <li><strong>Multiple Inheritance</strong> - parent කීපයක් සිට උරුම කර ගැනීම</li>
-                    <li><strong>Multilevel Inheritance</strong> - levels කීපයක් ඇති උරුමය</li>
-                    <li><strong>Hierarchical Inheritance</strong> - එක parent එකක් සිට child කීපයක්</li>
-                </ul>
-            </div>
-
-            <div class="video-container">
-                <h4>🎥 සිංහල වීඩියෝ:</h4>
-                <a href="https://www.youtube.com/results?search_query=C%2B%2B+inheritance+sinhala" target="_blank" class="video-link">📺 Inheritance Sinhala</a>
-            </div>
-        </div>
-
-        <!-- Polymorphism Content -->
-        <div id="polymorphism" class="content">
-            <h2>🎭 Polymorphism (බහුරූපිතාව)</h2>
-            
-            <p>Polymorphism යන්නෙන් අදහස් කරන්නේ "බොහෝ ආකාර" යන්නයි. එනම් එකම නමින් ක්‍රියාවක් විවිධ ආකාර වලට ක්‍රියාත්මක වීම.</p>
-
-            <h3>Polymorphism වර්ග 2ක්:</h3>
-
-            <div class="example-box">
-                <h4>1️⃣ Compile-time Polymorphism (Function Overloading)</h4>
-                <p>එකම නමින් functions කීපයක් තිබීම, නමුත් විවිධ parameters සමග.</p>
                 <div class="code-example">
                     <pre><span class="keyword">#include</span> &lt;iostream&gt;
 <span class="keyword">using namespace</span> std;
 
-<span class="keyword">class</span> Calculator {
-    <span class="keyword">public:</span>
-        <span class="comment">// 2 සංඛ්‍යා එකතු කරන්න</span>
-        <span class="keyword">int</span> add(<span class="keyword">int</span> a, <span class="keyword">int</span> b) {
-            <span class="keyword">return</span> a + b;
-        }
-        
-        <span class="comment">// 3 සංඛ්‍යා එකතු කරන්න</span>
-        <span class="keyword">int</span> add(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c) {
-            <span class="keyword">return</span> a + b + c;
-        }
-        
-        <span class="comment">// දශම සංඛ්‍යා එකතු කරන්න</span>
-        <span class="keyword">double</span> add(<span class="keyword">double</span> a, <span class="keyword">double</span> b) {
-            <span class="keyword">return</span> a + b;
-        }
-};
-
-<span class="keyword">int</span> main() {
-    Calculator calc;
-    cout << calc.add(5, 3) << endl;           <span class="comment">// 8</span>
-    cout << calc.add(5, 3, 2) << endl;        <span class="comment">// 10</span>
-    cout << calc.add(5.5, 3.2) << endl;       <span class="comment">// 8.7</span>
-    <span class="keyword">return</span> 0;
-}</pre>
-                </div>
-            </div>
-
-            <div class="example-box">
-                <h4>2️⃣ Run-time Polymorphism (Function Overriding)</h4>
-                <p>Parent class එකේ function එක child class එකේදී නැවත ලියන්න.</p>
-                <div class="code-example">
-                    <pre><span class="keyword">#include</span> &lt;iostream&gt;
-<span class="keyword">using namespace</span> std;
-
+<span class="comment">// Parent Class</span>
 <span class="keyword">class</span> Animal {
     <span class="keyword">public:</span>
+        <span class="comment">// Virtual function - override කරන්න පුළුවන්</span>
         <span class="keyword">virtual void</span> makeSound() {
             cout << <span class="string">"සතා ශබ්දයක් නිකුත් කරනවා"</span> << endl;
         }
-};
-
-<span class="keyword">class</span> Dog : <span class="keyword">public</span> Animal {
-    <span class="keyword">public:</span>
-        <span class="keyword">void</span> makeSound() <span class="keyword">override</span> {
-            cout << <span class="string">"බුරා බුරා! 🐕"</span> << endl;
+        
+        <span class="keyword">virtual void</span> move() {
+            cout << <span class="string">"සතා චලනය වෙනවා"</span> << endl;
+        }
+        
+        <span class="keyword">void</span> sleep() {  <span class="comment">// Non-virtual</span>
+            cout << <span class="string">"සතා නිදාගන්නවා"</span> << endl;
         }
 };
 
+<span class="comment">// Child Class 1 - Dog</span>
+<span class="keyword">class</span> Dog : <span class="keyword">public</span> Animal {
+    <span class="keyword">public:</span>
+        <span class="comment">// Overriding makeSound()</span>
+        <span class="keyword">void</span> makeSound() <span class="keyword">override</span> {
+            cout << <span class="string">"බුරා බුරා! 🐕"</span> << endl;
+        }
+        
+        <span class="comment">// Overriding move()</span>
+        <span class="keyword">void</span> move() <span class="keyword">override</span> {
+            cout << <span class="string">"බල්ලා දුවනවා"</span> << endl;
+        }
+};
+
+<span class="comment">// Child Class 2 - Cat</span>
 <span class="keyword">class</span> Cat : <span class="keyword">public</span> Animal {
     <span class="keyword">public:</span>
         <span class="keyword">void</span> makeSound() <span class="keyword">override</span> {
             cout << <span class="string">"මියාව් මියාව්! 🐈"</span> << endl;
         }
+        
+        <span class="keyword">void</span> move() <span class="keyword">override</span> {
+            cout << <span class="string">"බළලා පනිනවා"</span> << endl;
+        }
 };
 
-<span class="keyword">class</span> Cow : <span class="keyword">public</span> Animal {
+<span class="comment">// Child Class 3 - Bird</span>
+<span class="keyword">class</span> Bird : <span class="keyword">public</span> Animal {
     <span class="keyword">public:</span>
         <span class="keyword">void</span> makeSound() <span class="keyword">override</span> {
-            cout << <span class="string">"අම්බෝ අම්බෝ! 🐄"</span> << endl;
+            cout << <span class="string">"චිප් චිප්! 🐦"</span> << endl;
+        }
+        
+        <span class="keyword">void</span> move() <span class="keyword">override</span> {
+            cout << <span class="string">"කුරුල්ලා පියාසර කරනවා"</span> << endl;
         }
 };
 
 <span class="keyword">int</span> main() {
     Animal* animal;
+    
     Dog dog;
     Cat cat;
-    Cow cow;
+    Bird bird;
     
+    <span class="comment">// Runtime Polymorphism</span>
+    cout << <span class="string">"=== බල්ලා ==="</span> << endl;
     animal = &dog;
-    animal->makeSound();  <span class="comment">// බුරා බුරා!</span>
+    animal->makeSound();
+    animal->move();
     
+    cout << <span class="string">"\n=== බළලා ==="</span> << endl;
     animal = &cat;
-    animal->makeSound();  <span class="comment">// මියාව් මියාව්!</span>
+    animal->makeSound();
+    animal->move();
     
-    animal = &cow;
-    animal->makeSound();  <span class="comment">// අම්බෝ අම්බෝ!</span>
+    cout << <span class="string">"\n=== කුරුල්ලා ==="</span> << endl;
+    animal = &bird;
+    animal->makeSound();
+    animal->move();
     
     <span class="keyword">return</span> 0;
 }</pre>
                 </div>
             </div>
 
-            <div class="key-point">
-                <strong>💡 Polymorphism මතක තබා ගන්න:</strong>
-                <ul>
-                    <li><strong>Overloading</strong> = එකම නමින් functions කීපයක්, විවිධ parameters</li>
-                    <li><strong>Overriding</strong> = Parent function එක child එකේදී වෙනස් කරන්න</li>
-                    <li><strong>Virtual</strong> keyword එක override කරන්න අවශ්‍යයි</li>
-                </ul>
-            </div>
-
-            <div class="video-container">
-                <h4>🎥 සිංහල වීඩියෝ:</h4>
-                <a href="https://www.youtube.com/results?search_query=C%2B%2B+polymorphism+sinhala" target="_blank" class="video-link">📺 Polymorphism Sinhala</a>
-                <br><br>
-                <a href="https://www.youtube.com/results?search_query=function+overloading+overriding+sinhala" target="_blank" class="video-link">📺 Overloading & Overriding</a>
-            </div>
-        </div>
-
-        <!-- Constructors Content -->
-        <div id="constructors" class="content">
-            <h2>🏗️ Constructors and Destructors</h2>
-            
-            <h3>Constructor කියන්නේ මොකක්ද?</h3>
-            <p>Constructor යනු object එකක් නිර්මාණය කරන විට ස්වයංක්‍රීයව ක්‍රියාත්මක වන විශේෂ function එකකි. එය object එක initialize කිරීමට භාවිතා වෙනවා.</p>
-
-            <div class="key-point">
-                <strong>🎯 Constructor හි විශේෂ ලක්ෂණ:</strong>
-                <ul>
-                    <li>Constructor එකේ නම class එකේ නමම තියෙනවා</li>
-                    <li>Return type එකක් නැහැ</li>
-                    <li>Object නිර්මාණය වන විට ස්වයංක්‍රීයව call වෙනවා</li>
-                </ul>
-            </div>
-
-            <h3>Constructor වර්ග:</h3>
-
+            <h3>📱 තවත් උදාහරණයක් - Smartphone:</h3>
             <div class="example-box">
-                <h4>1️⃣ Default Constructor (පෙරනිමි)</h4>
-                <p>Parameters නැති constructor එකක්.</p>
                 <div class="code-example">
-                    <pre><span class="keyword">class</span> Student {
+                    <pre><span class="keyword">class</span> Smartphone {
+    <span class="keyword">protected:</span>
+        string brand;
+        double price;
+    
     <span class="keyword">public:</span>
-        string name;
-        int age;
+        Smartphone(string b, double p) : brand(b), price(p) {}
         
-        <span class="comment">// Default Constructor</span>
-        Student() {
-            name = <span class="string">"නම නැහැ"</span>;
-            age = 0;
-            cout << <span class="string">"Student object එකක් නිර්මාණය වුණා!"</span> << endl;
+        <span class="keyword">virtual void</span> displaySpecs() {
+            cout << <span class="string">"සන්නාමය: "</span> << brand << endl;
+            cout << <span class="string">"මිල: රු. "</span> << price << endl;
         }
-};</pre>
-                </div>
-            </div>
-
-            <div class="example-box">
-                <h4>2️⃣ Parameterized Constructor</h4>
-                <p>Parameters සහිත constructor එකක්.</p>
-                <div class="code-example">
-                    <pre><span class="keyword">class</span> Student {
-    <span class="keyword">public:</span>
-        string name;
-        int age;
         
-        <span class="comment">// Parameterized Constructor</span>
-        Student(string n, int a) {
-            name = n;
-            age = a;
-            cout << name << <span class="string">" නමැති ශිෂ්‍යයා නිර්මාණය වුණා!"</span> << endl;
+        <span class="keyword">virtual void</span> specialFeature() {
+            cout << <span class="string">"මූලික features"</span> << endl;
+        }
+};
+
+<span class="keyword">class</span> iPhone : <span class="keyword">public</span> Smartphone {
+    <span class="keyword">public:</span>
+        iPhone(double p) : Smartphone(<span class="string">"Apple iPhone"</span>, p) {}
+        
+        <span class="keyword">void</span> displaySpecs() <span class="keyword">override</span> {
+            cout << <span class="string">"📱 === iPhone Specs ==="</span> << endl;
+            Smartphone::displaySpecs();  <span class="comment">// Parent method call</span>
+            cout << <span class="string">"OS: iOS"</span> << endl;
+        }
+        
+        <span class="keyword">void</span> specialFeature() <span class="keyword">override</span> {
+            cout << <span class="string">"🍎 Face ID සහ iCloud"</span> << endl;
+        }
+};
+
+<span class="keyword">class</span> Samsung : <span class="keyword">public</span> Smartphone {
+    <span class="keyword">public:</span>
+        Samsung(double p) : Smartphone(<span class="string">"Samsung Galaxy"</span>, p) {}
+        
+        <span class="keyword">void</span> displaySpecs() <span class="keyword">override</span> {
+            cout << <span class="string">"📱 === Samsung Specs ==="</span> << endl;
+            Smartphone::displaySpecs();
+            cout << <span class="string">"OS: Android"</span> << endl;
+        }
+        
+        <span class="keyword">void</span> specialFeature() <span class="keyword">override</span> {
+            cout << <span class="string">"✨ S-Pen සහ DeX Mode"</span> << endl;
         }
 };
 
 <span class="keyword">int</span> main() {
-    Student s1(<span class="string">"නිමල් සිල්වා"</span>, 16);
-    <span class="keyword">return</span> 0;
-}</pre>
-                </div>
-            </div>
-
-            <div class="example-box">
-                <h4>3️⃣ Copy Constructor</h4>
-                <p>තවත් object එකක් copy කරන්න.</p>
-                <div class="code-example">
-                    <pre><span class="keyword">class</span> Student {
-    <span class="keyword">public:</span>
-        string name;
-        int age;
-        
-        <span class="comment">// Copy Constructor</span>
-        Student(Student &s) {
-            name = s.name;
-            age = s.age;
-            cout << <span class="string">"Copy එකක් හැදුණා!"</span> << endl;
-        }
-};</pre>
-                </div>
-            </div>
-
-            <h3>Destructor කියන්නේ මොකක්ද?</h3>
-            <p>Destructor යනු object එක memory එකෙන් ඉවත් වන විට ක්‍රියාත්මක වන function එකකි. Resources cleanup කරන්න භාවිතා වෙනවා.</p>
-
-            <div class="code-example">
-                <pre><span class="keyword">#include</span> &lt;iostream&gt;
-<span class="keyword">using namespace</span> std;
-
-<span class="keyword">class</span> Example {
-    <span class="keyword">public:</span>
-        <span class="comment">// Constructor</span>
-        Example() {
-            cout << <span class="string">"Constructor ක්‍රියාත්මක වුණා - Object හැදුණා! ✅"</span> << endl;
-        }
-        
-        <span class="comment">// Destructor (~ ලකුණ සමග)</span>
-        ~Example() {
-            cout << <span class="string">"Destructor ක්‍රියාත්මක වුණා - Object delete වුණා! ❌"</span> << endl;
-        }
-};
-
-<span class="keyword">int</span> main() {
-    cout << <span class="string">"Program ආරම්භයි"</span> << endl;
-    Example obj;
-    cout << <span class="string">"Program අවසානයි"</span> << endl;
-    <span class="keyword">return</span> 0;
-}</pre>
-            </div>
-
-            <div class="key-point">
-                <strong>💡 මතක තබා ගන්න:</strong>
-                <ul>
-                    <li>Constructor = Object හදන විට ක්‍රියාත්මක වෙනවා</li>
-                    <li>Destructor = Object delete වන විට ක්‍රියාත්මක වෙනවා (~)</li>
-                    <li>Constructor වලට return type එකක් නැහැ</li>
-                    <li>Destructor එකට parameters නැහැ</li>
-                </ul>
-            </div>
-
-            <div class="video-container">
-                <h4>🎥 සිංහල වීඩියෝ:</h4>
-                <a href="https://www.youtube.com/results?search_query=C%2B%2B+constructor+destructor+sinhala" target="_blank" class="video-link">📺 Constructors & Destructors</a>
-            </div>
-        </div>
-
-        <!-- Templates Content -->
-        <div id="templates" class="content">
-            <h2>📋 Templates and Concepts</h2>
-            
-            <p>Templates භාවිතා කරන්නේ generic programming කරන්න. එනම් විවිධ data types සමග වැඩ කරන code එකක් ලියන්න.</p>
-
-            <h3>Function Templates:</h3>
-            <div class="example-box">
-                <p>විවිධ data types සඳහා එකම function එක භාවිතා කරන්න පුළුවන්.</p>
-                <div class="code-example">
-                    <pre><span class="keyword">#include</span> &lt;iostream&gt;
-<span class="keyword">using namespace</span> std;
-
-<span class="comment">// Function Template</span>
-<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
-T getMax(T a, T b) {
-    <span class="keyword">return</span> (a > b) ? a : b;
-}
-
-<span class="keyword">int</span> main() {
-    <span class="comment">// Integer සඳහා</span>
-    cout << <span class="string">"විශාලතම int: "</span> << getMax(10, 20) << endl;
+    Smartphone* phone;
     
-    <span class="comment">// Double සඳහා</span>
-    cout << <span class="string">"විශාලතම double: "</span> << getMax(15.5, 12.3) << endl;
-    
-    <span class="comment">// Character සඳහා</span>
-    cout << <span class="string">"විශාලතම char: "</span> << getMax('a', 'z') << endl;
-    
-    <span class="keyword">return</span> 0;
-}</pre>
-                </div>
-            </div>
-
-            <h3>Class Templates:</h3>
-            <div class="example-box">
-                <p>විවිධ data types සමග වැඩ කරන class එකක් හදන්න.</p>
-                <div class="code-example">
-                    <pre><span class="keyword">#include</span> &lt;iostream&gt;
-<span class="keyword">using namespace</span> std;
-
-<span class="comment">// Class Template</span>
-<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
-<span class="keyword">class</span> Box {
-    <span class="keyword">private:</span>
-        T value;
-    
-    <span class="keyword">public:</span>
-        Box(T v) {
-            value = v;
-        }
-        
-        T getValue() {
-            <span class="keyword">return</span> value;
-        }
-        
-        <span class="keyword">void</span> displayValue() {
-            cout << <span class="string">"අගය: "</span> << value << endl;
-        }
-};
-
-<span class="keyword">int</span> main() {
-    <span class="comment">// Integer box එකක්</span>
-    Box&lt;int&gt; intBox(100);
-    intBox.displayValue();
-    
-    <span class="comment">// String box එකක්</span>
-    Box&lt;string&gt; strBox(<span class="string">"හෙලෝ"</span>);
-    strBox.displayValue();
-    
-    <span class="comment">// Double box එකක්</span>
-    Box&lt;double&gt; doubleBox(99.99);
-    doubleBox.displayValue();
-    
-    <span class="keyword">return</span> 0;
-}</pre>
-                </div>
-            </div>
-
-            <h3>🎯 ප්‍රායෝගික උදාහරණය - Array ක්‍රියා:</h3>
-            <div class="code-example">
-                <pre><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
-<span class="keyword">class</span> ArrayOperations {
-    <span class="keyword">private:</span>
-        T* arr;
-        int size;
-    
-    <span class="keyword">public:</span>
-        ArrayOperations(int s) {
-            size = s;
-            arr = <span class="keyword">new</span> T[size];
-        }
-        
-        <span class="keyword">void</span> addElement(int index, T value) {
-            <span class="keyword">if</span>(index >= 0 && index < size) {
-                arr[index] = value;
-            }
-        }
-        
-        T getSum() {
-            T sum = 0;
-            <span class="keyword">for</span>(int i = 0; i < size; i++) {
-                sum += arr[i];
-            }
-            <span class="keyword">return</span> sum;
-        }
-        
-        ~ArrayOperations() {
-            <span class="keyword">delete</span>[] arr;
-        }
-};</pre>
-            </div>
-
-            <div class="key-point">
-                <strong>💡 Templates භාවිතයේ වාසි:</strong>
-                <ul>
-                    <li>Code එකම කොටසක් විවිධ data types සඳහා භාවිතා කරන්න පුළුවන්</li>
-                    <li>Code reusability වැඩි වෙනවා</li>
-                    <li>Type-safe කේතයක් ලියන්න පුළුවන්</li>
-                    <li>Generic programming සඳහා ප්‍රයෝජනවත්</li>
-                </ul>
-            </div>
-
-            <div class="video-container">
-                <h4>🎥 සිංහල වීඩියෝ:</h4>
-                <a href="https://www.youtube.com/results?search_query=C%2B%2B+templates+sinhala" target="_blank" class="video-link">📺 C++ Templates Sinhala</a>
-                <br><br>
-                <a href="https://www.youtube.com/results?search_query=generic+programming+c%2B%2B+sinhala" target="_blank" class="video-link">📺 Generic Programming</a>
-            </div>
-        </div>
-
-        <!-- Benefits & Summary Content -->
-        <div id="benefits" class="content">
-            <h2>✨ OOP හි වාසි සහ සාරාංශය</h2>
-            
-            <h3>🎯 OOP භාවිතයේ වාසි:</h3>
-
-            <div class="example-box">
-                <h4>1️⃣ Code Reusability (නැවත භාවිතය)</h4>
-                <p>Inheritance භාවිතයෙන් කේතය නැවත භාවිතා කරන්න පුළුවන්. එකම කේතය නැවත නැවත ලියන්න අවශ්‍ය නැහැ.</p>
-            </div>
-
-            <div class="example-box">
-                <h4>2️⃣ Modularity (මොඩියුලතාව)</h4>
-                <p>විශාල program එකක් කුඩා, කළමනාකරණය කිරීමට පහසු classes වලට බෙදන්න පුළුවන්.</p>
-            </div>
-
-            <div class="example-box">
-                <h4>3️⃣ Data Security (දත්ත ආරක්ෂාව)</h4>
-                <p>Encapsulation භාවිතයෙන් sensitive data එක hide කරන්න පුළුවන්. Access specifiers භාවිතා කරලා access control කරනවා.</p>
-            </div>
-
-            <div class="example-box">
-                <h4>4️⃣ Easy Maintenance (පහසු නඩත්තුව)</h4>
-                <p>Code එක organize වෙලා තියෙනවා, ඒ නිසා bugs හොයන්න සහ fix කරන්න පහසුයි.</p>
-            </div>
-
-            <div class="example-box">
-                <h4>5️⃣ Flexibility (නම්‍යශීලී බව)</h4>
-                <p>Polymorphism භාවිතයෙන් එකම interface එකට විවිධ implementations තියෙන්න පුළුවන්.</p>
-            </div>
-
-            <h3>📚 OOP මූලික සංකල්ප සාරාංශය:</h3>
-
-            <div class="code-example">
-                <pre><span class="comment">/* සම්පූර්ණ OOP උදාහරණයක් */</span>
-
-<span class="keyword">#include</span> &lt;iostream&gt;
-<span class="keyword">#include</span> &lt;string&gt;
-<span class="keyword">using namespace</span> std;
-
-<span class="comment">// 1. ENCAPSULATION - දත්ත සහ methods එකට</span>
-<span class="keyword">class</span> BankAccount {
-    <span class="keyword">private:</span>  <span class="comment">// 2. DATA HIDING</span>
-        double balance;
-        string accountNo;
-    
-    <span class="keyword">public:</span>
-        <span class="comment">// 3. CONSTRUCTOR</span>
-        BankAccount(string acc, double bal) {
-            accountNo = acc;
-            balance = bal;
-        }
-        
-        <span class="keyword">void</span> deposit(double amount) {
-            balance += amount;
-        }
-        
-        <span class="keyword">virtual void</span> displayType() {  <span class="comment">// 4. POLYMORPHISM සඳහා</span>
-            cout << <span class="string">"සාමාන්‍ය ගිණුමක්"</span> << endl;
-        }
-};
-
-<span class="comment">// 5. INHERITANCE</span>
-<span class="keyword">class</span> SavingsAccount : <span class="keyword">public</span> BankAccount {
-    <span class="keyword">private:</span>
-        double interestRate;
-    
-    <span class="keyword">public:</span>
-        SavingsAccount(string acc, double bal, double rate) 
-            : BankAccount(acc, bal) {
-            interestRate = rate;
-        }
-        
-        <span class="comment">// 6. POLYMORPHISM - Method Overriding</span>
-        <span class="keyword">void</span> displayType() <span class="keyword">override</span> {
-            cout << <span class="string">"ඉතිරි කිරීමේ ගිණුමක්"</span> << endl;
-        }
-};
-
-<span class="keyword">int</span> main() {
-    SavingsAccount myAccount(<span class="string">"SA001"</span>, 10000, 5.5);
-    myAccount.displayType();
-    myAccount.deposit(5000);
-    
-    <span class="keyword">return</span> 0;
-}</pre>
-            </div>
-
-            <h3>🎓 Best Practices (හොඳම ක්‍රම):</h3>
-            <div class="key-point">
-                <ul>
-                    <li>✅ Data සඳහා <strong>private</strong> භාවිතා කරන්න</li>
-                    <li>✅ Methods සඳහා <strong>public</strong> භාවිතා කරන්න</li>
-                    <li>✅ Class names එක්සත් අක්ෂර වලින් ආරම්භ කරන්න (PascalCase)</li>
-                    <li>✅ Meaningful names භාවිතා කරන්න</li>
-                    <li>✅ එක class එකකට එක වගකීමක් පවරන්න</li>
-                    <li>✅ Inheritance එක සුදුසු තැන්වල පමණක් භාවිතා කරන්න</li>
-                    <li>✅ Comments හොඳින් ලියන්න</li>
-                </ul>
-            </div>
-
-            <h3>🎯 ඉගෙනගැනීමට යෝජනා:</h3>
-            <div class="example-box">
-                <ol>
-                    <li>මුලින් සරල programs ලියන්න පටන් ගන්න</li>
-                    <li>සෑම concept එකක්ම ප්‍රායෝගිකව practice කරන්න</li>
-                    <li>Real-world problems වලට OOP concepts යොදන්න</li>
-                    <li>Projects හදලා බලන්න (Library System, Student Management, etc.)</li>
-                    <li>අනිත් අයගේ code එක කියවලා ඉගෙන ගන්න</li>
-                </ol>
-            </div>
-
-            <h3>📝 Project අදහස්:</h3>
-            <div class="example-box">
-                <ul>
-                    <li>🏫 School Management System</li>
-                    <li>📚 Library Management System</li>
-                    <li>🏦 Banking System</li>
-                    <li>🛒 Shopping Cart System</li>
-                    <li>🎮 Simple Game (Snake, Tic-Tac-Toe)</li>
-                    <li>📞 Contact Management System</li>
-                </ul>
-            </div>
-
-            <div class="video-container">
-                <h4>🎥 සම්පූර්ණ OOP Tutorial Playlists:</h4>
-                <a href="https://www.youtube.com/results?search_query=C%2B%2B+OOP+complete+tutorial+sinhala" target="_blank" class="video-link">📺 සම්පූර්ණ OOP සිංහල</a>
-                <br><br>
-                <a href="https://www.youtube.com/results?search_query=C%2B%2B+projects+sinhala" target="_blank" class="video-link">📺 C++ Projects Sinhala</a>
-                <br><br>
-                <a href="https://www.youtube.com/results?search_query=C%2B%2B+programming+sinhala" target="_blank" class="video-link">📺 C++ Programming සිංහලෙන්</a>
-            </div>
-
-            <div class="key-point" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; margin-top: 30px;">
-                <h3 style="color: white;">🎉 සුභ පැතුම්!</h3>
-                <p style="color: white; font-size: 1.1em;">ඔබ C++ OOP හි මූලික සංකල්ප හොඳින් ඉගෙන ගත්තා! දැන් ඒවා practice කරලා, projects හදලා ඔබේ දැනුම වැඩි දියුණු කරගන්න. සාර්ථක වේවා! 🚀</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function showContent(sectionId) {
-            const contents = document.querySelectorAll('.content');
-            contents.forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            document.getElementById(sectionId).classList.add('active');
-            
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-    </script>
-</body>
-</html>
+    iPhone ip(450000);
+    Sa            <button class="nav-btn templates" onclick="showContent('overloading')">Function Overloading</button>
+            <button class="nav-btn intro" onclick="showContent('operator')">Operator Overloading</button>
+            <button class="nav-btn polymorphism" onclick="showContent('overriding')">Function Overriding</button>
+            <button class="nav-btn benefits" onclick="showContent('benefits')">Benefits & Summary</button>
