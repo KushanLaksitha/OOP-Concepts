@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOP Concepts: Inheritance</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+--primary-blue: #2c3e50;
+--accent-blue: #e74c3c;
+--dark-bg: #1a1a2e;
+--card-bg: #16213e;
+--text-light: #e8e8e8;
+--info-orange: #e67e22;
+}
+body {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: var(--text-light);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        padding-bottom: 50px;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+        padding: 80px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+        background-size: cover;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        animation: fadeInDown 1s;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        opacity: 0.9;
+        animation: fadeInUp 1s;
+    }
+
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .content-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 30px;
+        margin: 30px 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .content-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(231, 76, 60, 0.4);
+    }
+    
+    .concept-icon {
+        font-size: 3rem;
+        color: var(--accent-blue);
+        margin-bottom: 20px;
+    }
+
+    .feature-box {
+        background: rgba(231, 76, 60, 0.1);
+        border-left: 4px solid var(--accent-blue);
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 5px;
+    }
+    
+    .feature-icon {
+        color: var(--accent-blue);
+        margin-right: 10px;
+        font-size: 1.5rem;
+    }
+
+    .code-example {
+        background: #0d1117;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+        border: 1px solid #30363d;
+        position: relative;
+        overflow-x: auto;
+    }
+    
+    .code-example pre {
+        margin: 0;
+        color: #c9d1d9;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+    }
+    
+    .code-label {
+        background: var(--accent-blue);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .analogy-box {
+        background: linear-gradient(135deg, #d35400, #e67e22);
+        color: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        margin: 30px 0;
+    }
+
+    .analogy-box h3 {
+        border-bottom: 2px solid #fff;
+        padding-bottom: 10px;
+    }
+    
+    .inheritance-types {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    .type-card {
+        background: rgba(255,255,255,0.05);
+        padding: 15px;
+        border-radius: 8px;
+        flex: 1 1 200px;
+        text-align: center;
+        border: 1px solid var(--accent-blue);
+    }
+    .type-card i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        color: var(--accent-blue);
+    }
+
+    .btn-custom {
+        background: linear-gradient(135deg, var(--accent-blue), #c0392b);
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        color: white;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    
+    .btn-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(231, 76, 60, 0.5);
+        color: white;
+    }
+
+    .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+    }
+    
+</style>
+</head>
+<body>
+<div class="hero-section">
+<div class="container">
+<h1 class="hero-title"><i class="fas fa-sitemap"></i> Inheritance</h1>
+<p class="hero-subtitle">Code නැවත භාවිතා කිරීමේ බලය (The Power of Reusability)</p>
+</div>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-users concept-icon"></i>
+                </div>
+                <h2 class="text-center mb-4">Inheritance යනු කුමක්ද?</h2>
+                <p class="lead">Inheritance යනු එක් class එකක (derived/child class) ගුණාංග (attributes) සහ ක්‍රියා (methods) තවත් class එකකින් (base/parent class) ලබා ගැනීමේ ක්‍රියාවලියයි. මෙය "is-a" සම්බන්ධතාවයක් නිරූපණය කරයි (e.g., a Car "is a" Vehicle). Inheritance හි ප්‍රධානම අරමුණ වන්නේ code reusability (කේත නැවත භාවිතා කිරීමේ හැකියාව) වැඩි කිරීමයි.</p>
+                
+                <div class="feature-box">
+                    <i class="fas fa-user-tie feature-icon"></i>
+                    <strong>Base Class (Parent):</strong> වෙනත් class එකකට තම ගුණාංග ලබා දෙන class එක.
+                </div>
+                
+                <div class="feature-box">
+                    <i class="fas fa-user-graduate feature-icon"></i>
+                    <strong>Derived Class (Child):</strong> Base class එකෙන් ගුණාංග ලබා ගන්නා class එක. Derived class එකට Base class එකේ ගුණාංග වලට අමතරව තමන්ටම ආවේණික ගුණාංග සහ ක්‍රියා ද තිබිය හැක.
+                </div>
+            </div>
+
+            <div class="analogy-box">
+                <h3><i class="fas fa-car-side"></i> සැබෑ ලෝක උදාහරණය: වාහන (Vehicles)</h3>
+                <p>`Vehicle` (වාහනය) නමින් මූලික class එකක් සිතන්න. ඕනෑම වාහනයකට brand එකක්, model එකක්, සහ `start()`, `stop()` වැනි පොදු ක්‍රියාකාරකම් ඇත. </p>
+                <p>දැන් `Car`, `Motorcycle`, `Truck` වැනි derived classes සෑදිය හැක. මෙම සියලු classes, `Vehicle` class එකෙන් brand, model, start(), stop() වැනි පොදු ගුණාංග උරුම කර ගනී. ඉන්පසු, `Car` class එකට `openTrunk()` වැනි එයටම ආවේණික method එකක්ද, `Motorcycle` class එකට `doWheelie()` වැනි method එකක්ද එකතු කළ හැක. `Vehicle` class එකේ code එක නැවත නැවත ලිවීම අවශ්‍ය නොවේ.</p>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-code text-danger"></i> C++ හි Inheritance ක්‍රියාත්මක කිරීම</h3>
+                <p>C++ හිදී, derived class එකක් නිර්වචනය කිරීමේදී `:` (colon) සලකුණ භාවිතා කරනු ලැබේ. මෙහිදී `protected` access specifier එක වැදගත් වේ. `protected` members, base class එකට සහ එහි derived classes වලට පමණක් ප්‍රවේශ විය හැක, නමුත් class එකෙන් පිටතදී ප්‍රවේශ විය නොහැක.</p>
+                
+                <div class="code-example">
+                    <span class="code-label">C++</span>
+                    <pre><code>#include &lt;iostream&gt;
+#include <string>
+using namespace std;
+// Base Class (Parent)
+class Person {
+protected: // Can be accessed by derived classes
+string name;
+int age;
+public:
+Person(string n = "", int a = 0) {
+name = n;
+age = a;
+}
+void introduce() {
+    cout << "Name: " << name << endl;
+    cout << "Age: " << age << endl;
+}
+};
+// Derived Class (Child)
+// Syntax: class DerivedClass : access_specifier BaseClass
+class Student : public Person {
+private: // Specific to Student
+string studentID;
+public:
+// Call the base class constructor
+Student(string n, int a, string id) : Person(n, a) {
+studentID = id;
+}
+// New method specific to Student
+void study() {
+    cout << name << " is studying." << endl;
+}
+
+// Overriding the introduce method (optional, will be covered in Polymorphism)
+void introduceStudent() {
+    cout << "--- Student Details ---" << endl;
+    introduce(); // Call base class method
+    cout << "Student ID: " << studentID << endl;
+}
+};
+int main() {
+// Create a Person object
+Person teacher("Mr. Silva", 45);
+cout << "--- Teacher (Base Class Object) ---" << endl;
+teacher.introduce();
+cout << "\n----------------------------------\n" << endl;
+
+// Create a Student object
+Student student1("Nimal", 21, "S12345");
+student1.introduceStudent(); // Accessing derived class method
+student1.study();            // Accessing derived class method
+
+// The student object can also access the public methods of the Person class
+// student1.introduce(); // This would work too
+
+return 0;
+}</code></pre>
+</div>
+<div class="alert alert-danger mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    --- Teacher (Base Class Object) ---<br>
+                    Name: Mr. Silva<br>
+                    Age: 45<br>
+                    <br>
+                    ----------------------------------<br>
+                    <br>
+                    --- Student Details ---<br>
+                    Name: Nimal<br>
+                    Age: 21<br>
+                    Student ID: S12345<br>
+                    Nimal is studying.
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-project-diagram"></i> Inheritance වර්ග (Types of Inheritance)</h3>
+                <p>OOP වල Inheritance ප්‍රධාන වර්ග කිහිපයක් ඇත:</p>
+                <div class="inheritance-types">
+                    <div class="type-card">
+                        <i class="fas fa-arrow-down"></i>
+                        <h5>Single</h5>
+                        <p>එක් derived class එකක්, එක් base class එකකින් උරුම වීම.</p>
+                    </div>
+                    <div class="type-card">
+                        <i class="fas fa-arrows-alt-h"></i>
+                        <h5>Multiple</h5>
+                        <p>එක් derived class එකක්, base classes කිහිපයකින් උරුම වීම.</p>
+                    </div>
+                    <div class="type-card">
+                        <i class="fas fa-level-down-alt"></i>
+                        <h5>Multilevel</h5>
+                        <p>Derived class එකක් තවත් derived class එකකින් උරුම වීම.</p>
+                    </div>
+                    <div class="type-card">
+                        <i class="fas fa-network-wired"></i>
+                        <h5>Hierarchical</h5>
+                         <p>එකම base class එකකින් derived classes කිහිපයක් උරුම වීම.</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="navigation-buttons">
+                <a href="abstraction.html" class="btn btn-custom">
+                    <i class="fas fa-arrow-left"></i> Previous: Abstraction
+                </a>
+                <a href="polymorphism.html" class="btn btn-custom">
+                    Next: Polymorphism <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

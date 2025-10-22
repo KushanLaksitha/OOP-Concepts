@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOP Concepts: Abstraction</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+--primary-blue: #2c3e50;
+--accent-blue: #3498db;
+--dark-bg: #1a1a2e;
+--card-bg: #16213e;
+--text-light: #e8e8e8;
+--info-yellow: #f1c40f;
+}
+body {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: var(--text-light);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        padding-bottom: 50px;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+        padding: 80px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+        background-size: cover;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        animation: fadeInDown 1s;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        opacity: 0.9;
+        animation: fadeInUp 1s;
+    }
+
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .content-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 30px;
+        margin: 30px 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .content-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(142, 68, 173, 0.4);
+    }
+    
+    .concept-icon {
+        font-size: 3rem;
+        color: var(--accent-blue);
+        margin-bottom: 20px;
+    }
+
+    .feature-box {
+        background: rgba(52, 152, 219, 0.1);
+        border-left: 4px solid var(--accent-blue);
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 5px;
+    }
+    
+    .feature-icon {
+        color: var(--accent-blue);
+        margin-right: 10px;
+        font-size: 1.5rem;
+    }
+
+    .code-example {
+        background: #0d1117;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+        border: 1px solid #30363d;
+        position: relative;
+        overflow-x: auto;
+    }
+    
+    .code-example pre {
+        margin: 0;
+        color: #c9d1d9;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+    }
+    
+    .code-label {
+        background: var(--accent-blue);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .analogy-box {
+        background: linear-gradient(135deg, #f39c12, #e67e22);
+        color: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        margin: 30px 0;
+    }
+
+    .analogy-box h3 {
+        border-bottom: 2px solid #fff;
+        padding-bottom: 10px;
+    }
+
+    .interactive-demo {
+        background: var(--card-bg);
+        padding: 30px;
+        border-radius: 15px;
+        margin: 30px 0;
+    }
+
+    .demo-output {
+        background: #0d1117;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+        min-height: 100px;
+        color: var(--info-yellow);
+        font-family: monospace;
+        white-space: pre-wrap;
+    }
+
+    .btn-custom {
+        background: linear-gradient(135deg, var(--accent-blue), #8e44ad);
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        color: white;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    
+    .btn-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(52, 152, 219, 0.5);
+        color: white;
+    }
+
+    .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+    }
+    
+</style>
+</head>
+<body>
+<div class="hero-section">
+<div class="container">
+<h1 class="hero-title"><i class="fas fa-eye-slash"></i> Abstraction</h1>
+<p class="hero-subtitle">අනවශ්‍ය විස්තර සඟවා සරල බව ඇති කිරීම (Hiding Complexity, Showing Simplicity)</p>
+</div>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-puzzle-piece concept-icon"></i>
+                </div>
+                <h2 class="text-center mb-4">Abstraction යනු කුමක්ද?</h2>
+                <p class="lead">Abstraction යනු සංකීර්ණ ක්‍රියාවලීන්ගේ අභ්‍යන්තර විස්තර සඟවා, පරිශීලකයාට (user) අවශ්‍ය වන අත්‍යවශ්‍ය තොරතුරු පමණක් පෙන්වීමේ ක්‍රියාවලියයි. මෙහි අරමුණ වන්නේ සංකීර්ණත්වය අඩු කර, object එක භාවිතා කිරීම පහසු කිරීමයි.</p>
+                
+                <div class="feature-box">
+                    <i class="fas fa-cogs feature-icon"></i>
+                    <strong>Implementation Hiding:</strong> Object එකක් යම් කාර්යයක් "කරන්නේ කෙසේද" යන්න සඟවා, එය "කරන්නේ කුමක්ද" යන්න පමණක් පෙන්වීම.
+                </div>
+                
+                <div class="feature-box">
+                    <i class="fas fa-desktop feature-icon"></i>
+                    <strong>Simplified Interface:</strong> පරිශීලකයාට object එක සමඟ ගනුදෙනු කිරීමට සරල interface එකක් (public methods) ලබා දීම.
+                </div>
+            </div>
+
+            <div class="analogy-box">
+                <h3><i class="fas fa-tv"></i> සැබෑ ලෝක උදාහරණය: රූපවාහිනී දුරස්ථ පාලකය (TV Remote)</h3>
+                <p>ඔබ TV remote එකක් භාවිතා කරන විට, ඔබ කරන්නේ බොත්තම් (buttons) එබීම පමණි. උදාහරණයක් ලෙස, power බොත්තම එබූ විට TV එක on හෝ off වේ, volume බොත්තම් වලින් ශබ්දය අඩු වැඩි වේ. </p>
+                <p>නමුත් එම බොත්තම එබූ විට ඇතුළත සිදුවන සංකීර්ණ ඉලෙක්ට්‍රොනික ක්‍රියාවලිය (signal යැවීම, circuit board එක ක්‍රියාත්මක වීම) ගැන ඔබ දැනුවත් නැත, දැන ගැනීමට අවශ්‍යත් නැත. Remote එකේ interface එක (බොත්තම්) මගින් ඒ සියලු සංකීර්ණත්වය ඔබෙන් සඟවා (abstract කර) ඇත.</p>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-code text-info"></i> C++ හි Abstraction ක්‍රියාත්මක කිරීම</h3>
+                <p>C++ වල Abstraction ක්‍රම දෙකකින් ප්‍රධාන වශයෙන් ක්‍රියාත්මක කළ හැක:</p>
+                <ol>
+                    <li><b>Access Specifiers (public, private):</b> Encapsulation වලදී මෙන්, අභ්‍යන්තර දත්ත `private` ලෙස තබා public methods පමණක් ලබා දීමෙන් සරල Abstraction එකක් ලබා ගත හැක.</li>
+                    <li><b>Abstract Classes:</b> වඩාත් දියුණු ක්‍රමයකි. මෙහිදී object එකක් සෑදිය නොහැකි, blueprint එකක් ලෙස පමණක් ක්‍රියා කරන class එකක් (Abstract Class) සාදනු ලබයි.</li>
+                </ol>
+                <p>Abstract Class එකක අවම වශයෙන් එක් <b>pure virtual function</b> එකක්වත් තිබිය යුතුය. Pure virtual function යනු implementation එකක් නොමැති function එකකි. එය `= 0` ලෙස අවසන් වේ.</p>
+                
+                <div class="code-example">
+                    <span class="code-label">C++</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+// Abstract Base Class
+class Shape {
+public:
+// Pure virtual function - provides an interface
+virtual void draw() = 0;
+// Normal function
+void describe() {
+    cout << "This is a shape." << endl;
+}
+};
+// Derived Class 1
+class Circle : public Shape {
+public:
+// Provide implementation for the pure virtual function
+void draw() {
+cout << "Drawing a Circle: O" << endl;
+}
+};
+// Derived Class 2
+class Square : public Shape {
+public:
+// Provide implementation for the pure virtual function
+void draw() {
+cout << "Drawing a Square: []" << endl;
+}
+};
+int main() {
+// Shape myShape; // ERROR! Cannot create an object of an abstract class.
+Circle myCircle;
+Square mySquare;
+
+myCircle.describe();
+myCircle.draw(); // Calls the Circle's implementation
+
+cout << "----------" << endl;
+
+mySquare.describe();
+mySquare.draw(); // Calls the Square's implementation
+
+return 0;
+}</code></pre>
+</div>
+<div class="alert alert-info mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    This is a shape.<br>
+                    Drawing a Circle: O<br>
+                    ----------<br>
+                    This is a shape.<br>
+                    Drawing a Square: []
+                </div>
+
+                 <div class="feature-box mt-4">
+                    <i class="fas fa-lightbulb feature-icon text-warning"></i>
+                    <strong>මෙහිදී වැදගත් වන්නේ:</strong><br>
+                    <ul>
+                        <li>`Shape` class එකෙන් කියවෙන්නේ ඕනෑම shape එකක් `draw()` කළ යුතු බවයි, නමුත් එය "කරන්නේ කෙසේද" යන්න `Shape` class එක දන්නේ නැත.</li>
+                        <li>`Circle` සහ `Square` classes එම `draw()` function එක තමන්ට ආවේණික ආකාරයට implement කරයි.</li>
+                        <li>මෙය අනාගතයේදී `Triangle`, `Rectangle` වැනි තවත් shapes එකතු කිරීම පහසු කරයි. ඒ සෑම එකක්ම `draw()` function එක implement කළ යුතු බව `Shape` class එක සහතික කරයි.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3><i class="fas fa-paint-brush"></i> Shape Drawer Simulator</h3>
+                <p>පහත බොත්තම් එබීමෙන් අදාළ `draw()` method එක call වන ආකාරය බලන්න.</p>
+                <button class="btn btn-custom" onclick="drawShape('circle')">
+                    <i class="fas fa-circle"></i> Draw Circle
+                </button>
+                <button class="btn btn-custom" onclick="drawShape('square')">
+                    <i class="fas fa-square"></i> Draw Square
+                </button>
+                 <button class="btn btn-custom" onclick="drawShape('triangle')">
+                    <i class="fas fa-caret-up"></i> Draw Triangle
+                </button>
+                <div class="demo-output" id="output">
+                   // Output will be shown here...
+                </div>
+            </div>
+
+            <div class="navigation-buttons">
+                <a href="encapsulation.html" class="btn btn-custom">
+                    <i class="fas fa-arrow-left"></i> Previous: Encapsulation
+                </a>
+                <a href="inheritance.html" class="btn btn-custom">
+                    Next: Inheritance <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const outputElement = document.getElementById('output');
+    
+    // Simulating the classes
+    class Shape {
+        describe() {
+            return "This is a shape.";
+        }
+        draw() { // Abstract method placeholder
+            return "ERROR: Cannot draw a generic shape.";
+        }
+    }
+
+    class Circle extends Shape {
+        draw() {
+            return "Drawing a Circle: O";
+        }
+    }
+
+    class Square extends Shape {
+        draw() {
+            return "Drawing a Square: []";
+        }
+    }
+    
+    class Triangle extends Shape {
+         draw() {
+            return "Drawing a Triangle: /\\";
+        }
+    }
+
+    function drawShape(type) {
+        let shape;
+        let outputLog = "";
+
+        if (type === 'circle') {
+            shape = new Circle();
+            outputLog = `// Circle myCircle;\n// myCircle.describe();\n> ${shape.describe()}\n// myCircle.draw();\n> ${shape.draw()}`;
+        } else if (type === 'square') {
+            shape = new Square();
+            outputLog = `// Square mySquare;\n// mySquare.describe();\n> ${shape.describe()}\n// mySquare.draw();\n> ${shape.draw()}`;
+        } else if (type === 'triangle') {
+            shape = new Triangle();
+            outputLog = `// Triangle myTriangle;\n// myTriangle.describe();\n> ${shape.describe()}\n// myTriangle.draw();\n> ${shape.draw()}`;
+        }
+        
+        outputElement.innerHTML = outputLog;
+    }
+</script>
+</body>
+</html>
