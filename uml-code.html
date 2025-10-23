@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C++ Class Diagram Code Generator - සිංහල</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --primary-blue: #2c3e50;
+    --accent-cyan: #00bcd4;
+    --accent-teal: #009688;
+    --accent-orange: #f39c12;
+    --accent-red: #e74c3c;
+    --accent-purple: #9b59b6;
+    --accent-green: #27ae60;
+    --accent-pink: #e91e63;
+    --dark-bg: #1a1a2e;
+    --card-bg: #16213e;
+    --text-light: #e8e8e8;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+    padding: 60px 0;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.content-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.class-container {
+    background: white;
+    color: black;
+    border: 3px solid #333;
+    border-radius: 10px;
+    margin: 15px 0;
+    padding: 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.class-header {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    border-radius: 7px 7px 0 0;
+}
+
+.class-section {
+    padding: 15px;
+    border-top: 2px solid #333;
+    min-height: 60px;
+}
+
+.class-section h6 {
+    color: #9b59b6;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.attribute-item, .method-item {
+    background: #f8f9fa;
+    padding: 8px 12px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border-left: 3px solid #9b59b6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-custom {
+    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s;
+    margin: 5px;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(155, 89, 182, 0.5);
+    color: white;
+}
+
+.btn-danger-custom {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.btn-success-custom {
+    background: linear-gradient(135deg, #27ae60, #229954);
+}
+
+.form-control, .form-select {
+    background: rgba(255,255,255,0.9);
+    border: 2px solid #9b59b6;
+    border-radius: 8px;
+}
+
+.form-control:focus, .form-select:focus {
+    background: white;
+    border-color: #8e44ad;
+    box-shadow: 0 0 0 0.2rem rgba(155, 89, 182, 0.25);
+}
+
+.code-output {
+    background: #282c34;
+    color: #abb2bf;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    overflow-x: auto;
+    white-space: pre;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.visibility-badge {
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.badge-public { background: #27ae60; color: white; }
+.badge-private { background: #e74c3c; color: white; }
+.badge-protected { background: #f39c12; color: white; }
+
+.info-box {
+    background: rgba(0, 188, 212, 0.1);
+    border-left: 4px solid var(--accent-cyan);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.note-box {
+    background: rgba(243, 156, 18, 0.1);
+    border-left: 4px solid var(--accent-orange);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.3;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .content-card {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0f1419;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap"></i> OOP Tutorial
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html"><i class="fas fa-home"></i> Introduction</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book"></i> Core Concepts
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="class.html"><i class="fas fa-cube"></i> Classes & Objects</a></li>
+                            <li><a class="dropdown-item" href="constructor.html"><i class="fas fa-hammer"></i> Constructors</a></li>
+                            <li><a class="dropdown-item" href="encapsulation.html"><i class="fas fa-shield-alt"></i> Encapsulation</a></li>
+                            <li><a class="dropdown-item" href="abstraction.html"><i class="fas fa-eye-slash"></i> Abstraction</a></li>
+                            <li><a class="dropdown-item" href="inheritance.html"><i class="fas fa-sitemap"></i> Inheritance</a></li>
+                            <li><a class="dropdown-item" href="polymorphism.html"><i class="fas fa-shapes"></i> Polymorphism</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Advanced
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="Functions.html"><i class="fas fa-function"></i> Functions</a></li>
+                            <li><a class="dropdown-item" href="overloading.html"><i class="fas fa-layer-group"></i> Overloading</a></li>
+                            <li><a class="dropdown-item" href="Derived.html"><i class="fas fa-code-branch"></i> Derived Classes</a></li>
+                            <li><a class="dropdown-item" href="Enumerators.html"><i class="fas fa-list-ol"></i> Enumerators</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="design.html"><i class="fas fa-drafting-compass"></i> Design</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="uml.html"><i class="fas fa-project-diagram"></i> UML</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="uml-code.html"><i class="fas fa-project-diagram"></i> UML - Code</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="exam.html"><i class="fas fa-project-diagram"></i> Exam sheet answers (2024)</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="hero-section">
+        <div class="container">
+            <h1 class="hero-title"><i class="fas fa-code"></i> C++ Class Diagram Code Generator</h1>
+            <p class="lead">Class Diagram එකකින් සරල C++ Code එකක් ලියන්න</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- Left Panel - Design -->
+            <div class="col-lg-6">
+                <div class="content-card">
+                    <h3 class="mb-4"><i class="fas fa-paint-brush"></i> Class Diagram නිර්මාණය කරන්න</h3>
+                    
+                    <div class="info-box">
+                        <h6><i class="fas fa-lightbulb"></i> මෙය C++ Beginners සඳහා!</h6>
+                        <p class="mb-0">සරල C++ code එකක් generate වෙයි. Header files නැත. සියල්ල එක file එකක.</p>
+                    </div>
+
+                    <!-- Class Input Form -->
+                    <div class="mb-4">
+                        <h5><i class="fas fa-plus-circle"></i> නව Class එකක් එකතු කරන්න</h5>
+                        <div class="mb-3">
+                            <input type="text" id="className" class="form-control" placeholder="Class නම ඇතුළත් කරන්න (උදා: Student)">
+                        </div>
+                        <button class="btn btn-custom btn-success-custom" onclick="addClass()">
+                            <i class="fas fa-plus"></i> Class එකතු කරන්න
+                        </button>
+                    </div>
+
+                    <!-- Classes List -->
+                    <div id="classesList">
+                        <div class="empty-state">
+                            <i class="fas fa-cube"></i>
+                            <p>තවම Classes නැත. ඔබේ පළමු class එක එකතු කරන්න!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Code Output -->
+            <div class="col-lg-6">
+                <div class="content-card">
+                    <h3 class="mb-3"><i class="fas fa-file-code"></i> Generate වූ C++ Code</h3>
+                    
+                    <div class="note-box">
+                        <p class="mb-0"><i class="fas fa-info-circle"></i> මෙය සරල C++ code එකකි. Beginners සඳහා හොඳයි. ඔබට මෙය copy කරලා Dev C++ හෝ Code::Blocks වල run කරන්න පුළුවන්.</p>
+                    </div>
+
+                    <button class="btn btn-custom btn-sm mb-2" onclick="copyCode()">
+                        <i class="fas fa-copy"></i> Code එක Copy කරන්න
+                    </button>
+                    <button class="btn btn-custom btn-success-custom btn-sm mb-2" onclick="downloadCode()">
+                        <i class="fas fa-download"></i> .cpp File Download කරන්න
+                    </button>
+                    
+                    <div class="code-output" id="cppCode">// Classes එකතු කරන්න code බලන්න</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Class Modal -->
+    <div class="modal fade" id="editClassModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background: var(--card-bg); color: var(--text-light);">
+                <div class="modal-header" style="border-color: rgba(255,255,255,0.1);">
+                    <h5 class="modal-title"><i class="fas fa-edit"></i> Class Edit කරන්න: <span id="editClassName"></span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Attributes Section -->
+                    <div class="mb-4">
+                        <h6><i class="fas fa-list"></i> Attributes (Variables)</h6>
+                        <div class="row mb-2">
+                            <div class="col-md-3">
+                                <select class="form-select form-select-sm" id="attrVisibility">
+                                    <option value="public">+ Public</option>
+                                    <option value="private" selected>- Private</option>
+                                    <option value="protected"># Protected</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control form-control-sm" id="attrType" placeholder="Type (int, string)">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control form-control-sm" id="attrName" placeholder="නම">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-custom btn-sm w-100" onclick="addAttribute()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="attributesList"></div>
+                    </div>
+
+                    <!-- Methods Section -->
+                    <div class="mb-4">
+                        <h6><i class="fas fa-code"></i> Methods (Functions)</h6>
+                        <div class="row mb-2">
+                            <div class="col-md-2">
+                                <select class="form-select form-select-sm" id="methodVisibility">
+                                    <option value="public" selected>+ Public</option>
+                                    <option value="private">- Private</option>
+                                    <option value="protected"># Protected</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control form-control-sm" id="methodReturn" placeholder="Return (void, int)">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control form-control-sm" id="methodName" placeholder="නම">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control form-control-sm" id="methodParams" placeholder="Parameters">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-custom btn-sm w-100" onclick="addMethod()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <small class="text-muted">Parameters උදාහරණ: int x, string name</small>
+                        <div id="methodsList" class="mt-2"></div>
+                    </div>
+
+                    <!-- Inheritance Section -->
+                    <div class="info-box">
+                        <h6><i class="fas fa-sitemap"></i> Inheritance (විකල්පයකි)</h6>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control form-control-sm" id="baseClass" placeholder="Base Class නම (හිස්ව තබන්න inheritance නැත්නම්)">
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select form-select-sm" id="inheritanceType">
+                                    <option value="public" selected>Public</option>
+                                    <option value="private">Private</option>
+                                    <option value="protected">Protected</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-color: rgba(255,255,255,0.1);">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">වසන්න</button>
+                    <button type="button" class="btn btn-custom" onclick="saveClass()">Save කරන්න</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let classes = [];
+        let currentEditingClass = null;
+
+        function addClass() {
+            const className = document.getElementById('className').value.trim();
+            if (!className) {
+                alert('කරුණාකර class නමක් ඇතුළත් කරන්න');
+                return;
+            }
+
+            if (classes.find(c => c.name === className)) {
+                alert('මෙම Class එක දැනටමත් තිබේ');
+                return;
+            }
+
+            classes.push({
+                name: className,
+                attributes: [],
+                methods: [],
+                baseClass: '',
+                inheritanceType: 'public'
+            });
+
+            document.getElementById('className').value = '';
+            renderClasses();
+            generateCode();
+        }
+
+        function renderClasses() {
+            const container = document.getElementById('classesList');
+            
+            if (classes.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-cube"></i>
+                        <p>තවම Classes නැත. ඔබේ පළමු class එක එකතු කරන්න!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = classes.map((cls, index) => `
+                <div class="class-container">
+                    <div class="class-header">
+                        ${cls.name}
+                        ${cls.baseClass ? `<br><small style="font-size: 0.8rem;">: ${cls.inheritanceType} ${cls.baseClass}</small>` : ''}
+                    </div>
+                    <div class="class-section">
+                        <h6>Attributes (${cls.attributes.length})</h6>
+                        ${cls.attributes.length > 0 ? cls.attributes.map(attr => `
+                            <div class="attribute-item">
+                                <span>
+                                    <span class="visibility-badge badge-${attr.visibility}">${getVisibilitySymbol(attr.visibility)}</span>
+                                    ${attr.type} ${attr.name}
+                                </span>
+                            </div>
+                        `).join('') : '<small style="color: #999;">Attributes නැත</small>'}
+                    </div>
+                    <div class="class-section">
+                        <h6>Methods (${cls.methods.length})</h6>
+                        ${cls.methods.length > 0 ? cls.methods.map(method => `
+                            <div class="method-item">
+                                <span>
+                                    <span class="visibility-badge badge-${method.visibility}">${getVisibilitySymbol(method.visibility)}</span>
+                                    ${method.returnType} ${method.name}(${method.params || ''})
+                                </span>
+                            </div>
+                        `).join('') : '<small style="color: #999;">Methods නැත</small>'}
+                    </div>
+                    <div style="padding: 15px; text-align: center; background: #f8f9fa; border-radius: 0 0 7px 7px;">
+                        <button class="btn btn-custom btn-sm" onclick="editClass(${index})">
+                            <i class="fas fa-edit"></i> Edit කරන්න
+                        </button>
+                        <button class="btn btn-custom btn-danger-custom btn-sm" onclick="deleteClass(${index})">
+                            <i class="fas fa-trash"></i> Delete කරන්න
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getVisibilitySymbol(visibility) {
+            return visibility === 'public' ? '+' : visibility === 'private' ? '-' : '#';
+        }
+
+        function editClass(index) {
+            currentEditingClass = index;
+            const cls = classes[index];
+            
+            document.getElementById('editClassName').textContent = cls.name;
+            document.getElementById('baseClass').value = cls.baseClass || '';
+            document.getElementById('inheritanceType').value = cls.inheritanceType;
+            
+            renderEditAttributes();
+            renderEditMethods();
+            
+            new bootstrap.Modal(document.getElementById('editClassModal')).show();
+        }
+
+        function renderEditAttributes() {
+            const cls = classes[currentEditingClass];
+            const container = document.getElementById('attributesList');
+            
+            container.innerHTML = cls.attributes.map((attr, idx) => `
+                <div class="attribute-item">
+                    <span>
+                        <span class="visibility-badge badge-${attr.visibility}">${getVisibilitySymbol(attr.visibility)}</span>
+                        ${attr.type} ${attr.name}
+                    </span>
+                    <button class="btn btn-danger btn-sm" onclick="removeAttribute(${idx})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function renderEditMethods() {
+            const cls = classes[currentEditingClass];
+            const container = document.getElementById('methodsList');
+            
+            container.innerHTML = cls.methods.map((method, idx) => `
+                <div class="method-item">
+                    <span>
+                        <span class="visibility-badge badge-${method.visibility}">${getVisibilitySymbol(method.visibility)}</span>
+                        ${method.returnType} ${method.name}(${method.params || ''})
+                    </span>
+                    <button class="btn btn-danger btn-sm" onclick="removeMethod(${idx})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function addAttribute() {
+            const visibility = document.getElementById('attrVisibility').value;
+            const type = document.getElementById('attrType').value.trim();
+            const name = document.getElementById('attrName').value.trim();
+            
+            if (!type || !name) {
+                alert('කරුණාකර type සහ name ඇතුළත් කරන්න');
+                return;
+            }
+            
+            classes[currentEditingClass].attributes.push({ visibility, type, name });
+            
+            document.getElementById('attrType').value = '';
+            document.getElementById('attrName').value = '';
+            
+            renderEditAttributes();
+        }
+
+        function addMethod() {
+            const visibility = document.getElementById('methodVisibility').value;
+            const returnType = document.getElementById('methodReturn').value.trim();
+            const name = document.getElementById('methodName').value.trim();
+            const params = document.getElementById('methodParams').value.trim();
+            
+            if (!returnType || !name) {
+                alert('කරුණාකර return type සහ name ඇතුළත් කරන්න');
+                return;
+            }
+            
+            classes[currentEditingClass].methods.push({ visibility, returnType, name, params });
+            
+            document.getElementById('methodReturn').value = '';
+            document.getElementById('methodName').value = '';
+            document.getElementById('methodParams').value = '';
+            
+            renderEditMethods();
+        }
+
+        function removeAttribute(index) {
+            classes[currentEditingClass].attributes.splice(index, 1);
+            renderEditAttributes();
+        }
+
+        function removeMethod(index) {
+            classes[currentEditingClass].methods.splice(index, 1);
+            renderEditMethods();
+        }
+
+        function saveClass() {
+            classes[currentEditingClass].baseClass = document.getElementById('baseClass').value.trim();
+            classes[currentEditingClass].inheritanceType = document.getElementById('inheritanceType').value;
+            
+            bootstrap.Modal.getInstance(document.getElementById('editClassModal')).hide();
+            renderClasses();
+            generateCode();
+        }
+
+        function deleteClass(index) {
+            if (confirm(`ඔබට ${classes[index].name} delete කිරීමට අවශ්‍යද?`)) {
+                classes.splice(index, 1);
+                renderClasses();
+                generateCode();
+            }
+        }
+
+        function generateCode() {
+            if (classes.length === 0) {
+                document.getElementById('cppCode').textContent = '// Classes එකතු කරන්න code බලන්න';
+                return;
+            }
+
+            let code = '// C++ Code - Beginners සඳහා සරල කර ඇත\n';
+            code += '// Class Diagram Tool මගින් Generate කරන ලද්දකි\n\n';
+            code += '#include <iostream>\n';
+            code += '#include <string>\n';
+            code += 'using namespace std;\n\n';
+
+            // Generate all classes
+            classes.forEach(cls => {
+                code += `// ${cls.name} Class\n`;
+                code += `class ${cls.name}`;
+                if (cls.baseClass) {
+                    code += ` : ${cls.inheritanceType} ${cls.baseClass}`;
+                }
+                code += ' {\n';
+
+                // Group by visibility
+                ['private', 'protected', 'public'].forEach(vis => {
+                    const attrs = cls.attributes.filter(a => a.visibility === vis);
+                    const methods = cls.methods.filter(m => m.visibility === vis);
+                    
+                    if (attrs.length > 0 || methods.length > 0) {
+                        code += `${vis}:\n`;
+                        
+                        // Attributes
+                        attrs.forEach(attr => {
+                            code += `    ${attr.type} ${attr.name};\n`;
+                        });
+                        
+                        if (attrs.length > 0 && methods.length > 0) code += '\n';
+                        
+                        // Methods (declarations only)
+                        methods.forEach(method => {
+                            code += `    ${method.returnType} ${method.name}(${method.params || ''});\n`;
+                        });
+                        
+                        code += '\n';
+                    }
+                });
+
+                code += '};\n\n';
+            });
+
+            // Generate method implementations
+            code += '// Method Implementations\n';
+            classes.forEach(cls => {
+                cls.methods.forEach(method => {
+                    code += `${method.returnType} ${cls.name}::${method.name}(${method.params || ''}) {\n`;
+                    code += `    // TODO: මෙහි ඔබේ code එක ලියන්න\n`;
+                    if (method.returnType !== 'void' && method.returnType !== '') {
+                        const defaultReturn = getDefaultReturnValue(method.returnType);
+                        code += `    return ${defaultReturn}; // example return\n`;
+                    }
+                    code += '}\n\n';
+                });
+            });
+
+            // Add main function for beginners
+            code += '// Main Function\n';
+            code += 'int main() {\n';
+            code += '    // ඔබේ code මෙහි ලියන්න\n';
+            if (classes.length > 0) {
+                code += `    // උදාහරණයක්:\n`;
+                code += `    // ${classes[0].name} obj;\n`;
+            }
+            code += '    \n';
+            code += '    return 0;\n';
+            code += '}\n';
+
+            document.getElementById('cppCode').textContent = code;
+        }
+
+        function getDefaultReturnValue(type) {
+            type = type.toLowerCase().trim();
+            if (type.includes('int') || type.includes('long') || type.includes('short')) return '0';
+            if (type.includes('float') || type.includes('double')) return '0.0';
+            if (type.includes('char')) return "'\\0'";
+            if (type.includes('string')) return '""';
+            if (type.includes('bool')) return 'false';
+            if (type.includes('*')) return 'nullptr';
+            return '0';
+        }
+
+        function copyCode() {
+            const code = document.getElementById('cppCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Code clipboard එකට copy කරන ලදී!');
+            });
+        }
+
+        function downloadCode() {
+            const code = document.getElementById('cppCode').textContent;
+            const blob = new Blob([code], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'mycode.cpp';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Initialize
+        renderClasses();
+    </script>
+</body>
+</html>
