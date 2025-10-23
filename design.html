@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOP: Design Patterns</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --primary-blue: #2c3e50;
+    --accent-cyan: #00bcd4;
+    --accent-teal: #009688;
+    --accent-orange: #f39c12;
+    --accent-red: #e74c3c;
+    --accent-purple: #9b59b6;
+    --accent-green: #27ae60;
+    --dark-bg: #1a1a2e;
+    --card-bg: #16213e;
+    --text-light: #e8e8e8;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+.content-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.concept-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.code-example {
+    background: #0d1117;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #30363d;
+    position: relative;
+    overflow-x: auto;
+}
+
+.code-example pre {
+    margin: 0;
+    color: #c9d1d9;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.code-label {
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.feature-box {
+    background: rgba(155, 89, 182, 0.1);
+    border-left: 4px solid var(--accent-purple);
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.pattern-box {
+    background: rgba(0, 188, 212, 0.1);
+    border-left: 4px solid var(--accent-cyan);
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.comparison-table table {
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.05);
+}
+
+.comparison-table th {
+    background-color: rgba(155, 89, 182, 0.3);
+    color: var(--text-light);
+    font-weight: bold;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.comparison-table td {
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.comparison-table tbody tr:hover {
+    background-color: rgba(255,255,255,0.08);
+}
+
+.btn-custom {
+    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(155, 89, 182, 0.5);
+    color: white;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.note-box {
+    background: rgba(243, 156, 18, 0.1);
+    border-left: 4px solid var(--accent-orange);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.success-box {
+    background: rgba(39, 174, 96, 0.1);
+    border-left: 4px solid var(--accent-green);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.visual-diagram {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 30px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.diagram-box {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px;
+    display: inline-block;
+    min-width: 150px;
+}
+
+.pattern-type-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    border: 2px solid;
+    transition: all 0.3s;
+}
+
+.pattern-type-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.creational { border-color: var(--accent-cyan); }
+.structural { border-color: var(--accent-teal); }
+.behavioral { border-color: var(--accent-orange); }
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .concept-icon {
+        font-size: 2rem;
+    }
+    
+    .content-card {
+        padding: 20px;
+        margin: 20px 0;
+    }
+    
+    .code-example {
+        padding: 15px;
+        font-size: 0.85rem;
+    }
+    
+    .code-example pre {
+        font-size: 0.75rem;
+        overflow-x: auto;
+    }
+    
+    .code-label {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+        position: static;
+        display: block;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    
+    .navigation-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .navigation-buttons .btn-custom {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .diagram-box {
+        display: block;
+        margin: 10px auto;
+        min-width: auto;
+        width: 90%;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 40px 0;
+    }
+    
+    .hero-title {
+        font-size: 1.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .content-card {
+        padding: 15px;
+        margin: 15px 0;
+    }
+}
+</style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0f1419;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap"></i> OOP Tutorial
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html"><i class="fas fa-home"></i> Introduction</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book"></i> Core Concepts
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="class.html"><i class="fas fa-cube"></i> Classes & Objects</a></li>
+                            <li><a class="dropdown-item" href="constructor.html"><i class="fas fa-hammer"></i> Constructors</a></li>
+                            <li><a class="dropdown-item" href="encapsulation.html"><i class="fas fa-shield-alt"></i> Encapsulation</a></li>
+                            <li><a class="dropdown-item" href="abstraction.html"><i class="fas fa-eye-slash"></i> Abstraction</a></li>
+                            <li><a class="dropdown-item" href="inheritance.html"><i class="fas fa-sitemap"></i> Inheritance</a></li>
+                            <li><a class="dropdown-item" href="polymorphism.html"><i class="fas fa-shapes"></i> Polymorphism</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Advanced
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="Functions.html"><i class="fas fa-function"></i> Functions</a></li>
+                            <li><a class="dropdown-item" href="overloading.html"><i class="fas fa-layer-group"></i> Overloading</a></li>
+                            <li><a class="dropdown-item" href="Derived.html"><i class="fas fa-code-branch"></i> Derived Classes</a></li>
+                            <li><a class="dropdown-item" href="Enumerators.html"><i class="fas fa-list-ol"></i> Enumerators</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="design.html"><i class="fas fa-drafting-compass"></i> Design</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="uml.html"><i class="fas fa-project-diagram"></i> UML</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<div class="hero-section">
+<div class="container">
+<h1 class="hero-title"><i class="fas fa-puzzle-piece"></i> Design Patterns</h1>
+<p class="hero-subtitle">Reusable Solutions to Common Software Design Problems</p>
+</div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+
+            <!-- Introduction -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-lightbulb concept-icon" style="color: var(--accent-purple);"></i>
+                </div>
+                <h2 class="text-center mb-4">Design Patterns යනු කුමක්ද?</h2>
+                <p class="lead">Design patterns යනු software design හි නැවත නැවතත් මුහුණ දෙන ගැටළු සඳහා පරීක්‍ෂා කළ, සනාථ කළ විසඳුම් වේ. මේවා අත්දැකීම් සහිත software developers විසින් දිගු කාලයක් පුරා trial and error මගින් සොයාගත් හොඳම practices නියෝජනය කරයි.</p>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <h5><i class="fas fa-check-circle"></i> Design Pattern යනු:</h5>
+                            <ul>
+                                <li>Problem/solution pairs in context</li>
+                                <li>Successful architectures සහ design reuse කිරීමට උපකාරී</li>
+                                <li>විවිධ තත්වයන්හි භාවිතා කළ හැකි විසඳුම්</li>
+                                <li>සෘජුවම code එකට transform කළ හැකි නිමි design එකක් නොවේ</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="success-box">
+                            <h5><i class="fas fa-star"></i> ප්‍රතිලාභ:</h5>
+                            <ul>
+                                <li><strong>Speed up development:</strong> පරීක්‍ෂා කළ paradigms</li>
+                                <li><strong>Common platform:</strong> developers අතර standard terminology</li>
+                                <li><strong>Best practices:</strong> දිගු කාලයක් පුරා සකස් කළ විසඳුම්</li>
+                                <li><strong>Easy learning:</strong> අත්දැකීම් අඩු developers සඳහා පහසුය</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box mt-4">
+                    <h5><i class="fas fa-quote-left"></i> මතක තබා ගන්න</h5>
+                    <p class="mb-0">"Someone has already solved your problems" - ඔබ මුහුණ දෙන බොහෝ ගැටළු දැනටමත් design patterns මගින් විසඳා ඇත!</p>
+                </div>
+            </div>
+
+            <!-- Gang of Four -->
+            <div class="content-card">
+                <h2 class="mb-4"><i class="fas fa-users"></i> Gang of Four (GOF)</h2>
+                <p>1994 දී, Erich Gamma, Richard Helm, Ralph Johnson සහ John Vlissides යන කතුවරුන් විසින් "Design Patterns - Elements of Reusable Object-Oriented Software" නම් පොත ප්‍රකාශයට පත් කරන ලදී. මෙම කතුවරුන් <strong>Gang of Four (GOF)</strong> ලෙස හඳුන්වනු ලබයි.</p>
+                
+                <div class="visual-diagram">
+                    <h5 class="mb-4">GOF Design Patterns Legacy</h5>
+                    <div class="diagram-box">Erich Gamma</div>
+                    <div class="diagram-box">Richard Helm</div>
+                    <div class="diagram-box">Ralph Johnson</div>
+                    <div class="diagram-box">John Vlissides</div>
+                </div>
+            </div>
+
+            <!-- Types of Design Patterns -->
+            <div class="content-card">
+                <h2 class="text-center mb-4"><i class="fas fa-layer-group"></i> Design Patterns වර්ග</h2>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="pattern-type-card creational">
+                            <h4 class="text-center" style="color: var(--accent-cyan);"><i class="fas fa-plus-circle"></i> Creational</h4>
+                            <p><strong>කාර්යය:</strong> Object creation logic සඟවමින් objects නිර්මාණය කිරීම.</p>
+                            <p><strong>උදාහරණ:</strong></p>
+                            <ul>
+                                <li>Factory Pattern</li>
+                                <li>Abstract Factory</li>
+                                <li>Singleton</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="pattern-type-card structural">
+                            <h4 class="text-center" style="color: var(--accent-teal);"><i class="fas fa-sitemap"></i> Structural</h4>
+                            <p><strong>කාර්යය:</strong> Class සහ object composition සම්බන්ධ.</p>
+                            <p><strong>උදාහරණ:</strong></p>
+                            <ul>
+                                <li>Adapter</li>
+                                <li>Bridge</li>
+                                <li>Composite</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="pattern-type-card behavioral">
+                            <h4 class="text-center" style="color: var(--accent-orange);"><i class="fas fa-exchange-alt"></i> Behavioral</h4>
+                            <p><strong>කාර්යය:</strong> Objects අතර communication සම්බන්ධ.</p>
+                            <p><strong>උදාහරණ:</strong></p>
+                            <ul>
+                                <li>Observer</li>
+                                <li>State</li>
+                                <li>Strategy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Observer Pattern -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-eye concept-icon" style="color: var(--accent-orange);"></i>
+                </div>
+                <h2 class="text-center mb-4">Observer Pattern</h2>
+                <p class="lead">Observer Pattern මගින් objects අතර one-to-many dependency එකක් නිර්වචනය කරයි. එක් object එකක state වෙනස් වූ විට, එහි සියලුම dependents වලට ස්වයංක්‍රීයව දැනුම් දෙන අතර update වේ.</p>
+
+                <div class="pattern-box">
+                    <h5><i class="fas fa-tasks"></i> ගැටලුව සහ විසඳුම</h5>
+                    <p><strong>Problem:</strong> Dependent's state must be consistent with master's state</p>
+                    <p><strong>Solution Structure:</strong></p>
+                    <ul>
+                        <li><strong>Abstract Subject:</strong> Dependents ලැයිස්තුව maintain කරයි; වෙනස්කම් ගැන දැනුම් දෙයි</li>
+                        <li><strong>Abstract Observer:</strong> Dependents update කිරීම සඳහා protocol නිර්වචනය කරයි</li>
+                        <li><strong>Concrete Subject:</strong> Dependents සඳහා data manage කරයි</li>
+                        <li><strong>Concrete Observers:</strong> Update message ලැබූ විට new state ලබා ගනී</li>
+                    </ul>
+                </div>
+
+                <h4 class="mt-4">උදාහරණ: Weather Station</h4>
+                <p>Weather station එකක් විවිධ displays වලට දත්ත යවන ආකාරය:</p>
+
+                <div class="visual-diagram">
+                    <h5 class="mb-3">Observer Pattern Structure</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="diagram-box" style="background: var(--accent-cyan);">
+                                <strong>Subject (Weather Station)</strong><br>
+                                <small>Maintains observer list<br>Notifies changes</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="diagram-box" style="background: var(--accent-orange);">
+                                <strong>Observers</strong><br>
+                                <small>Current Display<br>Statistics Display<br>Forecast Display</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h5><i class="fas fa-check-circle"></i> Observer Pattern ප්‍රතිලාභ:</h5>
+                    <ol>
+                        <li>Observer එකක් ඕනෑම වේලාවක add කළ හැක</li>
+                        <li>Observer එකක් ඕනෑම වේලාවක remove කළ හැක</li>
+                        <li>නව class එකක් create කර Observer interface implement කිරීමෙන් පහසුවෙන් register කළ හැක</li>
+                    </ol>
+                </div>
+
+                <div class="note-box">
+                    <h5><i class="fas fa-info-circle"></i> Real-World උදාහරණ</h5>
+                    <p class="mb-0"><strong>Publisher + Subscriber = Observer Pattern</strong><br>
+                    News subscriptions, Event notifications, Social media followers, Stock market updates</p>
+                </div>
+            </div>
+
+            <!-- Factory Pattern -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-industry concept-icon" style="color: var(--accent-cyan);"></i>
+                </div>
+                <h2 class="text-center mb-4">Factory Pattern</h2>
+                <p class="lead">Factory Pattern මගින් creation logic client එකට expose නොකර objects නිර්මාණය කරයි. නිර්මාණය කළ object එකට common interface එකක් භාවිතයෙන් refer කරයි.</p>
+
+                <div class="pattern-box">
+                    <h5><i class="fas fa-lightbulb"></i> මූලික අදහස</h5>
+                    <p>අපට runtime එකේදී පමණක් දන්නා විවිධ types objects නිර්මාණය කිරීමට අවශ්‍යයි. Factory class එක මෙම decision making logic handle කරයි.</p>
+                </div>
+
+                <h4 class="mt-4">උදාහරණය: Shape Factory</h4>
+                <p>විවිධ shapes නිර්මාණය කිරීමේ factory එකක්:</p>
+
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-cyan);">Shape Interface</span>
+                    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Shape {
+public:
+    Shape() {}
+    virtual void draw() = 0;
+};
+
+class Circle : public Shape {
+public:
+    void draw() {
+        cout << "Inside Circle::draw() method" << endl;
+    }
+};
+
+class Square : public Shape {
+public:
+    void draw() {
+        cout << "Inside Square::draw() method" << endl;
+    }
+};
+
+class Rectangle : public Shape {
+public:
+    void draw() {
+        cout << "Inside Rectangle::draw() method" << endl;
+    }
+};</code></pre>
+                </div>
+
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-teal);">Factory Class</span>
+                    <pre><code>class ShapeFactory {
+public:
+    Shape* getShape(string shapeType) {
+        if(shapeType == "CIRCLE") {
+            return new Circle();
+        } else if(shapeType == "RECTANGLE") {
+            return new Rectangle();
+        } else if(shapeType == "SQUARE") {
+            return new Square();
+        }
+        return nullptr;
+    }
+};
+
+int main() {
+    ShapeFactory shapeFactory;
+    
+    // Get an object of Circle and call its draw method
+    Shape* shape1 = shapeFactory.getShape("CIRCLE");
+    shape1->draw();
+    
+    // Get an object of Rectangle and call its draw method
+    Shape* shape2 = shapeFactory.getShape("RECTANGLE");
+    shape2->draw();
+    
+    // Get an object of Square and call its draw method
+    Shape* shape3 = shapeFactory.getShape("SQUARE");
+    shape3->draw();
+    
+    delete shape1;
+    delete shape2;
+    delete shape3;
+    
+    return 0;
+}</code></pre>
+                </div>
+
+                <div class="alert alert-success">
+                    <i class="fas fa-terminal"></i> <strong>Output:</strong><br>
+                    Inside Circle::draw() method<br>
+                    Inside Rectangle::draw() method<br>
+                    Inside Square::draw() method
+                </div>
+
+                <div class="visual-diagram">
+                    <h5 class="mb-3">Factory Pattern Structure</h5>
+                    <div class="diagram-box">Client Request → Factory → Creates Object → Returns Interface</div>
+                </div>
+            </div>
+
+            <!-- Abstract Factory Pattern -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-building concept-icon" style="color: var(--accent-teal);"></i>
+                </div>
+                <h2 class="text-center mb-4">Abstract Factory Pattern</h2>
+                <p class="lead">Abstract Factory Pattern යනු "Factory of Factories" ලෙස හැඳින්වෙන super-factory එකක් වටා ක්‍රියා කරයි. මෙය concrete classes specify නොකර related හෝ dependent objects families නිර්මාණය කිරීම සඳහා interface එකක් සපයයි.</p>
+
+                <div class="pattern-box">
+                    <h5><i class="fas fa-info-circle"></i> භාවිතය</h5>
+                    <ul>
+                        <li>විවිධ product families සඳහා</li>
+                        <li>Multiple families existence clients වෙතින් සඟවන්න</li>
+                        <li>Related objects families නිර්මාණය කිරීම</li>
+                    </ul>
+                </div>
+
+                <h4 class="mt-4">උදාහරණය: Shape Families (Simple vs Robust)</h4>
+
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-purple);">Abstract Factory Implementation</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+// Shape classes (same as before)
+class Shape {
+protected:
+    int id;
+    static int total;
+public:
+    Shape() { id = total++; }
+    virtual void draw() = 0;
+};
+
+int Shape::total = 0;
+
+class Circle : public Shape {
+public:
+    void draw() {
+        cout << "circle " << id << ": draw" << endl;
+    }
+};
+
+class Square : public Shape {
+public:
+    void draw() {
+        cout << "square " << id << ": draw" << endl;
+    }
+};
+
+class Ellipse : public Shape {
+public:
+    void draw() {
+        cout << "ellipse " << id << ": draw" << endl;
+    }
+};
+
+class Rectangle : public Shape {
+public:
+    void draw() {
+        cout << "rectangle " << id << ": draw" << endl;
+    }
+};</code></pre>
+                </div>
+
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-cyan);">Factory Classes</span>
+                    <pre><code>// Abstract Factory
+class Factory {
+public:
+    virtual Shape* createCurvedInstance() = 0;
+    virtual Shape* createStraightInstance() = 0;
+};
+
+// Simple Shape Factory
+class SimpleShapeFactory : public Factory {
+public:
+    Shape* createCurvedInstance() {
+        return new Circle;
+    }
+    Shape* createStraightInstance() {
+        return new Square;
+    }
+};
+
+// Robust Shape Factory
+class RobustShapeFactory : public Factory {
+public:
+    Shape* createCurvedInstance() {
+        return new Ellipse;
+    }
+    Shape* createStraightInstance() {
+        return new Rectangle;
+    }
+};</code></pre>
+                </div>
+
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-teal);">Usage</span>
+                    <pre><code>int main() {
+    // Choose factory at compile time
+    #define ROBUST
+    
+    #ifdef SIMPLE
+    Factory* factory = new SimpleShapeFactory;
+    #elif ROBUST
+    Factory* factory = new RobustShapeFactory;
+    #endif
+    
+    Shape* shapes[3];
+    shapes[0] = factory->createCurvedInstance();
+    shapes[1] = factory->createStraightInstance();
+    shapes[2] = factory->createCurvedInstance();
+    
+    for (int i = 0; i < 3; i++) {
+        shapes[i]->draw();
+    }
+    
+    // Clean up
+    for (int i = 0; i < 3; i++) {
+        delete shapes[i];
+    }
+    delete factory;
+    
+    return 0;
+}</code></pre>
+                </div>
+
+                <div class="alert alert-success">
+                    <i class="fas fa-terminal"></i> <strong>Output (ROBUST defined):</strong><br>
+                    ellipse 0 : draw<br>
+                    rectangle 1 : draw<br>
+                    ellipse 2 : draw
+                </div>
+
+                <div class="visual-diagram">
+                    <h5 class="mb-3">Abstract Factory Structure</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="diagram-box" style="background: var(--accent-cyan);">
+                                <strong>SimpleShapeFactory</strong><br>
+                                <small>Circle + Square</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="diagram-box" style="background: var(--accent-teal);">
+                                <strong>RobustShapeFactory</strong><br>
+                                <small>Ellipse + Rectangle</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Singleton Pattern -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-gem concept-icon" style="color: var(--accent-purple);"></i>
+                </div>
+                <h2 class="text-center mb-4">Singleton Pattern</h2>
+                <p class="lead">Singleton Pattern මගින් class එකට instance එකක් පමණක් ඇති බව සහතික කරන අතර, එයට global access point එකක් සපයයි. සමහර classes වලට සංකල්පමය වශයෙන් එක් instance එකක් පමණක් තිබිය යුතුය (printer spooler, file system, window manager).</p>
+
+                <div class="pattern-box">
+                    <h5><i class="fas fa-lightbulb"></i> අදහස</h5>
+                    <p><strong>Naïve approach:</strong> එකම conceptual instance නියෝජනය කරන බොහෝ objects නිර්මාණය කිරීම</p>
+                    <p><strong>Better approach:</strong> Object එකක් පමණක් නිර්මාණය කර එය reuse කිරීම</p>
+                    <p><strong>Singleton:</strong> Global state maintain කිරීම සඳහා elegant ක්‍රමයක්</p>
+                </div>
+
+                <h4 class="mt-4">Implementation</h4>
+
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-purple);">Singleton Class</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class SingleObject {
+private:
+    // Private constructor - නව objects නිර්මාණය කළ නොහැක
+    SingleObject() {}
+    
+    // Static instance
+    static SingleObject* instance;
+    
+public:
+    // Delete copy constructor and assignment operator
+    SingleObject(const SingleObject&) = delete;
+    SingleObject& operator=(const SingleObject&) = delete;
+    
+    // Get the only object available
+    static SingleObject* getInstance() {
+        if (instance == nullptr) {
+            instance = new SingleObject();
+        }
+        return instance;
+    }
+    
+    void showMessage() {
+        cout << "Hello World!" << endl;
+    }
+};
+
+// Initialize static member
+SingleObject* SingleObject::instance = nullptr;
+
+int main() {
+    // Get the only object available
+    SingleObject* object = SingleObject::getInstance();
+    
+    // Show the message
+    object->showMessage();
+    
+    // Try to get another instance - returns same object
+    SingleObject* object2 = SingleObject::getInstance();
+    
+    if (object == object2) {
+        cout << "Both pointers point to the same instance!" << endl;
+    }
+    
+    return 0;
+}</code></pre>
+                </div>
+
+                <div class="alert alert-success">
+                    <i class="fas fa-terminal"></i> <strong>Output:</strong><br>
+                    Hello World!<br>
+                    Both pointers point to the same instance!
+                </div>
+
+                <div class="visual-diagram">
+                    <h5 class="mb-3">Singleton Pattern Flow</h5>
+                    <div class="diagram-box">Private Constructor → Static Instance → getInstance() Method → Single Object</div>
+                </div>
+
+                <h4 class="mt-5">Thread-Safe Singleton (Modern C++)</h4>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-cyan);">Thread-Safe Implementation</span>
+                    <pre><code>#include &lt;iostream&gt;
+#include &lt;mutex&gt;
+using namespace std;
+
+class ThreadSafeSingleton {
+private:
+    static ThreadSafeSingleton* instance;
+    static mutex mtx;
+    
+    ThreadSafeSingleton() {}
+    
+public:
+    ThreadSafeSingleton(const ThreadSafeSingleton&) = delete;
+    ThreadSafeSingleton& operator=(const ThreadSafeSingleton&) = delete;
+    
+    static ThreadSafeSingleton* getInstance() {
+        if (instance == nullptr) {
+            lock_guard<mutex> lock(mtx);
+            if (instance == nullptr) {
+                instance = new ThreadSafeSingleton();
+            }
+        }
+        return instance;
+    }
+    
+    void doSomething() {
+        cout << "Singleton is working!" << endl;
+    }
+};
+
+ThreadSafeSingleton* ThreadSafeSingleton::instance = nullptr;
+mutex ThreadSafeSingleton::mtx;</code></pre>
+                </div>
+
+                <div class="note-box">
+                    <h5><i class="fas fa-exclamation-triangle"></i> වැදගත්!</h5>
+                    <ul class="mb-0">
+                        <li>Constructor private කළ යුතුය</li>
+                        <li>Copy constructor සහ assignment operator delete කළ යුතුය</li>
+                        <li>Multi-threaded applications සඳහා thread-safety සලකා බලන්න</li>
+                        <li>Global state භාවිතය ප්‍රවේශමෙන් සලකා බලන්න</li>
+                    </ul>
+                </div>
+
+                <h4 class="mt-5">Practical Example: Database Connection</h4>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-teal);">Real-World Example</span>
+                    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class DatabaseConnection {
+private:
+    static DatabaseConnection* instance;
+    string connectionString;
+    bool connected;
+    
+    DatabaseConnection() {
+        connectionString = "localhost:3306";
+        connected = false;
+        cout << "Database connection object created" << endl;
+    }
+    
+public:
+    static DatabaseConnection* getInstance() {
+        if (instance == nullptr) {
+            instance = new DatabaseConnection();
+        }
+        return instance;
+    }
+    
+    void connect() {
+        if (!connected) {
+            cout << "Connecting to database: " << connectionString << endl;
+            connected = true;
+        } else {
+            cout << "Already connected!" << endl;
+        }
+    }
+    
+    void disconnect() {
+        if (connected) {
+            cout << "Disconnecting from database" << endl;
+            connected = false;
+        }
+    }
+    
+    void executeQuery(string query) {
+        if (connected) {
+            cout << "Executing: " << query << endl;
+        } else {
+            cout << "Not connected! Connect first." << endl;
+        }
+    }
+};
+
+DatabaseConnection* DatabaseConnection::instance = nullptr;
+
+int main() {
+    // Get database connection
+    DatabaseConnection* db1 = DatabaseConnection::getInstance();
+    db1->connect();
+    db1->executeQuery("SELECT * FROM users");
+    
+    // Another part of the application
+    DatabaseConnection* db2 = DatabaseConnection::getInstance();
+    db2->executeQuery("INSERT INTO users VALUES (...)");
+    
+    // Both are the same instance
+    if (db1 == db2) {
+        cout << "Same database connection instance!" << endl;
+    }
+    
+    db1->disconnect();
+    
+    return 0;
+}</code></pre>
+                </div>
+
+                <div class="success-box">
+                    <h5><i class="fas fa-check-circle"></i> Singleton භාවිත අවස්ථා:</h5>
+                    <ul class="mb-0">
+                        <li>Database connections</li>
+                        <li>Logger classes</li>
+                        <li>Configuration managers</li>
+                        <li>Cache managers</li>
+                        <li>Thread pools</li>
+                        <li>Device drivers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="content-card comparison-table">
+                <h2 class="text-center mb-4"><i class="fas fa-table"></i> Pattern Comparison</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Pattern</th>
+                                <th>Type</th>
+                                <th>කාර්යය</th>
+                                <th>භාවිතය</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Observer</strong></td>
+                                <td>Behavioral</td>
+                                <td>One-to-many dependency</td>
+                                <td>Event handling, notifications</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Factory</strong></td>
+                                <td>Creational</td>
+                                <td>Object creation logic සඟවයි</td>
+                                <td>Runtime object creation</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Abstract Factory</strong></td>
+                                <td>Creational</td>
+                                <td>Related object families නිර්මාණය</td>
+                                <td>Multiple product families</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Singleton</strong></td>
+                                <td>Creational</td>
+                                <td>එක් instance පමණක්</td>
+                                <td>Global state, shared resources</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Key Benefits -->
+            <div class="content-card">
+                <h2 class="mb-4"><i class="fas fa-trophy"></i> Design Patterns භාවිතයේ ප්‍රතිලාභ</h2>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="feature-box" style="border-color: var(--accent-cyan);">
+                            <h5><i class="fas fa-rocket" style="color: var(--accent-cyan);"></i> Development Speed</h5>
+                            <p class="mb-0">පරීක්‍ෂා කළ proven paradigms භාවිතයෙන් development වේගවත් කරයි</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-box" style="border-color: var(--accent-teal);">
+                            <h5><i class="fas fa-comments" style="color: var(--accent-teal);"></i> Communication</h5>
+                            <p class="mb-0">Developers අතර common terminology සහ පැහැදිලි communication</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-box" style="border-color: var(--accent-orange);">
+                            <h5><i class="fas fa-shield-alt" style="color: var(--accent-orange);"></i> Best Practices</h5>
+                            <p class="mb-0">දිගු කාලයක් පුරා වර්ධනය වූ හොඳම විසඳුම්</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-box" style="border-color: var(--accent-purple);">
+                            <h5><i class="fas fa-graduation-cap" style="color: var(--accent-purple);"></i> Learning</h5>
+                            <p class="mb-0">අත්දැකීම් අඩු developers සඳහා software design ඉගෙන ගැනීම පහසු කරයි</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="content-card">
+                <h2 class="text-center mb-4"><i class="fas fa-list-check"></i> සාරාංශය</h2>
+                
+                <div class="pattern-box">
+                    <h5><i class="fas fa-key"></i> මතක තබා ගන්න:</h5>
+                    <ul>
+                        <li><strong>Design Patterns</strong> යනු software design problems සඳහා reusable විසඳුම්</li>
+                        <li>Code reuse නොව, <strong>solution/strategy reuse</strong></li>
+                        <li>තුන් ප්‍රධාන වර්ග: <strong>Creational, Structural, Behavioral</strong></li>
+                        <li><strong>Observer:</strong> State වෙනස්කම් dependents වලට දන්වයි</li>
+                        <li><strong>Factory:</strong> Creation logic සඟවමින් objects නිර්මාණය කරයි</li>
+                        <li><strong>Abstract Factory:</strong> Related object families නිර්මාණය කරයි</li>
+                        <li><strong>Singleton:</strong> Class එකට එක් instance එකක් පමණක්</li>
+                    </ul>
+                </div>
+
+                <div class="success-box mt-4">
+                    <h5><i class="fas fa-lightbulb"></i> Best Practice</h5>
+                    <p class="mb-0">Design patterns භාවිතා කරන්න, නමුත් අධික ලෙස භාවිතා නොකරන්න (over-engineering). ඔබේ ගැටලුවට සරල විසඳුමක් තිබේ නම්, එය භාවිතා කරන්න. Patterns භාවිතා කරන්නේ ඒවා අවශ්‍ය වන තැන්වල පමණයි.</p>
+                </div>
+
+                <div class="note-box mt-4">
+                    <h5><i class="fas fa-book"></i> වැඩිදුර ඉගෙනීම</h5>
+                    <p class="mb-0">මෙහි සඳහන් වන්නේ GOF patterns වලින් සමහරක් පමණයි. තවත් බොහෝ patterns තිබේ: Strategy, Template Method, Decorator, Adapter, Proxy, ආදිය. ප්‍රායෝගික අත්දැකීම් සහ අධ්‍යයනය මගින් patterns වඩාත් හොඳින් තේරුම් ගත හැක.</p>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation-buttons">
+                <a href="Enumerators.html" class="btn btn-custom">
+                    <i class="fas fa-arrow-left"></i> Previous: Enumerators & Static
+                </a>
+                <a href="uml.html" class="btn btn-custom">
+                   Next: UML <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOP: UML - Unified Modeling Language</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --primary-blue: #2c3e50;
+    --accent-cyan: #00bcd4;
+    --accent-teal: #009688;
+    --accent-orange: #f39c12;
+    --accent-red: #e74c3c;
+    --accent-purple: #9b59b6;
+    --accent-green: #27ae60;
+    --accent-pink: #e91e63;
+    --dark-bg: #1a1a2e;
+    --card-bg: #16213e;
+    --text-light: #e8e8e8;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+.content-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.concept-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.feature-box {
+    background: rgba(233, 30, 99, 0.1);
+    border-left: 4px solid var(--accent-pink);
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.diagram-box {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.uml-symbol {
+    background: linear-gradient(135deg, #e91e63, #c2185b);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.note-box {
+    background: rgba(243, 156, 18, 0.1);
+    border-left: 4px solid var(--accent-orange);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.success-box {
+    background: rgba(39, 174, 96, 0.1);
+    border-left: 4px solid var(--accent-green);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.info-box {
+    background: rgba(0, 188, 212, 0.1);
+    border-left: 4px solid var(--accent-cyan);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.comparison-table table {
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.05);
+}
+
+.comparison-table th {
+    background-color: rgba(233, 30, 99, 0.3);
+    color: var(--text-light);
+    font-weight: bold;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.comparison-table td {
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.comparison-table tbody tr:hover {
+    background-color: rgba(255,255,255,0.08);
+}
+
+.btn-custom {
+    background: linear-gradient(135deg, #c2185b, #e91e63);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(233, 30, 99, 0.5);
+    color: white;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.relationship-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    border: 2px solid;
+    transition: all 0.3s;
+}
+
+.relationship-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.class-diagram-box {
+    background: white;
+    color: black;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 0;
+    margin: 20px auto;
+    max-width: 300px;
+}
+
+.class-name {
+    background: #e91e63;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 3px 3px 0 0;
+}
+
+.class-attributes, .class-methods {
+    padding: 15px;
+    text-align: left;
+    border-top: 2px solid #333;
+}
+
+.activity-symbol {
+    background: white;
+    color: black;
+    border: 2px solid #333;
+    border-radius: 20px;
+    padding: 15px 30px;
+    margin: 10px;
+    display: inline-block;
+}
+
+.decision-diamond {
+    width: 100px;
+    height: 100px;
+    background: white;
+    border: 2px solid #333;
+    transform: rotate(45deg);
+    display: inline-block;
+    position: relative;
+    margin: 30px;
+}
+
+.decision-text {
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-weight: bold;
+    color: black;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .concept-icon {
+        font-size: 2rem;
+    }
+    
+    .content-card {
+        padding: 20px;
+        margin: 20px 0;
+    }
+    
+    .navigation-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .navigation-buttons .btn-custom {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 40px 0;
+    }
+    
+    .hero-title {
+        font-size: 1.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .content-card {
+        padding: 15px;
+        margin: 15px 0;
+    }
+}
+</style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0f1419;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap"></i> OOP Tutorial
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html"><i class="fas fa-home"></i> Introduction</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book"></i> Core Concepts
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="class.html"><i class="fas fa-cube"></i> Classes & Objects</a></li>
+                            <li><a class="dropdown-item" href="constructor.html"><i class="fas fa-hammer"></i> Constructors</a></li>
+                            <li><a class="dropdown-item" href="encapsulation.html"><i class="fas fa-shield-alt"></i> Encapsulation</a></li>
+                            <li><a class="dropdown-item" href="abstraction.html"><i class="fas fa-eye-slash"></i> Abstraction</a></li>
+                            <li><a class="dropdown-item" href="inheritance.html"><i class="fas fa-sitemap"></i> Inheritance</a></li>
+                            <li><a class="dropdown-item" href="polymorphism.html"><i class="fas fa-shapes"></i> Polymorphism</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Advanced
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="Functions.html"><i class="fas fa-function"></i> Functions</a></li>
+                            <li><a class="dropdown-item" href="overloading.html"><i class="fas fa-layer-group"></i> Overloading</a></li>
+                            <li><a class="dropdown-item" href="Derived.html"><i class="fas fa-code-branch"></i> Derived Classes</a></li>
+                            <li><a class="dropdown-item" href="Enumerators.html"><i class="fas fa-list-ol"></i> Enumerators</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="design.html"><i class="fas fa-drafting-compass"></i> Design</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="uml.html"><i class="fas fa-project-diagram"></i> UML</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<div class="hero-section">
+<div class="container">
+<h1 class="hero-title"><i class="fas fa-project-diagram"></i> UML</h1>
+<p class="hero-subtitle">Unified Modeling Language - Software Systems Visualize කිරීම</p>
+</div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+
+            <!-- Introduction -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-info-circle concept-icon" style="color: var(--accent-pink);"></i>
+                </div>
+                <h2 class="text-center mb-4">UML යනු කුමක්ද?</h2>
+                <p class="lead"><strong>UML (Unified Modeling Language)</strong> යනු software systems විස්තර කිරීම සඳහා භාවිතා වන general purpose visual modeling භාෂාවකි. මෙය programming language එකක් නොවේ.</p>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <h5><i class="fas fa-check-circle"></i> UML භාවිතා වන්නේ:</h5>
+                            <ul>
+                                <li><strong>Specify:</strong> System requirements නිශ්චිතව දක්වන්න</li>
+                                <li><strong>Visualize:</strong> System එක දෘශ්‍යමය ලෙස පෙන්වන්න</li>
+                                <li><strong>Construct:</strong> System එක ගොඩනඟන්න</li>
+                                <li><strong>Document:</strong> Software artifacts ලේඛනගත කරන්න</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="success-box">
+                            <h5><i class="fas fa-star"></i> ප්‍රධාන ලක්ෂණ:</h5>
+                            <ul>
+                                <li>Graphical way of describing systems</li>
+                                <li>Standard communication tool</li>
+                                <li>Platform independent</li>
+                                <li>Widely used in industry</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box mt-4">
+                    <h5><i class="fas fa-exclamation-circle"></i> මතක තබා ගන්න</h5>
+                    <p class="mb-0">UML යනු programming language එකක් නොවේ. එය software systems graphically represent කිරීමට භාවිතා වන modeling language එකකි.</p>
+                </div>
+            </div>
+
+            <!-- Use Case Diagrams -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-users concept-icon" style="color: var(--accent-cyan);"></i>
+                </div>
+                <h2 class="text-center mb-4">Use Case Diagrams</h2>
+                <p class="lead">Use case diagrams මගින් system එකක විවිධ roles (actors) සහ ඒවා system එක සමඟ interact වන ආකාරය visualize කළ හැක.</p>
+
+                <h4 class="mt-5"><i class="fas fa-shapes"></i> Use Case Diagram Objects</h4>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <h5><i class="fas fa-user"></i> Actor</h5>
+                            <p>System එකේ role එකක් perform කරන ඕනෑම entity එකක්.</p>
+                            <ul>
+                                <li>පුද්ගලයෙක් (Person)</li>
+                                <li>ආයතනයක් (Organization)</li>
+                                <li>බාහිර system එකක් (External System)</li>
+                            </ul>
+                            <div class="text-center mt-3">
+                                <i class="fas fa-user" style="font-size: 3rem; color: var(--accent-cyan);"></i>
+                                <p class="mt-2"><small>Stick figure ලෙස draw කරයි</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <h5><i class="fas fa-circle"></i> Use Case</h5>
+                            <p>System එකක function හෝ action එකක් නියෝජනය කරයි.</p>
+                            <ul>
+                                <li>Oval shape එකක් ලෙස draw කරයි</li>
+                                <li>Function නම සමඟ නම් කරයි</li>
+                            </ul>
+                            <div class="text-center mt-3">
+                                <div style="background: white; color: black; border: 2px solid #333; border-radius: 50%; padding: 20px 40px; display: inline-block;">
+                                    <strong>Use Case</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <h5><i class="fas fa-square"></i> System</h5>
+                            <p>Use case එකේ scope නිර්වචනය කරයි.</p>
+                            <ul>
+                                <li>Rectangle එකක් ලෙස draw කරයි</li>
+                                <li>විශාල systems සඳහා ප්‍රයෝජනවත්</li>
+                                <li>Optional element එකක්</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <h5><i class="fas fa-folder"></i> Package</h5>
+                            <p>Use cases එකට කණ්ඩායම් කිරීමට භාවිතා කරයි.</p>
+                            <ul>
+                                <li>Related use cases organize කිරීම</li>
+                                <li>විශාල diagrams සඳහා ප්‍රයෝජනවත්</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="mt-5"><i class="fas fa-link"></i> Use Case Relationships</h4>
+
+                <div class="relationship-card" style="border-color: var(--accent-cyan);">
+                    <h5 style="color: var(--accent-cyan);"><i class="fas fa-arrows-alt-h"></i> Association</h5>
+                    <p>Actor සහ use case අතර සම්බන්ධතාවය.</p>
+                    <ul>
+                        <li>Actor එකක් අවම වශයෙන් එක් use case එකක් සමඟ සම්බන්ධ විය යුතුය</li>
+                        <li>Actor එකක් බහු use cases සමඟ සම්බන්ධ විය හැක</li>
+                        <li>බහු actors එක් use case එකක් සමඟ සම්බන්ධ විය හැක</li>
+                    </ul>
+                </div>
+
+                <div class="relationship-card" style="border-color: var(--accent-teal);">
+                    <h5 style="color: var(--accent-teal);"><i class="fas fa-sitemap"></i> Generalization (Actor)</h5>
+                    <p>එක් actor එකක් අනෙකාගේ role inherit කරන්න.</p>
+                    <ul>
+                        <li>Descendant ancestor එකේ සියලුම use cases inherit කරයි</li>
+                        <li>Descendant හට එම role එකට විශේෂිත use cases තිබිය හැක</li>
+                    </ul>
+                </div>
+
+                <div class="relationship-card" style="border-color: var(--accent-orange);">
+                    <h5 style="color: var(--accent-orange);"><i class="fas fa-expand"></i> Extend Relationship</h5>
+                    <p>Base use case එක extend කර system එකට වැඩිදුර functionality එකතු කරයි.</p>
+                    <ul>
+                        <li>Extending use case extended (base) use case මත යැපෙයි</li>
+                        <li>Extending use case සාමාන්‍යයෙන් optional වන අතර conditionally trigger වේ</li>
+                        <li>Base use case ස්වාධීන විය යුතුය</li>
+                    </ul>
+                    <div class="text-center mt-3">
+                        <code>&lt;&lt;extend&gt;&gt;</code>
+                    </div>
+                </div>
+
+                <div class="relationship-card" style="border-color: var(--accent-purple);">
+                    <h5 style="color: var(--accent-purple);"><i class="fas fa-code-branch"></i> Include Relationship</h5>
+                    <p>Included use case එකේ behavior base use case එකේ කොටසකි.</p>
+                    <ul>
+                        <li>බහු use cases හරහා common actions reuse කිරීම</li>
+                        <li>Base use case incomplete without included use case</li>
+                        <li>Included use case mandatory වේ</li>
+                    </ul>
+                    <div class="text-center mt-3">
+                        <code>&lt;&lt;include&gt;&gt;</code>
+                    </div>
+                </div>
+
+                <div class="relationship-card" style="border-color: var(--accent-green);">
+                    <h5 style="color: var(--accent-green);"><i class="fas fa-layer-group"></i> Generalization (Use Case)</h5>
+                    <p>Ancestor එකේ behavior descendant විසින් inherit කරනු ලබයි.</p>
+                    <ul>
+                        <li>දෙක use cases අතර common behavior තිබෙන විට භාවිතා වේ</li>
+                    </ul>
+                </div>
+
+                <div class="success-box mt-4">
+                    <h5><i class="fas fa-route"></i> Use Case Scenario</h5>
+                    <p>Use case එකකට බහු "paths" තිබිය හැක. <strong>Use case scenario</strong> යනු use case එක හරහා එක් path එකකි.</p>
+                </div>
+            </div>
+
+            <!-- Class Diagrams -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-cube concept-icon" style="color: var(--accent-teal);"></i>
+                </div>
+                <h2 class="text-center mb-4">Class Diagrams</h2>
+                <p class="lead">Class diagrams මගින් system එකක structure විස්තර කරයි. Classes, attributes, operations සහ ඒවා අතර relationships පෙන්වයි.</p>
+
+                <h4 class="mt-5"><i class="fas fa-box"></i> Basic Class Structure</h4>
+
+                <div class="class-diagram-box">
+                    <div class="class-name">ClassName</div>
+                    <div class="class-attributes">
+                        <strong>Attributes:</strong><br>
+                        - attribute1: type<br>
+                        - attribute2: type<br>
+                        # attribute3: type
+                    </div>
+                    <div class="class-methods">
+                        <strong>Operations:</strong><br>
+                        + operation1(): returnType<br>
+                        + operation2(param): returnType<br>
+                        - operation3(): void
+                    </div>
+                </div>
+
+                <div class="note-box">
+                    <h5><i class="fas fa-info-circle"></i> Class Diagram Components</h5>
+                    <ul>
+                        <li><strong>First partition:</strong> Class name (centered, bolded, capitalized)</li>
+                        <li><strong>Second partition:</strong> Attributes (left-aligned, lowercase)</li>
+                        <li><strong>Third partition:</strong> Operations/Methods</li>
+                    </ul>
+                </div>
+
+                <h4 class="mt-5"><i class="fas fa-eye"></i> Visibility Markers</h4>
+
+                <div class="comparison-table">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Marker</th>
+                                    <th>Visibility</th>
+                                    <th>විස්තරය</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>+</strong></td>
+                                    <td>Public</td>
+                                    <td>ඕනෑම තැනකින් access කළ හැක</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>-</strong></td>
+                                    <td>Private</td>
+                                    <td>Class එකෙන් පමණක් access කළ හැක</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>#</strong></td>
+                                    <td>Protected</td>
+                                    <td>Class සහ subclasses වලින් access කළ හැක</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>~</strong></td>
+                                    <td>Package</td>
+                                    <td>එකම package එකේ classes වලින් access කළ හැක</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <h4 class="mt-5"><i class="fas fa-link"></i> Class Relationships</h4>
+
+                <div class="relationship-card" style="border-color: var(--accent-cyan);">
+                    <h5 style="color: var(--accent-cyan);"><i class="fas fa-arrows-alt-h"></i> Association</h5>
+                    <p>Classes අතර logical connection හෝ relationship එකක්.</p>
+                    <div class="text-center mt-3">
+                        <div style="display: inline-block; padding: 10px 20px; border: 2px solid white; border-radius: 5px;">ClassA</div>
+                        <span style="margin: 0 20px;">————</span>
+                        <div style="display: inline-block; padding: 10px 20px; border: 2px solid white; border-radius: 5px;">ClassB</div>
+                    </div>
+                </div>
+
+                <div class="relationship-card" style="border-color: var(--accent-teal);">
+                    <h5 style="color: var(--accent-teal);"><i class="fas fa-object-group"></i> Aggregation ("has a")</h5>
+                    <p>Class එකක් අනෙක් classes එකතුවක් ලෙස form වන විට.</p>
+                    <ul>
+                        <li>Contained classes container එකේ life cycle මත දැඩි ලෙස රඳා නොපවතී</li>
+                        <li>Parent class අසල හිස් diamond shape එකක්</li>
+                    </ul>
+                    <div class="text-center mt-3">
+                        <code>Container ◇———— Component</code>
+                    </div>
+                </div>
+
+                <div class="relationship-card" style="border-color: var(--accent-orange);">
+                    <h5 style="color: var(--accent-orange);"><i class="fas fa-puzzle-piece"></i> Composition</h5>
+                    <p>Aggregation එකේ variation එකක්.</p>
+                    <ul>
+                        <li>Container class විනාශ වූ විට contained class විනාශ වේ</li>
+                        <li>Container class අසල පිරුණු diamond shape එකක්</li>
+                    </ul>
+                    <div class="text-center mt-3">
+                        <code>Container ◆———— Component</code>
+                    </div>
+                </div>
+
+                <div class="relationship-card" style="border-color: var(--accent-purple);">
+                    <h5 style="color: var(--accent-purple);"><i class="fas fa-sitemap"></i> Generalization / Inheritance ("is a")</h5>
+                    <p>Child class parent class එකේ type එකකි.</p>
+                    <ul>
+                        <li>Child classes parent class එකේ common functionality inherit කරයි</li>
+                        <li>Parent වෙත arrow එකක් සමඟ line එකක්</li>
+                    </ul>
+                    <div class="text-center mt-3">
+                        <code>Parent ◁———— Child</code>
+                    </div>
+                </div>
+
+                <h4 class="mt-5"><i class="fas fa-hashtag"></i> Multiplicity (Cardinality)</h4>
+
+                <div class="comparison-table">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Indicator</th>
+                                    <th>Meaning</th>
+                                    <th>සිංහල විස්තරය</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>0..1</strong></td>
+                                    <td>Zero or one</td>
+                                    <td>බිංදුව හෝ එකක්</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>1</strong></td>
+                                    <td>One only</td>
+                                    <td>එකක් පමණක්</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>0..*</strong></td>
+                                    <td>Zero or more</td>
+                                    <td>බිංදුව හෝ තවත්</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>1..*</strong> හෝ <strong>*</strong></td>
+                                    <td>One or more</td>
+                                    <td>එකක් හෝ තවත්</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>n</strong></td>
+                                    <td>Only n (where n>1)</td>
+                                    <td>n කින් පමණක්</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>0..n</strong></td>
+                                    <td>Zero to n</td>
+                                    <td>බිංදුවේ සිට n දක්වා</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>1..n</strong></td>
+                                    <td>One to n</td>
+                                    <td>එකකින් n දක්වා</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <h5><i class="fas fa-lightbulb"></i> උදාහරණය</h5>
+                    <p class="mb-0"><code>Student 1..* ———— 0..* Course</code><br>
+                    එක් student කෙනෙකුට courses 0ක් හෝ තවත් තිබිය හැක. එක් course එකකට students 1ක් හෝ තවත් තිබිය යුතුය.</p>
+                </div>
+            </div>
+
+            <!-- Activity Diagrams -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-stream concept-icon" style="color: var(--accent-orange);"></i>
+                </div>
+                <h2 class="text-center mb-4">Activity Diagrams</h2>
+                <p class="lead">Activity diagram යනු මූලික වශයෙන් එක් activity එකකින් තවත් activity එකකට flow එක නියෝජනය කිරීමට භාවිතා වන flow chart එකකි. Activity යනු system එකේ operation එකක් විස්තර කරයි.</p>
+
+                <h4 class="mt-5"><i class="fas fa-shapes"></i> Activity Diagram Symbols</h4>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <h5><i class="fas fa-circle"></i> Initial State / Start Point</h5>
+                            <p>කුඩා පිරුණු circle එකක් arrow එකක් සමඟ initial action state නියෝජනය කරයි.</p>
+                            <div class="text-center mt-3">
+                                <div style="width: 20px; height: 20px; background: black; border-radius: 50%; display: inline-block;"></div>
+                                <span style="margin: 0 10px;">→</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <h5><i class="fas fa-stop-circle"></i> Final State / End Point</h5>
+                            <p>තවත් circle එකක් තුළ nested filled circle එකක් workflow එකේ completion නියෝජනය කරයි.</p>
+                            <div class="text-center mt-3">
+                                <div style="width: 30px; height: 30px; border: 3px solid black; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: white;">
+                                    <div style="width: 15px; height: 15px; background: black; border-radius: 50%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <h5><i class="fas fa-square"></i> Action State</h5>
+                            <p>Activity එකක් තුළ individual step එකක්.</p>
+                            <div class="text-center mt-3">
+                                <div class="activity-symbol">
+                                    Action Name
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <h5><i class="fas fa-arrow-right"></i> Action Flow</h5>
+                            <p>එක් action එකකින් තවත් action එකකට transitions.</p>
+                            <div class="text-center mt-3">
+                                <code>Action1 ———→ Action2</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relationship-card" style="border-color: var(--accent-orange);">
+                    <h5 style="color: var(--accent-orange);"><i class="fas fa-code-branch"></i> Decisions</h5>
+                    <p>Alternative paths සමඟ decision එකක් නියෝජනය කිරීමට diamond shape භාවිතා කරයි.</p>
+                    <ul>
+                        <li>Activity එකකට ඊළඟ activity එකට යාමට පෙර decision එකක් අවශ්‍ය නම්</li>
+                        <li>Outgoing alternatives condition එකක් සමඟ label කළ යුතුය</li>
+                    </ul>
+                    <div class="text-center mt-3">
+                        <div style="position: relative; display: inline-block;">
+                            <div class="decision-diamond">
+                                <div class="decision-text">?</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relationship-card" style="border-color: var(--accent-purple);">
+                    <h5 style="color: var(--accent-purple);"><i class="fas fa-equals"></i> Synchronization</h5>
+                    <p><strong>Fork Node:</strong> එක් incoming flow එකක් බහු concurrent flows වලට split කිරීමට භාවිතා වේ.</p>
+                    <p><strong>Join Node:</strong> බහු concurrent flows නැවත එක් outgoing flow එකකට join කරයි.</p>
+                    <div class="text-center mt-3">
+                        <div style="width: 100px; height: 5px; background: black; display: inline-block;"></div>
+                        <p class="mt-2"><small>Straight, slightly thicker line</small></p>
+                    </div>
+                </div>
+
+                <div class="relationship-card" style="border-color: var(--accent-cyan);">
+                    <h5 style="color: var(--accent-cyan);"><i class="fas fa-columns"></i> Activity Partition (Swimlanes)</h5>
+                    <p>Activity diagram එකේ individual elements වෙනම areas හෝ "Partitions" වලට බෙදිය හැක.</p>
+                    <ul>
+                        <li>විවිධ roles හෝ departments වෙන් කිරීමට භාවිතා වේ</li>
+                        <li>"Swimlanes" ලෙසද හඳුන්වනු ලබයි</li>
+                    </ul>
+                </div>
+
+                <h4 class="mt-5"><i class="fas fa-project-diagram"></i> Activity Diagram උදාහරණය</h4>
+
+                <div class="diagram-box">
+                    <h5 class="mb-4">Online Shopping Activity Flow</h5>
+                    <div style="background: white; color: black; padding: 30px; border-radius: 10px;">
+                        <div style="text-align: center;">
+                            <div style="width: 20px; height: 20px; background: black; border-radius: 50%; display: inline-block; margin-bottom: 10px;"></div>
+                            <div style="margin: 10px 0;">↓</div>
+                            
+                            <div class="activity-symbol">Browse Products</div>
+                            <div style="margin: 10px 0;">↓</div>
+                            
+                            <div class="activity-symbol">Select Product</div>
+                            <div style="margin: 10px 0;">↓</div>
+                            
+                            <div class="activity-symbol">Add to Cart</div>
+                            <div style="margin: 10px 0;">↓</div>
+                            
+                            <div style="position: relative; display: inline-block; margin: 20px 0;">
+                                <div style="width: 80px; height: 80px; background: white; border: 2px solid black; transform: rotate(45deg); display: flex; align-items: center; justify-content: center;">
+                                    <span style="transform: rotate(-45deg); font-weight: bold;">Payment OK?</span>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-around; margin-top: 30px;">
+                                <div>
+                                    <div style="margin: 10px 0;">Yes ↓</div>
+                                    <div class="activity-symbol">Process Order</div>
+                                </div>
+                                <div>
+                                    <div style="margin: 10px 0;">No ↓</div>
+                                    <div class="activity-symbol">Show Error</div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin: 30px 0;">↓</div>
+                            
+                            <div style="width: 30px; height: 30px; border: 3px solid black; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: white; margin-top: 20px;">
+                                <div style="width: 15px; height: 15px; background: black; border-radius: 50%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-box mt-4">
+                    <h5><i class="fas fa-info-circle"></i> Activity Diagrams භාවිතා වන්නේ:</h5>
+                    <ul class="mb-0">
+                        <li>Business processes model කිරීමට</li>
+                        <li>System workflows විස්තර කිරීමට</li>
+                        <li>Algorithm logic පෙන්වීමට</li>
+                        <li>Use cases වල detailed behavior විස්තර කිරීමට</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- UML Diagram Types Summary -->
+            <div class="content-card">
+                <h2 class="text-center mb-4"><i class="fas fa-th"></i> UML Diagram Types සාරාංශය</h2>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="feature-box" style="border-color: var(--accent-cyan); min-height: 200px;">
+                            <h5><i class="fas fa-users" style="color: var(--accent-cyan);"></i> Use Case Diagrams</h5>
+                            <p><strong>කාර්යය:</strong> System functionality සහ users visualize කිරීම</p>
+                            <p><strong>භාවිතය:</strong></p>
+                            <ul class="mb-0">
+                                <li>Requirements gathering</li>
+                                <li>User interactions</li>
+                                <li>System scope</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-box" style="border-color: var(--accent-teal); min-height: 200px;">
+                            <h5><i class="fas fa-cube" style="color: var(--accent-teal);"></i> Class Diagrams</h5>
+                            <p><strong>කාර්යය:</strong> System structure සහ relationships</p>
+                            <p><strong>භාවිතය:</strong></p>
+                            <ul class="mb-0">
+                                <li>System architecture</li>
+                                <li>Database design</li>
+                                <li>Code structure</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-box" style="border-color: var(--accent-orange); min-height: 200px;">
+                            <h5><i class="fas fa-stream" style="color: var(--accent-orange);"></i> Activity Diagrams</h5>
+                            <p><strong>කාර්යය:</strong> Workflow සහ process flow</p>
+                            <p><strong>භාවිතය:</strong></p>
+                            <ul class="mb-0">
+                                <li>Business processes</li>
+                                <li>Algorithm logic</li>
+                                <li>Parallel activities</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box mt-4">
+                    <h5><i class="fas fa-lightbulb"></i> අතිරේක UML Diagrams</h5>
+                    <p>මෙම tutorial එකේ සඳහන් නොකළ තවත් UML diagram types:</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li><strong>Sequence Diagrams:</strong> Object interactions over time</li>
+                                <li><strong>State Diagrams:</strong> Object states and transitions</li>
+                                <li><strong>Component Diagrams:</strong> System components</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li><strong>Deployment Diagrams:</strong> Hardware topology</li>
+                                <li><strong>Collaboration Diagrams:</strong> Object collaboration</li>
+                                <li><strong>Package Diagrams:</strong> Package dependencies</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UML Tools -->
+            <div class="content-card">
+                <h2 class="mb-4"><i class="fas fa-tools"></i> UML Tools</h2>
+                <p class="lead">UML diagrams නිර්මාණය කිරීම සඳහා විවිධ software tools තිබේ:</p>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="relationship-card" style="border-color: var(--accent-cyan);">
+                            <h5 style="color: var(--accent-cyan);"><i class="fas fa-pencil-ruler"></i> SmartDraw</h5>
+                            <ul>
+                                <li>User-friendly interface</li>
+                                <li>Templates මත පදනම්</li>
+                                <li>Cloud-based option</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="relationship-card" style="border-color: var(--accent-teal);">
+                            <h5 style="color: var(--accent-teal);"><i class="fas fa-diagram-project"></i> Visual Paradigm</h5>
+                            <ul>
+                                <li>Professional tool</li>
+                                <li>සියලු UML diagram types</li>
+                                <li>Code generation support</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="relationship-card" style="border-color: var(--accent-orange);">
+                            <h5 style="color: var(--accent-orange);"><i class="fas fa-paint-brush"></i> Creately</h5>
+                            <ul>
+                                <li>Online collaborative tool</li>
+                                <li>Real-time collaboration</li>
+                                <li>Easy to use</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box mt-4">
+                    <h5><i class="fas fa-plus-circle"></i> වෙනත් ජනප්‍රිය Tools:</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li><strong>Lucidchart:</strong> Cloud-based, collaborative</li>
+                                <li><strong>Draw.io (diagrams.net):</strong> Free, open-source</li>
+                                <li><strong>Enterprise Architect:</strong> Professional grade</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li><strong>StarUML:</strong> Cross-platform tool</li>
+                                <li><strong>PlantUML:</strong> Text-based diagrams</li>
+                                <li><strong>Microsoft Visio:</strong> Popular enterprise tool</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Best Practices -->
+            <div class="content-card">
+                <h2 class="mb-4"><i class="fas fa-star"></i> UML Best Practices</h2>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="success-box">
+                            <h5><i class="fas fa-check-circle"></i> කළ යුතු දේ (Do's):</h5>
+                            <ul>
+                                <li>නිවැරදි diagram type තෝරන්න</li>
+                                <li>සරල හා පැහැදිලිව තබන්න</li>
+                                <li>Standard UML notation භාවිතා කරන්න</li>
+                                <li>නම් කිරීම consistent කරන්න</li>
+                                <li>Team සමඟ review කරන්න</li>
+                                <li>Documentation යාවත්කාලීන තබන්න</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="note-box">
+                            <h5><i class="fas fa-times-circle"></i> නොකළ යුතු දේ (Don'ts):</h5>
+                            <ul>
+                                <li>Diagrams overload නොකරන්න</li>
+                                <li>Non-standard symbols භාවිතා නොකරන්න</li>
+                                <li>විස්තර අතික්‍රමණය නොකරන්න</li>
+                                <li>Outdated diagrams තබන්න එපා</li>
+                                <li>සෑම දෙයක්ම diagram කිරීමට උත්සහ නොකරන්න</li>
+                                <li>Team input නොසලකන්න එපා</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box mt-4">
+                    <h5><i class="fas fa-lightbulb"></i> Key Tips:</h5>
+                    <ul class="mb-0">
+                        <li><strong>Purpose-driven:</strong> සෑම diagram එකක්ම clear purpose එකක් තිබිය යුතුය</li>
+                        <li><strong>Audience-aware:</strong> ඔබේ audience එක සඳහා appropriate detail level භාවිතා කරන්න</li>
+                        <li><strong>Iterative:</strong> Diagrams යාවත්කාලීන කරමින් යන්න</li>
+                        <li><strong>Consistent:</strong> Project එක පුරා consistent style එකක් maintain කරන්න</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="content-card">
+                <h2 class="text-center mb-4"><i class="fas fa-list-check"></i> සාරාංශය</h2>
+                
+                <div class="feature-box">
+                    <h5><i class="fas fa-key"></i> ප්‍රධාන කරුණු:</h5>
+                    <ul>
+                        <li><strong>UML</strong> යනු software systems visualize කිරීම සඳහා standard modeling language එකකි</li>
+                        <li><strong>Use Case Diagrams:</strong> System functionality සහ actors අතර interactions</li>
+                        <li><strong>Class Diagrams:</strong> System structure, classes, සහ relationships</li>
+                        <li><strong>Activity Diagrams:</strong> Workflow සහ business process flow</li>
+                        <li>UML programming language එකක් නොවේ - එය visual modeling tool එකකි</li>
+                        <li>විවිධ diagram types විවිධ purposes සඳහා භාවිතා වේ</li>
+                    </ul>
+                </div>
+
+                <div class="success-box mt-4">
+                    <h5><i class="fas fa-graduation-cap"></i> ඉගෙනීමේ ප්‍රතිඵල:</h5>
+                    <p>මෙම tutorial එක සම්පූර්ණ කිරීමෙන් පසු ඔබට:</p>
+                    <ul class="mb-0">
+                        <li>UML යනු කුමක්ද සහ එහි අරමුණු තේරුම් ගත හැක</li>
+                        <li>Use Case, Class, සහ Activity diagrams කියවා තේරුම් ගත හැක</li>
+                        <li>මූලික UML diagrams නිර්මාණය කළ හැක</li>
+                        <li>Software design සඳහා UML භාවිතා කළ හැක</li>
+                        <li>Team සමඟ effective ලෙස communicate කළ හැක</li>
+                    </ul>
+                </div>
+
+                <div class="note-box mt-4">
+                    <h5><i class="fas fa-book-open"></i> වැඩිදුර ඉගෙනීම:</h5>
+                    <p class="mb-0">UML හි තවත් බොහෝ diagram types සහ advanced concepts තිබේ. Sequence diagrams, State diagrams, Component diagrams ආදිය ප්‍රායෝගික projects වලදී ඉතා ප්‍රයෝජනවත් වේ. Real-world projects වල UML භාවිතා කිරීමෙන් වඩාත් හොඳින් ප්‍රගුණ කළ හැක.</p>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation-buttons">
+                <a href="design.html" class="btn btn-custom">
+                    <i class="fas fa-arrow-left"></i> Previous: Design Patterns
+                </a>
+                <a href="index.html" class="btn btn-custom">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
