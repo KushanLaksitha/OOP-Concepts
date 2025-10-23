@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning C++ with UML Class Diagrams</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --primary: #2c3e50;
+    --secondary: #3498db;
+    --success: #27ae60;
+    --dark: #1a1a2e;
+}
+
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+.hero {
+    text-align: center;
+    padding: 40px 0;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin-bottom: 10px;
+}
+
+.content-card {
+    background: rgba(255, 255, 255, 0.98);
+    color: #333;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px 0;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.lesson-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    border-left: 5px solid var(--secondary);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+/* Diagram Styles */
+.diagram-box {
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.class-box {
+    border: 2px solid #2c3e50;
+    background-color: #ffffe0; /* Light yellow, like a sticky note */
+    color: #333;
+    width: 250px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+    font-family: 'Courier New', monospace;
+    text-align: center;
+}
+.class-name {
+    background-color: #2c3e50;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border-bottom: 2px solid #2c3e50;
+}
+.class-attributes, .class-methods {
+    padding: 10px;
+    text-align: left;
+    border-top: 1px solid #2c3e50;
+    min-height: 40px;
+}
+.class-attributes ul, .class-methods ul {
+    list-style: none;
+    padding-left: 10px;
+    margin: 0;
+}
+.class-attributes li::before {
+    content: '- '; /* Private accessor */
+    font-weight: bold;
+}
+.class-methods li::before {
+    content: '+ '; /* Public accessor */
+    font-weight: bold;
+}
+/* Relationship Styles */
+.relationship {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color: #3498db;
+}
+.inheritance-arrow {
+    width: 2px;
+    height: 50px;
+    background: #3498db;
+    margin: 0 auto;
+    position: relative;
+}
+.inheritance-arrow::before {
+    content: '';
+    position: absolute;
+    left: -11px;
+    bottom: -2px;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 20px solid #3498db;
+    border-bottom: none;
+}
+
+/* Code Box Styles */
+.code-box {
+    background: #282c34;
+    color: #abb2bf;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+.code-line { margin: 5px 0; }
+.keyword { color: #c678dd; }
+.class-keyword { color: #e5c07b; }
+.string { color: #98c379; }
+.comment { color: #5c6370; font-style: italic; }
+.type { color: #61afef; }
+
+/* Info and Nav Styles */
+.info-box {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border-left: 5px solid #2196f3;
+    padding: 15px; margin: 15px 0; border-radius: 5px; color: #1565c0;
+}
+.example-box {
+    background: linear-gradient(135deg, #d1f2eb, #a3e4d7);
+    border-left: 5px solid #1abc9c;
+    padding: 15px; margin: 15px 0; border-radius: 5px; color: #0e6655;
+}
+.nav-buttons {
+    display: flex; justify-content: space-between; margin-top: 30px;
+}
+.btn-custom {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none; padding: 12px 30px; border-radius: 25px; color: white;
+    font-weight: bold; transition: all 0.3s;
+}
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5); color: white;
+}
+.btn-custom:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.lesson-nav { position: sticky; top: 20px; }
+.lesson-item {
+    padding: 10px 15px; margin: 5px 0; border-radius: 8px; cursor: pointer;
+    transition: all 0.3s; background: #f8f9fa;
+}
+.lesson-item:hover { background: #e9ecef; transform: translateX(5px); }
+.lesson-item.active {
+    background: linear-gradient(135deg, #667eea, #764ba2); color: white;
+}
+</style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0f1419;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap"></i> OOP Tutorial
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html"><i class="fas fa-home"></i> Introduction</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book"></i> Core Concepts
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="class.html"><i class="fas fa-cube"></i> Classes & Objects</a></li>
+                            <li><a class="dropdown-item" href="constructor.html"><i class="fas fa-hammer"></i> Constructors</a></li>
+                            <li><a class="dropdown-item" href="encapsulation.html"><i class="fas fa-shield-alt"></i> Encapsulation</a></li>
+                            <li><a class="dropdown-item" href="abstraction.html"><i class="fas fa-eye-slash"></i> Abstraction</a></li>
+                            <li><a class="dropdown-item" href="inheritance.html"><i class="fas fa-sitemap"></i> Inheritance</a></li>
+                            <li><a class="dropdown-item" href="polymorphism.html"><i class="fas fa-shapes"></i> Polymorphism</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Advanced
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="Functions.html"><i class="fas fa-function"></i> Functions</a></li>
+                            <li><a class="dropdown-item" href="overloading.html"><i class="fas fa-layer-group"></i> Overloading</a></li>
+                            <li><a class="dropdown-item" href="Derived.html"><i class="fas fa-code-branch"></i> Derived Classes</a></li>
+                            <li><a class="dropdown-item" href="Enumerators.html"><i class="fas fa-list-ol"></i> Enumerators</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="design.html"><i class="fas fa-drafting-compass"></i> Design</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="uml.html"><i class="fas fa-project-diagram"></i> UML</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="uml-code.html"><i class="fas fa-project-diagram"></i> UML - Code</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="activity.html"><i class="fas fa-project-diagram"></i> Activity Diagrams</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="classCode.html"><i class="fas fa-project-diagram"></i> Class Diagrams</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="exam.html"><i class="fas fa-project-diagram"></i> Exam sheet answers (2024)</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="hero">
+        <div class="container">
+            <h1><i class="fas fa-project-diagram"></i> Learning C++ with Class Diagrams</h1>
+            <p class="lead">From Visual Blueprints to Working Code</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- Navigation -->
+            <div class="col-lg-3">
+                <div class="content-card lesson-nav">
+                    <h5 class="mb-3"><i class="fas fa-list"></i> Lessons</h5>
+                    <div class="lesson-item active" onclick="showLesson(1)">
+                        <i class="fas fa-cube"></i> 1. The Basic Class
+                    </div>
+                    <div class="lesson-item" onclick="showLesson(2)">
+                        <i class="fas fa-sliders-h"></i> 2. Adding Attributes
+                    </div>
+                    <div class="lesson-item" onclick="showLesson(3)">
+                        <i class="fas fa-cogs"></i> 3. Adding Methods
+                    </div>
+                    <div class="lesson-item" onclick="showLesson(4)">
+                        <i class="fas fa-sitemap"></i> 4. Relationships
+                    </div>
+                    <div class="lesson-item" onclick="showLesson(5)">
+                        <i class="fas fa-graduation-cap"></i> 5. Complete Example
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="col-lg-9">
+                <!-- Lesson 1: The Basic Class -->
+                <div class="lesson-content" id="lesson1">
+                    <div class="content-card">
+                        <h2><i class="fas fa-cube"></i> Lesson 1: The Basic Class</h2>
+                        <div class="info-box">
+                            <h5><i class="fas fa-info-circle"></i> What is a Class Diagram?</h5>
+                            <p>A Class Diagram is a blueprint used to describe the structure of a system. It shows the system's classes, their attributes, methods, and the relationships among them. The most basic component is the class itself.</p>
+                        </div>
+                        <div class="example-box">
+                            <h5>Example: A 'Car' Class</h5>
+                             <div class="row">
+                                <div class="col-md-6">
+                                    <h6>UML Class Diagram:</h6>
+                                    <div class="diagram-box">
+                                        <div class="class-box">
+                                            <div class="class-name">Car</div>
+                                            <div class="class-attributes"></div>
+                                            <div class="class-methods"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>C++ Code:</h6>
+                                    <div class="code-box">
+<div class="code-line"><span class="keyword">class</span> <span class="class-keyword">Car</span> {</div>
+<div class="code-line"></div>
+<div class="code-line">}; <span class="comment">// An empty class definition</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nav-buttons">
+                            <button class="btn btn-custom" disabled><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button class="btn btn-custom" onclick="showLesson(2)">Next <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lesson 2: Adding Attributes -->
+                <div class="lesson-content" id="lesson2" style="display: none;">
+                    <div class="content-card">
+                        <h2><i class="fas fa-sliders-h"></i> Lesson 2: Adding Attributes</h2>
+                         <div class="info-box">
+                            <h5><i class="fas fa-info-circle"></i> What are Attributes?</h5>
+                            <p>Attributes are the data or properties that a class holds. In C++, these are the member variables. In a UML diagram, they are listed in the second compartment. The minus sign (-) indicates they are `private`.</p>
+                        </div>
+                        <div class="example-box">
+                            <h5>Example: 'Car' with Attributes</h5>
+                             <div class="row">
+                                <div class="col-md-6">
+                                    <h6>UML Class Diagram:</h6>
+                                    <div class="diagram-box">
+                                        <div class="class-box">
+                                            <div class="class-name">Car</div>
+                                            <div class="class-attributes">
+                                                <ul>
+                                                    <li>brand: string</li>
+                                                    <li>year: int</li>
+                                                </ul>
+                                            </div>
+                                            <div class="class-methods"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>C++ Code:</h6>
+                                    <div class="code-box">
+<div class="code-line"><span class="keyword">#include</span> <span class="string">&lt;string&gt;</span></div>
+<div class="code-line"><span class="keyword">using namespace</span> std;</div>
+<div class="code-line"></div>
+<div class="code-line"><span class="keyword">class</span> <span class="class-keyword">Car</span> {</div>
+<div class="code-line"><span class="keyword">private</span>:</div>
+<div class="code-line">    <span class="type">string</span> brand;</div>
+<div class="code-line">    <span class="type">int</span> year;</div>
+<div class="code-line">};</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nav-buttons">
+                            <button class="btn btn-custom" onclick="showLesson(1)"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button class="btn btn-custom" onclick="showLesson(3)">Next <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lesson 3: Adding Methods -->
+                <div class="lesson-content" id="lesson3" style="display: none;">
+                    <div class="content-card">
+                        <h2><i class="fas fa-cogs"></i> Lesson 3: Adding Methods</h2>
+                        <div class="info-box">
+                            <h5><i class="fas fa-info-circle"></i> What are Methods?</h5>
+                            <p>Methods (or Operations) are the actions or functions that a class can perform. In C++, these are member functions. They are listed in the third compartment of the class diagram. The plus sign (+) indicates they are `public`.</p>
+                        </div>
+                       <div class="example-box">
+                            <h5>Example: 'Car' with Methods</h5>
+                             <div class="row">
+                                <div class="col-md-6">
+                                    <h6>UML Class Diagram:</h6>
+                                    <div class="diagram-box">
+                                        <div class="class-box">
+                                            <div class="class-name">Car</div>
+                                            <div class="class-attributes">
+                                                <ul>
+                                                    <li>brand: string</li>
+                                                    <li>year: int</li>
+                                                </ul>
+                                            </div>
+                                            <div class="class-methods">
+                                                 <ul>
+                                                    <li>setBrand(b: string): void</li>
+                                                    <li>getBrand(): string</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>C++ Code:</h6>
+                                    <div class="code-box">
+<div class="code-line"><span class="keyword">class</span> <span class="class-keyword">Car</span> {</div>
+<div class="code-line"><span class="keyword">private</span>:</div>
+<div class="code-line">    <span class="type">string</span> brand;</div>
+<div class="code-line">    <span class="type">int</span> year;</div>
+<div class="code-line"><span class="keyword">public</span>:</div>
+<div class="code-line">    <span class="type">void</span> setBrand(<span class="type">string</span> b) {</div>
+<div class="code-line">        brand = b;</div>
+<div class="code-line">    }</div>
+<div class="code-line">    <span class="type">string</span> getBrand() {</div>
+<div class="code-line">        <span class="keyword">return</span> brand;</div>
+<div class="code-line">    }</div>
+<div class="code-line">};</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nav-buttons">
+                            <button class="btn btn-custom" onclick="showLesson(2)"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button class="btn btn-custom" onclick="showLesson(4)">Next <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lesson 4: Relationships -->
+                <div class="lesson-content" id="lesson4" style="display: none;">
+                    <div class="content-card">
+                        <h2><i class="fas fa-sitemap"></i> Lesson 4: Relationships</h2>
+                        <div class="info-box">
+                            <h5><i class="fas fa-info-circle"></i> Inheritance</h5>
+                            <p>Inheritance is an "is-a" relationship. One class (the child) inherits attributes and methods from another (the parent). It is shown with a solid line and a hollow arrowhead pointing to the parent class.</p>
+                        </div>
+                         <div class="example-box">
+                            <h5>Example: 'ElectricCar' is a 'Car'</h5>
+                             <div class="row">
+                                <div class="col-md-6">
+                                    <h6>UML Class Diagram:</h6>
+                                    <div class="diagram-box">
+                                        <!-- Parent Class -->
+                                        <div class="class-box">
+                                            <div class="class-name">Car</div>
+                                            <div class="class-attributes"><ul><li>brand: string</li></ul></div>
+                                            <div class="class-methods"><ul><li>getBrand(): string</li></ul></div>
+                                        </div>
+                                        <!-- Arrow -->
+                                        <div class="relationship">
+                                            <div class="inheritance-arrow"></div>
+                                        </div>
+                                        <!-- Child Class -->
+                                        <div class="class-box">
+                                            <div class="class-name">ElectricCar</div>
+                                            <div class="class-attributes"><ul><li>batteryLife: int</li></ul></div>
+                                            <div class="class-methods"><ul><li>charge(): void</li></ul></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>C++ Code:</h6>
+                                    <div class="code-box">
+<div class="code-line"><span class="comment">// Parent Class</span></div>
+<div class="code-line"><span class="keyword">class</span> <span class="class-keyword">Car</span> { ... };</div>
+<div class="code-line"></div>
+<div class="code-line"><span class="comment">// Child Class inherits from Car</span></div>
+<div class="code-line"><span class="keyword">class</span> <span class="class-keyword">ElectricCar</span> : <span class="keyword">public</span> <span class="class-keyword">Car</span> {</div>
+<div class="code-line"><span class="keyword">private</span>:</div>
+<div class="code-line">    <span class="type">int</span> batteryLife;</div>
+<div class="code-line"><span class="keyword">public</span>:</div>
+<div class="code-line">    <span class="type">void</span> charge() {</div>
+<div class="code-line">        <span class="comment">// charging logic...</span></div>
+<div class="code-line">    }</div>
+<div class="code-line">};</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nav-buttons">
+                            <button class="btn btn-custom" onclick="showLesson(3)"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button class="btn btn-custom" onclick="showLesson(5)">Next <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Lesson 5: Complete Example -->
+                <div class="lesson-content" id="lesson5" style="display: none;">
+                    <div class="content-card">
+                        <h2><i class="fas fa-graduation-cap"></i> Lesson 5: Complete Example</h2>
+                         <div class="info-box">
+                            <h5><i class="fas fa-info-circle"></i> Student and Course System</h5>
+                            <p>Let's combine everything we've learned to model a simple university system. A `Person` is a base class. A `Student` is-a `Person`. A `Student` can also enroll in a `Course` (this is an Association relationship, represented as a member variable).</p>
+                        </div>
+                        <div class="example-box">
+                            <h5>Diagram & Code</h5>
+                             <div class="row">
+                                <div class="col-md-6">
+                                    <h6>UML Class Diagram:</h6>
+                                    <div class="diagram-box">
+                                        <!-- Base Class -->
+                                        <div class="class-box">
+                                            <div class="class-name">Person</div>
+                                            <div class="class-attributes"><ul><li>name: string</li></ul></div>
+                                            <div class="class-methods"><ul><li>getName(): string</li></ul></div>
+                                        </div>
+                                        <!-- Arrow -->
+                                        <div class="relationship">
+                                            <div class="inheritance-arrow"></div>
+                                        </div>
+                                        <!-- Derived Class -->
+                                         <div class="class-box">
+                                            <div class="class-name">Student</div>
+                                            <div class="class-attributes">
+                                                <ul>
+                                                    <li>studentID: int</li>
+                                                    <li>enrolledCourse: Course*</li>
+                                                </ul>
+                                            </div>
+                                            <div class="class-methods">
+                                                <ul>
+                                                    <li>enroll(c: Course*): void</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>C++ Code:</h6>
+                                    <div class="code-box">
+<div class="code-line"><span class="comment">// Forward declaration for Course</span></div>
+<div class="code-line"><span class="keyword">class</span> <span class="class-keyword">Course</span>;</div>
+<div class="code-line"></div>
+<div class="code-line"><span class="keyword">class</span> <span class="class-keyword">Person</span> { ... };</div>
+<div class="code-line"></div>
+<div class="code-line"><span class="keyword">class</span> <span class="class-keyword">Student</span> : <span class="keyword">public</span> <span class="class-keyword">Person</span> {</div>
+<div class="code-line"><span class="keyword">private</span>:</div>
+<div class="code-line">    <span class="type">int</span> studentID;</div>
+<div class="code-line">    <span class="type">Course*</span> enrolledCourse;</div>
+<div class="code-line"><span class="keyword">public</span>:</div>
+<div class="code-line">    <span class="type">void</span> enroll(<span class="type">Course*</span> c) {</div>
+<div class="code-line">        enrolledCourse = c;</div>
+<div class="code-line">    }</div>
+<div class="code-line">};</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nav-buttons">
+                            <button class="btn btn-custom" onclick="showLesson(4)"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button class="btn btn-custom" onclick="showLesson(1)"><i class="fas fa-redo"></i> Restart</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLesson(lessonNumber) {
+            // Hide all lesson content sections
+            const lessons = document.querySelectorAll('.lesson-content');
+            lessons.forEach(lesson => {
+                lesson.style.display = 'none';
+            });
+
+            // Deactivate all navigation items
+            const navItems = document.querySelectorAll('.lesson-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show the selected lesson
+            const activeLesson = document.getElementById('lesson' + lessonNumber);
+            if (activeLesson) {
+                activeLesson.style.display = 'block';
+            }
+
+            // Activate the corresponding navigation item
+            // navItems are 0-indexed, lessonNumber is 1-indexed
+            const activeNavItem = navItems[lessonNumber - 1];
+            if (activeNavItem) {
+                activeNavItem.classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activity Diagram භාවිතයෙන් C++ ඉගෙනීම</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --primary: #2c3e50;
+    --secondary: #3498db;
+    --success: #27ae60;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+    --info: #00bcd4;
+    --dark: #1a1a2e;
+    --card-bg: #16213e;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+.hero {
+    text-align: center;
+    padding: 40px 0;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin-bottom: 10px;
+}
+
+.content-card {
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px 0;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.lesson-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    border-left: 5px solid var(--info);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.diagram-box {
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+}
+
+.node {
+    padding: 15px;
+    margin: 10px auto;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    max-width: 300px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.node-start {
+    background: linear-gradient(135deg, #27ae60, #229954);
+    color: white;
+    border-radius: 50px;
+}
+
+.node-end {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    border-radius: 50px;
+}
+
+.node-process {
+    background: #e3f2fd;
+    border: 2px solid #2196f3;
+}
+
+.node-decision {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    transform: rotate(45deg);
+    padding: 30px 10px;
+    margin: 20px auto;
+}
+
+.node-decision-text {
+    transform: rotate(-45deg);
+    display: block;
+}
+
+.node-input {
+    background: #d1ecf1;
+    border: 2px solid #0dcaf0;
+    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+    padding: 20px;
+}
+
+.node-output {
+    background: #d1e7dd;
+    border: 2px solid #198754;
+    clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%);
+    padding: 20px;
+}
+
+.arrow {
+    text-align: center;
+    font-size: 2rem;
+    color: #495057;
+    margin: 5px 0;
+}
+
+.code-box {
+    background: #282c34;
+    color: #abb2bf;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+
+.code-line {
+    margin: 5px 0;
+}
+
+.keyword {
+    color: #c678dd;
+}
+
+.function {
+    color: #61afef;
+}
+
+.string {
+    color: #98c379;
+}
+
+.comment {
+    color: #5c6370;
+    font-style: italic;
+}
+
+.number {
+    color: #d19a66;
+}
+
+.info-box {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border-left: 5px solid #2196f3;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+    color: #1565c0;
+}
+
+.tip-box {
+    background: linear-gradient(135deg, #fff3cd, #ffe69c);
+    border-left: 5px solid #ffc107;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+    color: #856404;
+}
+
+.example-box {
+    background: linear-gradient(135deg, #d1f2eb, #a3e4d7);
+    border-left: 5px solid #1abc9c;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+    color: #0e6655;
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn-custom {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+    color: white;
+}
+
+.btn-custom:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.lesson-nav {
+    position: sticky;
+    top: 20px;
+}
+
+.lesson-item {
+    padding: 10px 15px;
+    margin: 5px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: #f8f9fa;
+}
+
+.lesson-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.lesson-item.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.branch-box {
+    border: 2px dashed #6c757d;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    background: #f8f9fa;
+}
+
+.branch-true {
+    border-color: #28a745;
+    background: #d4edda;
+}
+
+.branch-false {
+    border-color: #dc3545;
+    background: #f8d7da;
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    .content-card {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0f1419;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap"></i> OOP Tutorial
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html"><i class="fas fa-home"></i> Introduction</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book"></i> Core Concepts
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="class.html"><i class="fas fa-cube"></i> Classes & Objects</a></li>
+                            <li><a class="dropdown-item" href="constructor.html"><i class="fas fa-hammer"></i> Constructors</a></li>
+                            <li><a class="dropdown-item" href="encapsulation.html"><i class="fas fa-shield-alt"></i> Encapsulation</a></li>
+                            <li><a class="dropdown-item" href="abstraction.html"><i class="fas fa-eye-slash"></i> Abstraction</a></li>
+                            <li><a class="dropdown-item" href="inheritance.html"><i class="fas fa-sitemap"></i> Inheritance</a></li>
+                            <li><a class="dropdown-item" href="polymorphism.html"><i class="fas fa-shapes"></i> Polymorphism</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Advanced
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="Functions.html"><i class="fas fa-function"></i> Functions</a></li>
+                            <li><a class="dropdown-item" href="overloading.html"><i class="fas fa-layer-group"></i> Overloading</a></li>
+                            <li><a class="dropdown-item" href="Derived.html"><i class="fas fa-code-branch"></i> Derived Classes</a></li>
+                            <li><a class="dropdown-item" href="Enumerators.html"><i class="fas fa-list-ol"></i> Enumerators</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="design.html"><i class="fas fa-drafting-compass"></i> Design</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="uml.html"><i class="fas fa-project-diagram"></i> UML</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="uml-code.html"><i class="fas fa-project-diagram"></i> UML - Code</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="activity.html"><i class="fas fa-project-diagram"></i> Activity Diagrams</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="classCode.html"><i class="fas fa-project-diagram"></i> Class Diagrams</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="exam.html"><i class="fas fa-project-diagram"></i> Exam sheet answers (2024)</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="hero">
+        <div class="container">
+            <h1><i class="fas fa-graduation-cap"></i> Activity Diagram භාවිතයෙන් C++ ඉගෙනීම</h1>
+            <p class="lead">පියවරෙන් පියවර සරල සිට උසස් දක්වා</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- Navigation -->
+            <div class="col-lg-3">
+                <div class="content-card lesson-nav">
+                    <h5 class="mb-3"><i class="fas fa-list"></i> පාඩම්</h5>
+                    <div class="lesson-item active" onclick="showLesson(1)">
+                        <i class="fas fa-play-circle"></i> 1. ආරම්භය
+                    </div>
+                    <div class="lesson-item" onclick="showLesson(2)">
+                        <i class="fas fa-cogs"></i> 2. Process Statements
+                    </div>
+                    <div class="lesson-item" onclick="showLesson(3)">
+                        <i class="fas fa-keyboard"></i> 3. Input/Output
+                    </div>
+                    <div class="lesson-item" onclick="showLesson(4)">
+                        <i class="fas fa-code-branch"></i> 4. Decisions (if/else)
+                    </div>
+                    <div class="lesson-item" onclick="showLesson(5)">
+                        <i class="fas fa-project-diagram"></i> 5. සම්පූර්ණ උදාහරණ
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="col-lg-9">
+                <!-- Lesson 1 -->
+                <div class="lesson-content" id="lesson1">
+                    <div class="content-card">
+                        <h2><i class="fas fa-play-circle"></i> පාඩම 1: Activity Diagram හැඳින්වීම</h2>
+                        
+                        <div class="info-box">
+                            <h5><i class="fas fa-info-circle"></i> Activity Diagram යනු කුමක්ද?</h5>
+                            <p>Activity Diagram එකක් යනු program එකක flow එක (ක්‍රියාවලි අනුපිළිවෙල) පෙන්වන diagram එකකි. මේකෙන් code එක ලියන්න කලින් program එක සැලසුම් කරන්න පුළුවන්.</p>
+                        </div>
+
+                        <h4 class="mt-4">මූලික Node වර්ග:</h4>
+                        
+                        <div class="lesson-card">
+                            <h5>1. Start Node (ආරම්භය) ⚫</h5>
+                            <div class="diagram-box">
+                                <div class="node node-start">Start</div>
+                            </div>
+                            <p>Program එක ආරම්භ වන තැන. සෑම program එකකම මෙය පළමුව තිබිය යුතුයි.</p>
+                        </div>
+
+                        <div class="lesson-card">
+                            <h5>2. End Node (අවසානය) ⊗</h5>
+                            <div class="diagram-box">
+                                <div class="node node-end">End</div>
+                            </div>
+                            <p>Program එක අවසන් වන තැන.</p>
+                        </div>
+                        
+                        <div class="example-box mt-4">
+                            <h5><i class="fas fa-lightbulb"></i> ඉතාම සරල Program එකක්:</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Activity Diagram:</h6>
+                                    <div class="diagram-box">
+                                        <div class="node node-start">Start</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-end">End</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>C++ Code:</h6>
+                                    <div class="code-box">
+<div class="code-line"><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span></div>
+<div class="code-line"></div>
+<div class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</div>
+<div class="code-line">    <span class="comment">// Program starts and ends</span></div>
+<div class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</div>
+<div class="code-line">}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="nav-buttons">
+                            <button class="btn btn-custom" disabled><i class="fas fa-arrow-left"></i> පෙර</button>
+                            <button class="btn btn-custom" onclick="showLesson(2)">ඊළඟ <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lesson 2 -->
+                <div class="lesson-content" id="lesson2" style="display: none;">
+                    <div class="content-card">
+                        <h2><i class="fas fa-cogs"></i> පාඩම 2: Process Statements</h2>
+                        
+                        <div class="info-box">
+                            <h5><i class="fas fa-info-circle"></i> Process Node යනු?</h5>
+                            <p>Process node එකෙන් සාමාන්‍ය statements ලියන්න පුළුවන්. උදාහරණ: variables declare කිරීම, calculations, assignments වගේ දේවල්.</p>
+                        </div>
+
+                        <div class="lesson-card">
+                            <h5>Process Node ▭</h5>
+                            <div class="diagram-box">
+                                <div class="node node-process">x = 5</div>
+                            </div>
+                            <p>සෘජුකෝණාස්‍රාකාර box එකක statements ලියනවා.</p>
+                        </div>
+
+                        <div class="example-box">
+                            <h5><i class="fas fa-lightbulb"></i> උදාහරණය: Variable Assign කිරීම</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Activity Diagram:</h6>
+                                    <div class="diagram-box">
+                                        <div class="node node-start">Start</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-process">int x = 10</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-process">int y = 20</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-process">int sum = x + y</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-end">End</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>C++ Code:</h6>
+                                    <div class="code-box">
+<div class="code-line"><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span></div>
+<div class="code-line"></div>
+<div class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</div>
+<div class="code-line">    <span class="comment">// Start</span></div>
+<div class="code-line">    <span class="keyword">int</span> x = <span class="number">10</span>;</div>
+<div class="code-line">    <span class="keyword">int</span> y = <span class="number">20</span>;</div>
+<div class="code-line">    <span class="keyword">int</span> sum = x + y;</div>
+<div class="code-line">    <span class="comment">// End</span></div>
+<div class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</div>
+<div class="code-line">}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tip-box">
+                            <h5><i class="fas fa-exclamation-triangle"></i> වැදගත්!</h5>
+                            <ul>
+                                <li>Process node එකේ වලංගු C++ statement එකක් ලියන්න</li>
+                                <li>Semicolon (;) අවසානයේ දාන්න එපා - code generation වෙද්දී auto add වෙයි</li>
+                                <li>එක node එකකට එක statement එකක් යොදන්න</li>
+                            </ul>
+                        </div>
+
+                        <div class="nav-buttons">
+                            <button class="btn btn-custom" onclick="showLesson(1)"><i class="fas fa-arrow-left"></i> පෙර</button>
+                            <button class="btn btn-custom" onclick="showLesson(3)">ඊළඟ <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lesson 3 -->
+                <div class="lesson-content" id="lesson3" style="display: none;">
+                    <div class="content-card">
+                        <h2><i class="fas fa-keyboard"></i> පාඩම 3: Input සහ Output</h2>
+                        
+                        <div class="info-box">
+                            <h5><i class="fas fa-info-circle"></i> Input/Output යනු?</h5>
+                            <p>Input nodes වලින් user input ගන්නවා. Output nodes වලින් results display කරනවා.</p>
+                        </div>
+
+                        <div class="lesson-card">
+                            <h5>1. Input Node (ආදානය) ⬇</h5>
+                            <div class="diagram-box">
+                                <div class="node node-input">age</div>
+                            </div>
+                            <p>User input එකක් ගන්න. C++ වලදී <code>cin</code> භාවිතා වෙයි.</p>
+                            <p><strong>Code:</strong> <code>cin >> age;</code></p>
+                        </div>
+
+                        <div class="lesson-card">
+                            <h5>2. Output Node (ප්‍රතිදානය) ⬆</h5>
+                            <div class="diagram-box">
+                                <div class="node node-output">result</div>
+                            </div>
+                            <p>Output එකක් display කරන්න. C++ වලදී <code>cout</code> භාවිතා වෙයි.</p>
+                            <p><strong>Code:</strong> <code>cout << result << endl;</code></p>
+                        </div>
+
+                        <div class="example-box">
+                            <h5><i class="fas fa-lightbulb"></i> උදාහරණය: සරල Calculator</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Activity Diagram:</h6>
+                                    <div class="diagram-box">
+                                        <div class="node node-start">Start</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-input">num1</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-input">num2</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-process">int sum = num1 + num2</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-output">"Sum is: "</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-output">sum</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-end">End</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>C++ Code:</h6>
+                                    <div class="code-box">
+<div class="code-line"><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span></div>
+<div class="code-line"><span class="keyword">using namespace</span> std;</div>
+<div class="code-line"></div>
+<div class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</div>
+<div class="code-line">    <span class="keyword">int</span> num1, num2;</div>
+<div class="code-line">    <span class="comment">// Variables must be declared!</span></div>
+<div class="code-line">    </div>
+<div class="code-line">    <span class="function">cout</span> << <span class="string">"Enter two numbers: "</span>;</div>
+<div class="code-line">    <span class="function">cin</span> >> num1 >> num2;</div>
+<div class="code-line">    </div>
+<div class="code-line">    <span class="keyword">int</span> sum = num1 + num2;</div>
+<div class="code-line">    </div>
+<div class="code-line">    <span class="function">cout</span> << <span class="string">"Sum is: "</span>;</div>
+<div class="code-line">    <span class="function">cout</span> << sum << <span class="function">endl</span>;</div>
+<div class="code-line">    </div>
+<div class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</div>
+<div class="code-line">}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tip-box">
+                            <h5><i class="fas fa-lightbulb"></i> වැදගත් උපදෙස්:</h5>
+                            <ul>
+                                <li><strong>Input:</strong> Variable name එක පමණක් යොදන්න.</li>
+                                <li><strong>Output:</strong> Variable name එක හෝ string message එකක් (" ") දාන්න.</li>
+                                <li><strong>Variables:</strong> Input ගන්නා variables code එකේ declare කරන්න අමතක කරන්න එපා.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="nav-buttons">
+                            <button class="btn btn-custom" onclick="showLesson(2)"><i class="fas fa-arrow-left"></i> පෙර</button>
+                            <button class="btn btn-custom" onclick="showLesson(4)">ඊළඟ <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lesson 4 -->
+                <div class="lesson-content" id="lesson4" style="display: none;">
+                    <div class="content-card">
+                        <h2><i class="fas fa-code-branch"></i> පාඩම 4: Decisions (if/else)</h2>
+                        
+                        <div class="info-box">
+                            <h5><i class="fas fa-info-circle"></i> Decision Node යනු?</h5>
+                            <p>Decision node එකෙන් conditions check කරන්න පුළුවන්. මේක C++ වල if/else statement එකකට convert වෙනවා. Decision එකකට TRUE සහ FALSE branches දෙකක් තියෙනවා.</p>
+                        </div>
+
+                        <div class="lesson-card">
+                            <h5>Decision Node ◇</h5>
+                            <div class="diagram-box">
+                                <div class="node node-decision">
+                                    <span class="node-decision-text">age >= 18</span>
+                                </div>
+                            </div>
+                             <p>Diamond shape එකක condition ලියනවා. මෙයින් TRUE සහ FALSE ලෙස මාර්ග දෙකක් විහිදේ.</p>
+                        </div>
+
+                        <div class="example-box">
+                            <h5><i class="fas fa-lightbulb"></i> උදාහරණය: වයස check කිරීම</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Activity Diagram:</h6>
+                                    <div class="diagram-box">
+                                        <div class="node node-start">Start</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-input">age</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-decision">
+                                            <span class="node-decision-text">age >= 18</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 text-center"><strong>↓ TRUE</strong></div>
+                                            <div class="col-6 text-center"><strong>↓ FALSE</strong></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="branch-box branch-true">
+                                                    <div class="node node-output">"Can vote"</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="branch-box branch-false">
+                                                    <div class="node node-output">"Cannot vote"</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-end">End</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>C++ Code:</h6>
+                                    <div class="code-box">
+<div class="code-line"><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span></div>
+<div class="code-line"><span class="keyword">using namespace</span> std;</div>
+<div class="code-line"></div>
+<div class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</div>
+<div class="code-line">    <span class="keyword">int</span> age;</div>
+<div class="code-line">    <span class="function">cin</span> >> age;</div>
+<div class="code-line">    </div>
+<div class="code-line">    <span class="keyword">if</span> (age >= <span class="number">18</span>) {</div>
+<div class="code-line">        <span class="function">cout</span> << <span class="string">"Can vote"</span> << <span class="function">endl</span>;</div>
+<div class="code-line">    } <span class="keyword">else</span> {</div>
+<div class="code-line">        <span class="function">cout</span> << <span class="string">"Cannot vote"</span> << <span class="function">endl</span>;</div>
+<div class="code-line">    }</div>
+<div class="code-line">    </div>
+<div class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</div>
+<div class="code-line">}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lesson-card mt-4">
+                            <h5><i class="fas fa-info-circle"></i> භාවිතා කළ හැකි Conditions:</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul>
+                                        <li><code>==</code> - සමාන</li>
+                                        <li><code>!=</code> - සමාන නොවේ</li>
+                                        <li><code>&gt;</code> - විශාල</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul>
+                                        <li><code>&lt;</code> - කුඩා</li>
+                                        <li><code>&gt;=</code> - විශාල හෝ සමාන</li>
+                                        <li><code>&lt;=</code> - කුඩා හෝ සමාන</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lesson-card mt-4">
+                            <h5><i class="fas fa-tasks"></i> පුහුණු අභ්‍යාස:</h5>
+                            <ol>
+                                <li>ධන හෝ ඍණ check කරන program එකක්</li>
+                                <li>ලකුණ 50ට වැඩි නම් "Pass" නැත්නම් "Fail" print කරන program එකක්</li>
+                            </ol>
+                        </div>
+
+                        <div class="nav-buttons">
+                            <button class="btn btn-custom" onclick="showLesson(3)"><i class="fas fa-arrow-left"></i> පෙර</button>
+                            <button class="btn btn-custom" onclick="showLesson(5)">ඊළඟ <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lesson 5 -->
+                <div class="lesson-content" id="lesson5" style="display: none;">
+                    <div class="content-card">
+                        <h2><i class="fas fa-project-diagram"></i> පාඩම 5: සම්පූර්ණ උදාහරණ</h2>
+                        
+                        <div class="info-box">
+                            <h5><i class="fas fa-trophy"></i> සම්පූර්ණ Program එකක්</h5>
+                            <p>දැන් අපි ඉගෙන ගත්ත සියලු දේවල් එකතු කරලා සම්පූර්ණ program එකක් හදමු.</p>
+                        </div>
+
+                        <div class="example-box">
+                            <h5><i class="fas fa-calculator"></i> උදාහරණය: ලකුණු සාමාන්‍යය ගණනය කිරීම</h5>
+                            <p><strong>අවශ්‍යතාව:</strong> විෂය 3කට ලකුණු ගෙන average එක calculate කරලා pass/fail check කරන්න (pass mark = 40)</p>
+                            
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <h6>Activity Diagram:</h6>
+                                    <div class="diagram-box">
+                                        <div class="node node-start">Start</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-input">mark1</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-input">mark2</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-input">mark3</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-process">float avg = (mark1+mark2+mark3)/3.0</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-output">avg</div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-decision">
+                                            <span class="node-decision-text">avg >= 40</span>
+                                        </div>
+                                         <div class="row">
+                                            <div class="col-6 text-center"><strong>↓ TRUE</strong></div>
+                                            <div class="col-6 text-center"><strong>↓ FALSE</strong></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="branch-box branch-true">
+                                                    <div class="node node-output">"Pass"</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="branch-box branch-false">
+                                                    <div class="node node-output">"Fail"</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="arrow">↓</div>
+                                        <div class="node node-end">End</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>සම්පූර්ණ C++ Code:</h6>
+                                    <div class="code-box">
+<div class="code-line"><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span></div>
+<div class="code-line"><span class="keyword">using namespace</span> std;</div>
+<div class="code-line"></div>
+<div class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</div>
+<div class="code-line">    <span class="comment">// Declare variables</span></div>
+<div class="code-line">    <span class="keyword">float</span> mark1, mark2, mark3;</div>
+<div class="code-line">    </div>
+<div class="code-line">    <span class="comment">// Input marks</span></div>
+<div class="code-line">    <span class="function">cout</span> << <span class="string">"Enter 3 marks: "</span>;</div>
+<div class="code-line">    <span class="function">cin</span> >> mark1 >> mark2 >> mark3;</div>
+<div class="code-line">    </div>
+<div class="code-line">    <span class="comment">// Calculate average</span></div>
+<div class="code-line">    <span class="keyword">float</span> avg = (mark1 + mark2 + mark3) / <span class="number">3.0</span>;</div>
+<div class="code-line">    </div>
+<div class="code-line">    <span class="comment">// Display average</span></div>
+<div class="code-line">    <span class="function">cout</span> << <span class="string">"Average: "</span> << avg << <span class="function">endl</span>;</div>
+<div class="code-line">    </div>
+<div class="code-line">    <span class="comment">// Check pass or fail</span></div>
+<div class="code-line">    <span class="keyword">if</span> (avg >= <span class="number">40</span>) {</div>
+<div class="code-line">        <span class="function">cout</span> << <span class="string">"Pass"</span> << <span class="function">endl</span>;</div>
+<div class="code-line">    } <span class="keyword">else</span> {</div>
+<div class="code-line">        <span class="function">cout</span> << <span class="string">"Fail"</span> << <span class="function">endl</span>;</div>
+<div class="code-line">    }</div>
+<div class="code-line">    </div>
+<div class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</div>
+<div class="code-line">}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-box mt-4" style="background: linear-gradient(135deg, #d4edda, #c3e6cb); border-left-color: #28a745; color: #155724;">
+                            <h5><i class="fas fa-check-circle"></i> සාර්ථකයි!</h5>
+                            <p>ඔබ Activity Diagrams භාවිතයෙන් C++ Code ලියන්න ඉගෙන ගත්තා! 🎉</p>
+                        </div>
+
+                        <div class="nav-buttons">
+                            <button class="btn btn-custom" onclick="showLesson(4)"><i class="fas fa-arrow-left"></i> පෙර</button>
+                            <button class="btn btn-custom" onclick="showLesson(1)"><i class="fas fa-redo"></i> නැවත ආරම්භ කරන්න</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Summary Card -->
+        <div class="row mt-4 mb-5">
+            <div class="col-12">
+                <div class="content-card">
+                    <h3 class="text-center mb-4"><i class="fas fa-book"></i> සාරාංශය</h3>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="lesson-card" style="height: 100%;">
+                                <h5><i class="fas fa-shapes"></i> Node වර්ග</h5>
+                                <ul style="font-size: 0.9rem;">
+                                    <li>⚫ Start - ආරම්භය</li>
+                                    <li>⊗ End - අවසානය</li>
+                                    <li>▭ Process - ක්‍රියාවලිය</li>
+                                    <li>◇ Decision - තීරණය</li>
+                                    <li>⬇ Input - ආදානය</li>
+                                    <li>⬆ Output - ප්‍රතිදානය</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="lesson-card" style="height: 100%;">
+                                <h5><i class="fas fa-code"></i> C++ Conversions</h5>
+                                <ul style="font-size: 0.9rem;">
+                                    <li><strong>Process:</strong> <code>variable = value;</code></li>
+                                    <li><strong>Input:</strong> <code>cin >> variable;</code></li>
+                                    <li><strong>Output:</strong> <code>cout << value;</code></li>
+                                    <li><strong>Decision:</strong> <code>if (condition) { } else { }</code></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="lesson-card" style="height: 100%;">
+                                <h5><i class="fas fa-lightbulb"></i> ප්‍රධාන කරුණු</h5>
+                                <ul style="font-size: 0.9rem;">
+                                    <li>සෑම program එකකම Start/End තියෙන්න ඕන.</li>
+                                    <li>Variables declare කරන්න මතක තියාගන්න.</li>
+                                    <li>Decision වලට TRUE/FALSE branches දෙකම දාන්න.</li>
+                                    <li>Flow එක logical order එකේ තියාගන්න.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLesson(lessonNumber) {
+            // Hide all lesson content sections
+            const lessons = document.querySelectorAll('.lesson-content');
+            lessons.forEach(lesson => {
+                lesson.style.display = 'none';
+            });
+
+            // Deactivate all navigation items
+            const navItems = document.querySelectorAll('.lesson-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show the selected lesson
+            const activeLesson = document.getElementById('lesson' + lessonNumber);
+            if (activeLesson) {
+                activeLesson.style.display = 'block';
+            }
+
+            // Activate the corresponding navigation item
+            // navItems are 0-indexed, lessonNumber is 1-indexed
+            const activeNavItem = navItems[lessonNumber - 1];
+            if (activeNavItem) {
+                activeNavItem.classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+</html>
