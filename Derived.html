@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOP: Inheritance - Base & Derived Classes</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --primary-blue: #2c3e50;
+    --accent-green: #27ae60;
+    --accent-orange: #f39c12;
+    --accent-purple: #9b59b6;
+    --accent-red: #e74c3c;
+    --dark-bg: #1a1a2e;
+    --card-bg: #16213e;
+    --text-light: #e8e8e8;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+.content-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.concept-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.code-example {
+    background: #0d1117;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #30363d;
+    position: relative;
+    overflow-x: auto;
+}
+
+.code-example pre {
+    margin: 0;
+    color: #c9d1d9;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.code-label {
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.inheritance-diagram {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 30px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.class-box {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px auto;
+    max-width: 250px;
+    box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3);
+}
+
+.inheritance-arrow {
+    font-size: 2rem;
+    color: var(--accent-purple);
+    margin: 10px 0;
+}
+
+.access-specifier-card {
+    background: rgba(255,255,255,0.05);
+    border-left: 4px solid var(--accent-purple);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.comparison-table table {
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.05);
+}
+
+.comparison-table th {
+    background-color: rgba(155, 89, 182, 0.3);
+    color: var(--text-light);
+    font-weight: bold;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.comparison-table td {
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.comparison-table tbody tr:hover {
+    background-color: rgba(255,255,255,0.08);
+}
+
+.btn-custom {
+    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(155, 89, 182, 0.5);
+    color: white;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.type-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.badge-single { background: linear-gradient(135deg, #27ae60, #229954); }
+.badge-multiple { background: linear-gradient(135deg, #f39c12, #e67e22); }
+.badge-multilevel { background: linear-gradient(135deg, #3498db, #2980b9); }
+.badge-hierarchical { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+.badge-hybrid { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+</style>
+</head>
+<body>
+<div class="hero-section">
+<div class="container">
+<h1 class="hero-title"><i class="fas fa-sitemap"></i> Inheritance</h1>
+<p class="hero-subtitle">Base Classes සහ Derived Classes - කේත නැවත භාවිතා කිරීම සහ විස්තාරණය</p>
+</div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+
+            <!-- Introduction -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-code-branch concept-icon" style="color: var(--accent-purple);"></i>
+                </div>
+                <h2 class="text-center mb-4">Inheritance යනු කුමක්ද?</h2>
+                <p class="lead">Inheritance යනු OOP හි එක් ප්‍රධාන සංකල්පයකි. එමගින් නව class එකක් (Derived/Child Class) පවතින class එකක (Base/Parent Class) ගුණාංග (properties) සහ හැසිරීම් (behaviors) උරුම කර ගනී. මෙය කේත නැවත භාවිතා කිරීම (code reusability) සහ class hierarchy නිර්මාණය කිරීමට උපකාරී වේ.</p>
+                
+                <div class="inheritance-diagram">
+                    <div class="class-box">
+                        <i class="fas fa-crown"></i>
+                        <h5>Base Class (Parent)</h5>
+                        <p class="mb-0">මූලික ගුණාංග සහ ක්‍රම</p>
+                    </div>
+                    <div class="inheritance-arrow">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="class-box">
+                        <i class="fas fa-child"></i>
+                        <h5>Derived Class (Child)</h5>
+                        <p class="mb-0">උරුම වූ + නව ගුණාංග සහ ක්‍රම</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Basic Syntax -->
+            <div class="content-card">
+                <h2 class="mb-4"><i class="fas fa-code"></i> මූලික Syntax</h2>
+                <p>C++ හි Inheritance භාවිතා කිරීමට මූලික syntax එක:</p>
+                
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-purple);">C++ Inheritance Syntax</span>
+                    <pre><code>class DerivedClass : access_specifier BaseClass {
+    // Derived class members
+};</code></pre>
+                </div>
+
+                <h4 class="mt-4">සරල උදාහරණය:</h4>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-green);">Simple Inheritance Example</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+// Base Class
+class Animal {
+public:
+    void eat() {
+        cout << "I can eat!" << endl;
+    }
+    
+    void sleep() {
+        cout << "I can sleep!" << endl;
+    }
+};
+
+// Derived Class
+class Dog : public Animal {
+public:
+    void bark() {
+        cout << "I can bark! Woof woof!" << endl;
+    }
+};
+
+int main() {
+    Dog myDog;
+    
+    // Calling base class functions
+    myDog.eat();
+    myDog.sleep();
+    
+    // Calling derived class function
+    myDog.bark();
+    
+    return 0;
+}</code></pre>
+                </div>
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    I can eat!<br>
+                    I can sleep!<br>
+                    I can bark! Woof woof!
+                </div>
+            </div>
+
+            <!-- Access Specifiers -->
+            <div class="content-card">
+                <h2 class="mb-4"><i class="fas fa-lock"></i> Access Specifiers in Inheritance</h2>
+                <p>Inheritance කිරීමේදී access specifiers තුනක් භාවිතා කළ හැක:</p>
+
+                <div class="access-specifier-card">
+                    <h5><i class="fas fa-unlock" style="color: var(--accent-green);"></i> Public Inheritance</h5>
+                    <p class="mb-0">Base class හි public members, derived class හි public ලෙස පවතී. Protected members, protected ලෙස පවතී.</p>
+                </div>
+
+                <div class="access-specifier-card">
+                    <h5><i class="fas fa-lock-open" style="color: var(--accent-orange);"></i> Protected Inheritance</h5>
+                    <p class="mb-0">Base class හි public සහ protected members, derived class හි protected ලෙස පවතී.</p>
+                </div>
+
+                <div class="access-specifier-card">
+                    <h5><i class="fas fa-lock" style="color: var(--accent-red);"></i> Private Inheritance</h5>
+                    <p class="mb-0">Base class හි public සහ protected members, derived class හි private ලෙස පවතී.</p>
+                </div>
+
+                <div class="code-example mt-4">
+                    <span class="code-label" style="background: var(--accent-orange);">Access Specifiers Example</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Base {
+public:
+    int publicVar;
+protected:
+    int protectedVar;
+private:
+    int privateVar;
+};
+
+// Public Inheritance
+class PublicDerived : public Base {
+    // publicVar is public
+    // protectedVar is protected
+    // privateVar is not accessible
+};
+
+// Protected Inheritance
+class ProtectedDerived : protected Base {
+    // publicVar is protected
+    // protectedVar is protected
+    // privateVar is not accessible
+};
+
+// Private Inheritance
+class PrivateDerived : private Base {
+    // publicVar is private
+    // protectedVar is private
+    // privateVar is not accessible
+};</code></pre>
+                </div>
+            </div>
+
+            <!-- Types of Inheritance -->
+            <div class="content-card">
+                <h2 class="mb-4"><i class="fas fa-network-wired"></i> Inheritance වර්ග</h2>
+                
+                <h4 class="mt-4">1. Single Inheritance <span class="type-badge badge-single">එක් Base Class</span></h4>
+                <p>එක් base class එකකින් එක් derived class එකක් නිර්මාණය කිරීම.</p>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-green);">Single Inheritance</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Vehicle {
+public:
+    string brand = "Ford";
+    void honk() {
+        cout << "Tuut, tuut!" << endl;
+    }
+};
+
+class Car : public Vehicle {
+public:
+    string model = "Mustang";
+};
+
+int main() {
+    Car myCar;
+    myCar.honk();
+    cout << myCar.brand + " " + myCar.model << endl;
+    return 0;
+}</code></pre>
+                </div>
+
+                <h4 class="mt-5">2. Multiple Inheritance <span class="type-badge badge-multiple">කිහිපයක් Base Classes</span></h4>
+                <p>කිහිපයක් base classes වලින් එක් derived class එකක් නිර්මාණය කිරීම.</p>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-orange);">Multiple Inheritance</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Father {
+public:
+    void showFather() {
+        cout << "I am the father" << endl;
+    }
+};
+
+class Mother {
+public:
+    void showMother() {
+        cout << "I am the mother" << endl;
+    }
+};
+
+class Child : public Father, public Mother {
+public:
+    void showChild() {
+        cout << "I am the child" << endl;
+    }
+};
+
+int main() {
+    Child obj;
+    obj.showFather();
+    obj.showMother();
+    obj.showChild();
+    return 0;
+}</code></pre>
+                </div>
+
+                <h4 class="mt-5">3. Multilevel Inheritance <span class="type-badge badge-multilevel">තට්ටු කිහිපයක්</span></h4>
+                <p>Derived class එකක් තවත් base class එකක් බවට පත්වීම.</p>
+                <div class="code-example">
+                    <span class="code-label" style="background: #3498db;">Multilevel Inheritance</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Animal {
+public:
+    void eat() {
+        cout << "Eating..." << endl;
+    }
+};
+
+class Dog : public Animal {
+public:
+    void bark() {
+        cout << "Barking..." << endl;
+    }
+};
+
+class Puppy : public Dog {
+public:
+    void weep() {
+        cout << "Weeping..." << endl;
+    }
+};
+
+int main() {
+    Puppy myPuppy;
+    myPuppy.eat();   // From Animal
+    myPuppy.bark();  // From Dog
+    myPuppy.weep();  // From Puppy
+    return 0;
+}</code></pre>
+                </div>
+
+                <h4 class="mt-5">4. Hierarchical Inheritance <span class="type-badge badge-hierarchical">එක් Base බහු Derived</span></h4>
+                <p>එක් base class එකකින් කිහිපයක් derived classes නිර්මාණය කිරීම.</p>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-red);">Hierarchical Inheritance</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Shape {
+public:
+    void display() {
+        cout << "This is a shape" << endl;
+    }
+};
+
+class Circle : public Shape {
+public:
+    void draw() {
+        cout << "Drawing Circle" << endl;
+    }
+};
+
+class Rectangle : public Shape {
+public:
+    void draw() {
+        cout << "Drawing Rectangle" << endl;
+    }
+};
+
+int main() {
+    Circle c;
+    Rectangle r;
+    
+    c.display();
+    c.draw();
+    
+    r.display();
+    r.draw();
+    
+    return 0;
+}</code></pre>
+                </div>
+
+                <h4 class="mt-5">5. Hybrid Inheritance <span class="type-badge badge-hybrid">මිශ්‍ර ආකාරය</span></h4>
+                <p>ඉහත inheritance වර්ග කිහිපයක එකතුවක්.</p>
+                <div class="alert alert-info">
+                    <i class="fas fa-lightbulb"></i> <strong>සටහන:</strong> Hybrid inheritance භාවිතා කිරීමේදී "Diamond Problem" ඇති විය හැක. මෙය virtual inheritance භාවිතයෙන් විසඳා ගත හැක.
+                </div>
+            </div>
+
+            <!-- Constructor and Destructor in Inheritance -->
+            <div class="content-card">
+                <h2 class="mb-4"><i class="fas fa-hammer"></i> Inheritance හි Constructors සහ Destructors</h2>
+                <p>Derived class object එකක් නිර්මාණය කරන විට, constructors ක්‍රියාත්මක වන්නේ Base class සිට Derived class දක්වා ය. Destructors ක්‍රියාත්මක වන්නේ ප්‍රතිලෝම අනුපිළිවෙලින් (Derived සිට Base දක්වා).</p>
+
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-purple);">Constructor/Destructor Order</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Base {
+public:
+    Base() {
+        cout << "Base Constructor" << endl;
+    }
+    
+    ~Base() {
+        cout << "Base Destructor" << endl;
+    }
+};
+
+class Derived : public Base {
+public:
+    Derived() {
+        cout << "Derived Constructor" << endl;
+    }
+    
+    ~Derived() {
+        cout << "Derived Destructor" << endl;
+    }
+};
+
+int main() {
+    cout << "Creating object:" << endl;
+    Derived obj;
+    cout << "\nDestroying object:" << endl;
+    return 0;
+}</code></pre>
+                </div>
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    Creating object:<br>
+                    Base Constructor<br>
+                    Derived Constructor<br>
+                    <br>
+                    Destroying object:<br>
+                    Derived Destructor<br>
+                    Base Destructor
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="content-card comparison-table">
+                <h2 class="text-center mb-4"><i class="fas fa-table"></i> Inheritance වර්ග සංසන්දනය</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>වර්ගය</th>
+                                <th>විස්තරය</th>
+                                <th>Base Classes</th>
+                                <th>භාවිතය</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Single</strong></td>
+                                <td>එක් base class, එක් derived class</td>
+                                <td>1</td>
+                                <td>සරල, පොදු භාවිතය</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Multiple</strong></td>
+                                <td>කිහිපයක් base classes, එක් derived class</td>
+                                <td>2+</td>
+                                <td>කිහිපයක් classes වල විශේෂාංග එකතු කිරීම</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Multilevel</strong></td>
+                                <td>Chain එකක් ලෙස inheritance</td>
+                                <td>1 (එක් එක් level එකට)</td>
+                                <td>ප්‍රධානයෙන් නොමැති දක්වා විශේෂීකරණය</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hierarchical</strong></td>
+                                <td>එක් base, කිහිපයක් derived classes</td>
+                                <td>1</td>
+                                <td>පොදු base විවිධ ආකාරවලින්</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hybrid</strong></td>
+                                <td>ඉහත වර්ග මිශ්‍රණයක්</td>
+                                <td>විවිධ</td>
+                                <td>සංකීර්ණ relationships</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Advantages -->
+            <div class="content-card">
+                <h2 class="mb-4"><i class="fas fa-thumbs-up"></i> Inheritance හි ප්‍රතිලාභ</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="access-specifier-card">
+                            <h5><i class="fas fa-recycle" style="color: var(--accent-green);"></i> Code Reusability</h5>
+                            <p class="mb-0">පවතින කේතය නැවත ලිවීමකින් තොරව භාවිතා කළ හැක.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="access-specifier-card">
+                            <h5><i class="fas fa-layer-group" style="color: var(--accent-orange);"></i> කේත සංවිධානය</h5>
+                            <p class="mb-0">Class hierarchy මගින් කේතය වඩාත් සංවිධානය කළ හැක.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="access-specifier-card">
+                            <h5><i class="fas fa-arrows-alt" style="color: var(--accent-purple);"></i> Extensibility</h5>
+                            <p class="mb-0">Base class වෙනස් නොකර නව විශේෂාංග එකතු කළ හැක.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="access-specifier-card">
+                            <h5><i class="fas fa-shapes" style="color: #3498db;"></i> Polymorphism</h5>
+                            <p class="mb-0">Inheritance මගින් polymorphism ක්‍රියාත්මක කළ හැක.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation-buttons">
+                <a href="constructors-destructors.html" class="btn btn-custom">
+                    <i class="fas fa-arrow-left"></i> Previous: Constructors & Destructors
+                </a>
+                <a href="Enumerators.html" class="btn btn-custom">
+                    Next: Enumerators, Scope Resolution & Static <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOP: Enumerators, Scope Resolution & Static</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --primary-blue: #2c3e50;
+    --accent-cyan: #00bcd4;
+    --accent-teal: #009688;
+    --accent-orange: #f39c12;
+    --accent-red: #e74c3c;
+    --accent-purple: #9b59b6;
+    --dark-bg: #1a1a2e;
+    --card-bg: #16213e;
+    --text-light: #e8e8e8;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+.content-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.concept-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.code-example {
+    background: #0d1117;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #30363d;
+    position: relative;
+    overflow-x: auto;
+}
+
+.code-example pre {
+    margin: 0;
+    color: #c9d1d9;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.code-label {
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.feature-box {
+    background: rgba(0, 188, 212, 0.1);
+    border-left: 4px solid var(--accent-cyan);
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.syntax-box {
+    background: rgba(0, 150, 136, 0.1);
+    border: 2px dashed var(--accent-teal);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+}
+
+.comparison-table table {
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.05);
+}
+
+.comparison-table th {
+    background-color: rgba(0, 188, 212, 0.3);
+    color: var(--text-light);
+    font-weight: bold;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.comparison-table td {
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.comparison-table tbody tr:hover {
+    background-color: rgba(255,255,255,0.08);
+}
+
+.btn-custom {
+    background: linear-gradient(135deg, #0097a7, #00bcd4);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 188, 212, 0.5);
+    color: white;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.note-box {
+    background: rgba(243, 156, 18, 0.1);
+    border-left: 4px solid var(--accent-orange);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.warning-box {
+    background: rgba(231, 76, 60, 0.1);
+    border-left: 4px solid var(--accent-red);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.key-point {
+    background: rgba(0, 188, 212, 0.2);
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    display: inline-block;
+}
+
+.visual-diagram {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 30px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.diagram-box {
+    background: linear-gradient(135deg, #00bcd4, #0097a7);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px;
+    display: inline-block;
+    min-width: 150px;
+}
+</style>
+</head>
+<body>
+<div class="hero-section">
+<div class="container">
+<h1 class="hero-title"><i class="fas fa-cogs"></i> Advanced C++ Concepts</h1>
+<p class="hero-subtitle">Enumerators, Scope Resolution Operator & Static Data Members</p>
+</div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+
+            <!-- Enumerators -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-list-ol concept-icon" style="color: var(--accent-cyan);"></i>
+                </div>
+                <h2 class="text-center mb-4">Enumerators (enum)</h2>
+                <p class="lead">Enumerator යනු user-defined data type එකකි. එය නම් කළ integer constants සමූහයක් නිර්වචනය කිරීමට භාවිතා වේ. Enumerations කේතය වඩාත් කියවීමට පහසු සහ නඩත්තු කිරීමට පහසු කරයි.</p>
+
+                <h4 class="mt-4"><i class="fas fa-code"></i> මූලික Syntax</h4>
+                <div class="syntax-box">
+                    enum EnumName {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;CONSTANT1,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;CONSTANT2,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;CONSTANT3<br>
+                    };
+                </div>
+
+                <h4 class="mt-4">සරල උදාහරණය</h4>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-cyan);">Basic Enum</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+enum Color {
+    RED,      // 0
+    GREEN,    // 1
+    BLUE,     // 2
+    YELLOW    // 3
+};
+
+int main() {
+    Color myColor = GREEN;
+    
+    cout << "My color value: " << myColor << endl;
+    
+    if (myColor == GREEN) {
+        cout << "The color is GREEN!" << endl;
+    }
+    
+    return 0;
+}</code></pre>
+                </div>
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    My color value: 1<br>
+                    The color is GREEN!
+                </div>
+
+                <h4 class="mt-5">අගයන් ලබා දීම (Custom Values)</h4>
+                <p>Enum constants වලට ඔබට අවශ්‍ය අගයන් ලබා දිය හැක:</p>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-teal);">Enum with Custom Values</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+enum Days {
+    MONDAY = 1,
+    TUESDAY = 2,
+    WEDNESDAY = 3,
+    THURSDAY = 4,
+    FRIDAY = 5,
+    SATURDAY = 6,
+    SUNDAY = 7
+};
+
+enum Months {
+    JAN = 1,
+    FEB,      // 2 (automatically)
+    MAR,      // 3
+    APR = 10,
+    MAY,      // 11
+    JUN       // 12
+};
+
+int main() {
+    Days today = WEDNESDAY;
+    Months currentMonth = MAY;
+    
+    cout << "Day: " << today << endl;
+    cout << "Month: " << currentMonth << endl;
+    
+    return 0;
+}</code></pre>
+                </div>
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    Day: 3<br>
+                    Month: 11
+                </div>
+
+                <h4 class="mt-5">Enum Class (C++11 සහ ඉහළ)</h4>
+                <p>Enum class (scoped enum) භාවිතයෙන් වඩාත් type-safe සහ scope කළ enumerations නිර්මාණය කළ හැක:</p>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-purple);">Enum Class</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+enum class TrafficLight {
+    RED,
+    YELLOW,
+    GREEN
+};
+
+enum class Status {
+    ACTIVE,
+    INACTIVE,
+    PENDING
+};
+
+int main() {
+    TrafficLight light = TrafficLight::RED;
+    Status userStatus = Status::ACTIVE;
+    
+    if (light == TrafficLight::RED) {
+        cout << "Stop!" << endl;
+    }
+    
+    if (userStatus == Status::ACTIVE) {
+        cout << "User is active" << endl;
+    }
+    
+    return 0;
+}</code></pre>
+                </div>
+
+                <div class="feature-box">
+                    <h5><i class="fas fa-star"></i> Enum vs Enum Class</h5>
+                    <ul>
+                        <li><strong>enum:</strong> Values global scope එකට leak වේ</li>
+                        <li><strong>enum class:</strong> Values scoped වන අතර type-safe</li>
+                        <li><strong>enum class</strong> භාවිතා කිරීම නවීන C++ හි recommended වේ</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Scope Resolution Operator -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-project-diagram concept-icon" style="color: var(--accent-teal);"></i>
+                </div>
+                <h2 class="text-center mb-4">Scope Resolution Operator (::)</h2>
+                <p class="lead">Scope Resolution Operator (::) යනු C++ හි විශේෂ operator එකකි. එය classes, namespaces, සහ enums හි members වෙත ප්‍රවේශ වීමට භාවිතා වේ. මෙය විවිධ scopes හි එකම නමකින් පවතින identifiers අතර වෙනස හඳුනා ගැනීමට උපකාරී වේ.</p>
+
+                <h4 class="mt-4"><i class="fas fa-list"></i> භාවිත අවස්ථා</h4>
+
+                <h5 class="mt-4">1. Class හි Member Functions Define කිරීම</h5>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-cyan);">Define Member Functions</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Rectangle {
+private:
+    int length;
+    int width;
+    
+public:
+    void setDimensions(int l, int w);
+    int getArea();
+};
+
+// Scope resolution operator භාවිතා කරමින් functions define කිරීම
+void Rectangle::setDimensions(int l, int w) {
+    length = l;
+    width = w;
+}
+
+int Rectangle::getArea() {
+    return length * width;
+}
+
+int main() {
+    Rectangle rect;
+    rect.setDimensions(10, 5);
+    cout << "Area: " << rect.getArea() << endl;
+    return 0;
+}</code></pre>
+                </div>
+
+                <h5 class="mt-4">2. Global සහ Local Variables අතර වෙනස හඳුනා ගැනීම</h5>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-teal);">Global vs Local</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int value = 100;  // Global variable
+
+int main() {
+    int value = 50;  // Local variable
+    
+    cout << "Local value: " << value << endl;
+    cout << "Global value: " << ::value << endl;  // :: භාවිතයෙන් global variable access කිරීම
+    
+    return 0;
+}</code></pre>
+                </div>
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    Local value: 50<br>
+                    Global value: 100
+                </div>
+
+                <h5 class="mt-4">3. Namespace Members වෙත ප්‍රවේශය</h5>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-purple);">Namespace Access</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+namespace First {
+    int x = 10;
+    void display() {
+        cout << "First namespace: " << x << endl;
+    }
+}
+
+namespace Second {
+    int x = 20;
+    void display() {
+        cout << "Second namespace: " << x << endl;
+    }
+}
+
+int main() {
+    First::display();   // First namespace එකේ function
+    Second::display();  // Second namespace එකේ function
+    
+    cout << "First::x = " << First::x << endl;
+    cout << "Second::x = " << Second::x << endl;
+    
+    return 0;
+}</code></pre>
+                </div>
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    First namespace: 10<br>
+                    Second namespace: 20<br>
+                    First::x = 10<br>
+                    Second::x = 20
+                </div>
+
+                <h5 class="mt-4">4. Nested Classes වෙත ප්‍රවේශය</h5>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-orange);">Nested Classes</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Outer {
+public:
+    class Inner {
+    public:
+        void display() {
+            cout << "Inside Inner class" << endl;
+        }
+    };
+};
+
+int main() {
+    Outer::Inner obj;
+    obj.display();
+    return 0;
+}</code></pre>
+                </div>
+
+                <div class="visual-diagram">
+                    <h5 class="mb-4">Scope Resolution Operator භාවිත අවස්ථා</h5>
+                    <div class="diagram-box">Class::member()</div>
+                    <div class="diagram-box">::globalVar</div>
+                    <div class="diagram-box">Namespace::item</div>
+                    <div class="diagram-box">Outer::Inner</div>
+                </div>
+            </div>
+
+            <!-- Static Data Members -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-database concept-icon" style="color: var(--accent-orange);"></i>
+                </div>
+                <h2 class="text-center mb-4">Static Data Members</h2>
+                <p class="lead">Static data members යනු class එකට අයත් වන විශේෂ members වේ. මේවා class එකේ සියලුම objects අතර බෙදා ගනු ලබන අතර, එක් copy එකක් පමණක් memory හි පවතී. Static members class name භාවිතයෙන් access කළ හැක.</p>
+
+                <h4 class="mt-4"><i class="fas fa-lightbulb"></i> ප්‍රධාන ලක්ෂණ</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <h5><i class="fas fa-share-alt"></i> බෙදා ගැනීම</h5>
+                            <p class="mb-0">සියලුම objects එකම static variable share කරයි</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <h5><i class="fas fa-memory"></i> Memory Efficiency</h5>
+                            <p class="mb-0">එක් copy එකක් පමණක් memory හි</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <h5><i class="fas fa-clock"></i> Lifetime</h5>
+                            <p class="mb-0">Program ආරම්භයේ සිට අවසානය දක්වා පවතී</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <h5><i class="fas fa-key"></i> Access</h5>
+                            <p class="mb-0">ClassName::member මගින් access කළ හැක</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="mt-5">Static Data Member උදාහරණය</h4>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-cyan);">Static Variable</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Student {
+private:
+    int rollNo;
+    static int count;  // Static data member declaration
+    
+public:
+    Student() {
+        rollNo = ++count;
+    }
+    
+    void showData() {
+        cout << "Roll No: " << rollNo << endl;
+    }
+    
+    static void showCount() {  // Static member function
+        cout << "Total students: " << count << endl;
+    }
+};
+
+// Static data member initialization (class බාහිරව)
+int Student::count = 0;
+
+int main() {
+    Student s1, s2, s3;
+    
+    s1.showData();
+    s2.showData();
+    s3.showData();
+    
+    // Static function call - object එකක් නොමැතිව
+    Student::showCount();
+    
+    return 0;
+}</code></pre>
+                </div>
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    Roll No: 1<br>
+                    Roll No: 2<br>
+                    Roll No: 3<br>
+                    Total students: 3
+                </div>
+
+                <div class="note-box">
+                    <h5><i class="fas fa-exclamation-circle"></i> වැදගත් සටහන්</h5>
+                    <ul class="mb-0">
+                        <li>Static data members class definition එකේ declare කළත්, initialize කළ යුත්තේ class එකෙන් බාහිරව</li>
+                        <li>Static members constructor මගින් initialize නොවේ</li>
+                        <li>Static member functions හට non-static members වෙත සෘජුවම ප්‍රවේශය නැත</li>
+                    </ul>
+                </div>
+
+                <h4 class="mt-5">Static Member Functions</h4>
+                <p>Static member functions යනු class එකට අයත් වන විශේෂ functions වේ. මේවාට object එකක් නොමැතිව call කළ හැක:</p>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-teal);">Static Functions</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Counter {
+private:
+    static int objectCount;
+    
+public:
+    Counter() {
+        objectCount++;
+    }
+    
+    ~Counter() {
+        objectCount--;
+    }
+    
+    static int getCount() {
+        return objectCount;
+    }
+};
+
+int Counter::objectCount = 0;
+
+int main() {
+    cout << "Initial count: " << Counter::getCount() << endl;
+    
+    Counter c1, c2;
+    cout << "After creating 2 objects: " << Counter::getCount() << endl;
+    
+    {
+        Counter c3, c4;
+        cout << "After creating 2 more: " << Counter::getCount() << endl;
+    }
+    
+    cout << "After inner scope ends: " << Counter::getCount() << endl;
+    
+    return 0;
+}</code></pre>
+                </div>
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    Initial count: 0<br>
+                    After creating 2 objects: 2<br>
+                    After creating 2 more: 4<br>
+                    After inner scope ends: 2
+                </div>
+
+                <h4 class="mt-5">Practical Example: Bank Account</h4>
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-purple);">Real-World Example</span>
+                    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class BankAccount {
+private:
+    string accountHolder;
+    double balance;
+    static double interestRate;  // සියලු accounts වලට පොදු
+    static int totalAccounts;
+    
+public:
+    BankAccount(string name, double bal) {
+        accountHolder = name;
+        balance = bal;
+        totalAccounts++;
+    }
+    
+    void applyInterest() {
+        balance += balance * interestRate / 100;
+    }
+    
+    void display() {
+        cout << "Account: " << accountHolder 
+             << ", Balance: Rs." << balance << endl;
+    }
+    
+    static void setInterestRate(double rate) {
+        interestRate = rate;
+    }
+    
+    static void showInfo() {
+        cout << "Total Accounts: " << totalAccounts << endl;
+        cout << "Interest Rate: " << interestRate << "%" << endl;
+    }
+};
+
+double BankAccount::interestRate = 5.0;
+int BankAccount::totalAccounts = 0;
+
+int main() {
+    BankAccount acc1("Kamal", 10000);
+    BankAccount acc2("Nimal", 15000);
+    
+    cout << "Initial state:" << endl;
+    BankAccount::showInfo();
+    cout << endl;
+    
+    acc1.display();
+    acc2.display();
+    cout << endl;
+    
+    // සියලු accounts සඳහා interest rate වෙනස් කිරීම
+    BankAccount::setInterestRate(7.5);
+    
+    acc1.applyInterest();
+    acc2.applyInterest();
+    
+    cout << "After applying interest:" << endl;
+    BankAccount::showInfo();
+    cout << endl;
+    
+    acc1.display();
+    acc2.display();
+    
+    return 0;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="content-card comparison-table">
+                <h2 class="text-center mb-4"><i class="fas fa-table"></i> Static vs Non-Static Members</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ලක්ෂණය</th>
+                                <th>Non-Static Members</th>
+                                <th>Static Members</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Memory</strong></td>
+                                <td>එක් එක් object එකට වෙනම copy</td>
+                                <td>සියලු objects එකම copy share කරයි</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Access</strong></td>
+                                <td>Object මගින් පමණක් (obj.member)</td>
+                                <td>Class name හෝ object මගින් (Class::member)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lifetime</strong></td>
+                                <td>Object නිර්මාණයේ සිට විනාශය දක්වා</td>
+                                <td>Program ආරම්භයේ සිට අවසානය දක්වා</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Initialization</strong></td>
+                                <td>Constructor මගින්</td>
+                                <td>Class එකෙන් බාහිරව explicitly</td>
+                            </tr>
+                            <tr>
+                                <td><strong>භාවිතය</strong></td>
+                                <td>Object-specific data</td>
+                                <td>Class-wide shared data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Key Concepts Summary -->
+            <div class="content-card">
+                <h2 class="mb-4"><i class="fas fa-key"></i> ප්‍රධාන අදහස් සාරාංශය</h2>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="feature-box" style="border-color: var(--accent-cyan);">
+                            <h5><i class="fas fa-list-ol" style="color: var(--accent-cyan);"></i> Enumerators</h5>
+                            <ul class="mb-0">
+                                <li>Named constants group</li>
+                                <li>කේත කියවීමට පහසු</li>
+                                <li>Type-safe (enum class)</li>
+                                <li>Integer values</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-box" style="border-color: var(--accent-teal);">
+                            <h5><i class="fas fa-project-diagram" style="color: var(--accent-teal);"></i> Scope Resolution (::)</h5>
+                            <ul class="mb-0">
+                                <li>Class members define කිරීම</li>
+                                <li>Global variables access</li>
+                                <li>Namespace items</li>
+                                <li>Nested classes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-box" style="border-color: var(--accent-orange);">
+                            <h5><i class="fas fa-database" style="color: var(--accent-orange);"></i> Static Members</h5>
+                            <ul class="mb-0">
+                                <li>Class-level data</li>
+                                <li>සියලුම objects share කරයි</li>
+                                <li>Object නොමැතිව access</li>
+                                <li>Program lifetime</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation-buttons">
+                <a href="inheritance.html" class="btn btn-custom">
+                    <i class="fas fa-arrow-left"></i> Previous: Inheritance
+                </a>
+                <a href="index.html" class="btn btn-custom">
+                    Home <i class="fas fa-home"></i>
+                    </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

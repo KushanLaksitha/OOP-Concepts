@@ -7,128 +7,143 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-blue: #2c3e50;
-            --accent-green: #27ae60;
-            --accent-orange: #f39c12;
-            --dark-bg: #1a1a2e;
-            --card-bg: #16213e;
-            --text-light: #e8e8e8;
-        }
+:root {
+    --primary-blue: #2c3e50;
+    --accent-green: #27ae60;
+    --accent-orange: #f39c12;
+    --accent-red: #e74c3c;
+    --dark-bg: #1a1a2e;
+    --card-bg: #16213e;
+    --text-light: #e8e8e8;
+}
 
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: var(--text-light);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            padding-bottom: 50px;
-        }
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
 
-        .hero-section {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            padding: 80px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
+.hero-section {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
 
-        .hero-subtitle {
-            font-size: 1.5rem;
-            opacity: 0.9;
-        }
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
 
-        .content-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 30px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        
-        .concept-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
+.hero-subtitle {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
 
-        .code-example {
-            background: #0d1117;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 1px solid #30363d;
-            position: relative;
-            overflow-x: auto;
-        }
-        
-        .code-example pre {
-            margin: 0;
-            color: #c9d1d9;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
-        
-        .code-label-green {
-            background: var(--accent-green);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-        
-         .code-label-orange {
-            background: var(--accent-orange);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
+.content-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
 
-        .comparison-table table {
-            color: var(--text-light);
-        }
+.concept-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
 
-        .comparison-table th {
-            background-color: rgba(0,0,0,0.2);
-        }
-        
-        .comparison-table .fa-check-circle { color: var(--accent-green); }
-        .comparison-table .fa-times-circle { color: #e74c3c; }
+.code-example {
+    background: #0d1117;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #30363d;
+    position: relative;
+    overflow-x: auto;
+}
 
-        .btn-custom {
-            background: linear-gradient(135deg, #34495e, #2c3e50);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            color: white;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-        
-        .btn-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(52, 73, 94, 0.5);
-            color: white;
-        }
+.code-example pre {
+    margin: 0;
+    color: #c9d1d9;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
 
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
-        }
-    </style>
+.code-label-green {
+    background: var(--accent-green);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.code-label-orange {
+    background: var(--accent-orange);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.comparison-table table {
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.05);
+}
+
+.comparison-table th {
+    background-color: rgba(39, 174, 96, 0.3);
+    color: var(--text-light);
+    font-weight: bold;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.comparison-table td {
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.comparison-table tbody tr:hover {
+    background-color: rgba(255,255,255,0.08);
+}
+
+.comparison-table .fa-check-circle { color: var(--accent-green); }
+.comparison-table .fa-times-circle { color: #e74c3c; }
+
+.btn-custom {
+    background: linear-gradient(135deg, #34495e, #2c3e50);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(52, 73, 94, 0.5);
+    color: white;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+</style>
 </head>
 <body>
     <div class="hero-section">
@@ -289,8 +304,8 @@ int main() {
                     <a href="polymorphism.html" class="btn btn-custom">
                         <i class="fas fa-arrow-left"></i> Previous: Polymorphism
                     </a>
-                    <a href="index.html" class="btn btn-custom">
-                        Back to Home <i class="fas fa-home"></i>
+                    <a href="Functions.html" class="btn btn-custom">
+                       Next: Functions <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
 

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C++ Functions</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+--primary-blue: #2c3e50;
+--accent-green: #27ae60;
+--accent-purple: #8e44ad;
+--dark-bg: #1a1a2e;
+--card-bg: #16213e;
+--text-light: #e8e8e8;
+}
+body {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: var(--text-light);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        padding-bottom: 50px;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        padding: 80px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        opacity: 0.9;
+    }
+
+    .content-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 30px;
+        margin: 30px 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    .concept-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .code-example {
+        background: #0d1117;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+        border: 1px solid #30363d;
+        position: relative;
+        overflow-x: auto;
+    }
+    
+    .code-example pre {
+        margin: 0;
+        color: #c9d1d9;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+    }
+    
+    .code-label {
+        color: white;
+        padding: 5px 15px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    
+    .btn-custom {
+        background: linear-gradient(135deg, #34495e, #2c3e50);
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        color: white;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    
+    .btn-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(52, 73, 94, 0.5);
+        color: white;
+    }
+
+    .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+    }
+</style>
+</head>
+<body>
+<div class="hero-section">
+<div class="container">
+<h1 class="hero-title"><i class="fas fa-cogs"></i> C++ Functions ගැඹුරින්</h1>
+<p class="hero-subtitle">Virtual, Friend, සහ අනෙකුත් විශේෂිත Functions ගවේෂණය</p>
+</div>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+
+            <!-- Virtual Functions -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-magic concept-icon" style="color: var(--accent-purple);"></i>
+                </div>
+                <h2 class="text-center mb-4">Virtual Functions</h2>
+                <p class="lead">Virtual function යනු base class එකක 선언 කරන ලද සාමාජික ශ්‍රිතයක් වන අතර, එය ව්‍යුත්පන්න පන්තිවල නැවත අර්ථ දැක්විය හැක. මෙය Run-time Polymorphism ලබා ගැනීමට අත්‍යවශ්‍ය වන අතර, base class pointer එකක් හරහා derived class object එකක overridden function එක call කිරීමට ඉඩ සලසයි. `virtual` යන මූල පදය භාවිතයෙන් ශ්‍රිතයක් virtual ලෙස ප්‍රකාශ කරනු ලැබේ.</p>
+                
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-purple);">C++ Virtual Function</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+class Animal {
+public:
+// Virtual function
+virtual void makeSound() {
+cout << "Animal makes a sound" << endl;
+}
+};
+class Dog : public Animal {
+public:
+// Overriding the virtual function
+void makeSound() override {
+cout << "Dog barks: Woof woof!" << endl;
+}
+};
+class Cat : public Animal {
+public:
+// Overriding the virtual function
+void makeSound() override {
+cout << "Cat meows: Meow!" << endl;
+}
+};
+int main() {
+Animal* animalPtr;
+Dog dogObj;
+Cat catObj;
+animalPtr = &dogObj;
+animalPtr->makeSound(); // Calls Dog's makeSound
+
+animalPtr = &catObj;
+animalPtr->makeSound(); // Calls Cat's makeSound
+
+return 0;
+}</code></pre>
+</div>
+<div class="alert alert-info mt-3">
+<i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+Dog barks: Woof woof!<br>
+Cat meows: Meow!
+</div>
+</div>
+<!-- Friend Functions -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-users concept-icon" style="color: var(--accent-green);"></i>
+                </div>
+                <h2 class="text-center mb-4">Friend Functions</h2>
+                <p class="lead">Friend function යනු class එකක සාමාජිකයෙකු නොවන නමුත්, එම class එකේ private සහ protected සාමාජිකයන්ට පිවිසීමේ අයිතිය ඇති ශ්‍රිතයකි. `friend` යන මූල පදය භාවිතා කර class එකක් තුළ ශ්‍රිතයක් friend ලෙස ප්‍රකාශ කල හැක. මෙය encapsulation සංකල්පය තරමක් ලිහිල් කරන නමුත්, ඇතැම් අවස්ථාවලදී class දෙකක් අතර සමීප සම්බන්ධතාවයක් අවශ්‍ය වූ විට ප්‍රයෝජනවත් වේ.</p>
+                
+                <div class="code-example">
+                    <span class="code-label" style="background: var(--accent-green);">C++ Friend Function</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+class MyClass {
+private:
+int private_var;
+public:
+MyClass() : private_var(10) {}
+// Friend function declaration
+friend void showPrivate(MyClass& obj);
+};
+// Friend function definition
+void showPrivate(MyClass& obj) {
+// Can access private members of MyClass
+cout << "The private variable is: " << obj.private_var << endl;
+}
+int main() {
+MyClass myObj;
+showPrivate(myObj); // Calling the friend function
+return 0;
+}</code></pre>
+</div>
+<div class="alert alert-success mt-3">
+<i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+The private variable is: 10
+</div>
+</div>
+<!-- Inline Functions -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-bolt concept-icon" style="color: #f39c12;"></i>
+                </div>
+                <h2 class="text-center mb-4">Inline Functions</h2>
+                <p class="lead">Inline function යනු compiler එකට ලබා දෙන යෝජනාවකි. එහිදී, ශ්‍රිතය call කරන සෑම ස්ථානයකදීම function call එකක් සිදු කරනවා වෙනුවට, එම ශ්‍රිතයේ කේතය ආදේශ කිරීමට compiler එකට సూચনা දේ. කුඩා, නිතර call වන ශ්‍රිත සඳහා මෙය භාවිතා කිරීමෙන් function call overhead එක ඉවත් වී program එකේ වේගය වැඩි විය හැක. `inline` යන මූල පදය මගින් මෙය සිදු කරයි.</p>
+                
+                <div class="code-example">
+                    <span class="code-label" style="background: #f39c12;">C++ Inline Function</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+inline int add(int a, int b) {
+return a + b;
+}
+int main() {
+int result = add(5, 3); // Compiler will likely replace this with '5 + 3'
+cout << "Sum: " << result << endl;
+}</code></pre>
+</div>
+<div class="alert alert-warning mt-3">
+<i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+Sum: 8
+</div>
+</div>
+<!-- Recursive Functions -->
+            <div class="content-card">
+                 <div class="text-center">
+                    <i class="fas fa-sync-alt concept-icon" style="color: #3498db;"></i>
+                </div>
+                <h2 class="text-center mb-4">Recursive Functions</h2>
+                <p class="lead">Recursive function යනු ශ්‍රිතයක් විසින් එයම නැවත නැවත call කිරීමේ ක්‍රියාවලියයි. මෙම ක්‍රියාවලිය නැවැත්වීමට "base case" එකක් අනිවාර්යයෙන්ම තිබිය යුතුය, එසේ නොමැති වුවහොත් එය අනන්ත පුනරාවර්තනයකට (infinite recursion) ගොස් stack overflow දෝෂයක් ඇති විය හැක. Factorials, Fibonacci ශ්‍රේණිය වැනි ගණිතමය ගැටළු විසඳීමට මෙය බහුලව භාවිතා වේ.</p>
+
+                <div class="code-example">
+                    <span class="code-label" style="background: #3498db;">C++ Recursive Function</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+long long factorial(int n) {
+if (n > 1) {
+return n * factorial(n - 1); // Recursive call
+} else {
+return 1; // Base case
+}
+}
+int main() {
+int num = 5;
+cout << "Factorial of " << num << " is " << factorial(num) << endl;
+return 0;
+}</code></pre>
+</div>
+<div class="alert mt-3" style="background-color: #3498db; color: white;">
+<i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+Factorial of 5 is 120
+</div>
+</div>
+<div class="navigation-buttons">
+                <a href="overloading.html" class="btn btn-custom">
+                    <i class="fas fa-arrow-left"></i> Previous: Overloading vs Overriding
+                </a>
+                <a href="constructor.html" class="btn btn-custom">
+                        Next: Constructors <i class="fas fa-arrow-right"></i>
+                    </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

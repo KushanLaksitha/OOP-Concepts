@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOP: Constructors and Destructors</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --primary-blue: #2c3e50;
+    --accent-green: #27ae60;
+    --accent-orange: #f39c12;
+    --accent-red: #e74c3c;
+    --dark-bg: #1a1a2e;
+    --card-bg: #16213e;
+    --text-light: #e8e8e8;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+.content-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.concept-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.code-example {
+    background: #0d1117;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #30363d;
+    position: relative;
+    overflow-x: auto;
+}
+
+.code-example pre {
+    margin: 0;
+    color: #c9d1d9;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.code-label-green {
+    background: var(--accent-green);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.code-label-orange {
+    background: var(--accent-orange);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.comparison-table table {
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.05);
+}
+
+.comparison-table th {
+    background-color: rgba(39, 174, 96, 0.3);
+    color: var(--text-light);
+    font-weight: bold;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.comparison-table td {
+    color: var(--text-light);
+    background-color: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.comparison-table tbody tr:hover {
+    background-color: rgba(255,255,255,0.08);
+}
+
+.comparison-table .fa-check-circle { color: var(--accent-green); }
+.comparison-table .fa-times-circle { color: #e74c3c; }
+
+.btn-custom {
+    background: linear-gradient(135deg, #34495e, #2c3e50);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(52, 73, 94, 0.5);
+    color: white;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+</style>
+</head>
+<body>
+<div class="hero-section">
+<div class="container">
+<h1 class="hero-title"><i class="fas fa-hammer"></i> Constructors & Destructors</h1>
+<p class="hero-subtitle">Object-Oriented Programming හි Object ජීවන චක්‍රය කළමනාකරණය</p>
+</div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+
+            <!-- Constructors -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-plus-circle concept-icon" style="color: var(--accent-green);"></i>
+                </div>
+                <h2 class="text-center mb-4">Constructors</h2>
+                <p class="lead">Constructor යනු class එකක object එකක් නිර්මාණය කරන විට ස්වයංක්‍රීයව ක්‍රියාත්මක වන විශේෂ member function එකකි. එහි ප්‍රධාන අරමුණ වන්නේ object එකේ data members වලට ආරම්භක අගයන් ලබා දීමයි (initialization). Constructor එකේ නම class එකේ නමට සමාන විය යුතු අතර, එයට return type එකක් නොමැත.</p>
+                
+                <h4 class="mt-5">Constructor වර්ග:</h4>
+                
+                <!-- Default Constructor -->
+                <h5 class="mt-4">1. Default Constructor</h5>
+                <p>Parameters කිසිවක් නොගන්නා constructor එක Default Constructor ලෙස හැඳින්වේ.</p>
+                <div class="code-example">
+                    <span class="code-label-green">C++ Default Constructor</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Wall {
+private:
+    double length;
+public:
+    // Default constructor
+    Wall() {
+        length = 5.5;
+        cout << "Default constructor called. Length set to " << length << endl;
+    }
+};
+
+int main() {
+    Wall wall1; // Calls the default constructor
+    return 0;
+}</code></pre>
+                </div>
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    Default constructor called. Length set to 5.5
+                </div>
+
+                <!-- Parameterized Constructor -->
+                <h5 class="mt-4">2. Parameterized Constructor</h5>
+                <p>Parameters ලබා ගන්නා constructor, Parameterized Constructor ලෙස හැඳින්වේ. Object එකක් නිර්මාණය කිරීමේදී අගයන් ලබා දීමට මෙය භාවිතා කරයි.</p>
+                <div class="code-example">
+                    <span class="code-label-green">C++ Parameterized Constructor</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Wall {
+private:
+    double length;
+    double height;
+public:
+    // Parameterized constructor
+    Wall(double len, double hgt) {
+        length = len;
+        height = hgt;
+        cout << "Parameterized constructor called. Area is " << length * height << endl;
+    }
+};
+
+int main() {
+    Wall wall1(10.5, 8.6); // Calls the parameterized constructor
+    return 0;
+}</code></pre>
+                </div>
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    Parameterized constructor called. Area is 90.3
+                </div>
+
+                <!-- Copy Constructor -->
+                <h5 class="mt-4">3. Copy Constructor</h5>
+                <p>දැනටමත් පවතින object එකක අගයන් භාවිතා කරමින් නව object එකක් initialize කිරීමට Copy Constructor භාවිතා වේ.</p>
+                <div class="code-example">
+                    <span class="code-label-green">C++ Copy Constructor</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Point {
+private:
+    int x, y;
+public:
+    Point(int x1, int y1) { x = x1; y = y1; }
+    
+    // Copy constructor
+    Point(const Point &p2) {
+        x = p2.x; 
+        y = p2.y; 
+    }
+
+    int getX() { return x; }
+    int getY() { return y; }
+};
+
+int main() {
+    Point p1(10, 15); // Normal constructor
+    Point p2 = p1; // Copy constructor called here
+    cout << "p1.x = " << p1.getX() << ", p1.y = " << p1.getY() << endl;
+    cout << "p2.x = " << p2.getX() << ", p2.y = " << p2.getY() << endl;
+    return 0;
+}</code></pre>
+                </div>
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    p1.x = 10, p1.y = 15<br>
+                    p2.x = 10, p2.y = 15
+                </div>
+            </div>
+
+            <!-- Destructors -->
+            <div class="content-card">
+                <div class="text-center">
+                    <i class="fas fa-minus-circle concept-icon" style="color: var(--accent-red);"></i>
+                </div>
+                <h2 class="text-center mb-4">Destructors</h2>
+                <p class="lead">Destructor යනු object එකක් විනාශ වන විට (උදා: function එකක scope එකෙන් ඉවත් වන විට හෝ `delete` keyword එක භාවිතා කරන විට) ස්වයංක්‍රීයව ක්‍රියාත්මක වන විශේෂ member function එකකි. එහි ප්‍රධාන අරමුණ වන්නේ object එක විසින් වෙන් කර ගන්නා ලද සම්පත් (resources) නිදහස් කිරීමයි (උදා: dynamically allocated memory). Destructor එකේ නම class නමට සමාන වන අතර, එයට පෙර tilde (~) ලකුණ යොදනු ලැබේ. එයට parameters හෝ return type එකක් නොමැත.</p>
+                
+                <div class="code-example">
+                    <span class="code-label-orange">C++ Destructor</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class MyClass {
+public:
+    // Constructor
+    MyClass() {
+        cout << "Constructor called: Object created." << endl;
+    }
+    
+    // Destructor
+    ~MyClass() {
+        cout << "Destructor called: Object destroyed." << endl;
+    }
+};
+
+int main() {
+    cout << "Entering main function." << endl;
+    MyClass obj1; // Object created, constructor called
+    cout << "Exiting main function." << endl;
+    // obj1 goes out of scope here, destructor is called
+    return 0;
+}</code></pre>
+                </div>
+                <div class="alert mt-3" style="background-color: #492a34; border-color: var(--accent-red); color: var(--text-light);">
+                    <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                    Entering main function.<br>
+                    Constructor called: Object created.<br>
+                    Exiting main function.<br>
+                    Destructor called: Object destroyed.
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="content-card comparison-table">
+                <h2 class="text-center mb-4"><i class="fas fa-balance-scale"></i> Constructor vs Destructor</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Constructor</th>
+                                <th>Destructor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Purpose</strong></td>
+                                <td>Object එකක data members initialize කිරීම.</td>
+                                <td>Object එක විසින් භාවිතා කළ සම්පත් නිදහස් කිරීම.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Name</strong></td>
+                                <td>Class නමට සමාන වේ (e.g., `MyClass()`).</td>
+                                <td>Tilde (~) ලකුණ සහ Class නම (e.g., `~MyClass()`).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Called When</strong></td>
+                                <td>Object එකක් නිර්මාණය කරන විට.</td>
+                                <td>Object එකක් විනාශ වන විට.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Parameters</strong></td>
+                                <td>Parameters තිබිය හැක (Overloaded විය හැක).</td>
+                                <td>Parameters නොමැත (Overloaded විය නොහැක).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Return Type</strong></td>
+                                <td>Return type එකක් නොමැත.</td>
+                                <td>Return type එකක් නොමැත.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="navigation-buttons">
+                <a href="Functions.html" class="btn btn-custom">
+                    <i class="fas fa-arrow-left"></i> Previous: Functions
+                </a>
+                <a href="Derived.html" class="btn btn-custom">
+                    Next: Base & Derived Classes <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
