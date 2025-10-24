@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>References in C++ - OOP Tutorial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #2c3e50;
+            --accent-blue: #3498db;
+            --dark-bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text-light: #e8e8e8;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(52, 152, 219, 0.4);
+        }
+
+        .concept-icon {
+            font-size: 3rem;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+        }
+
+        .feature-box {
+            background: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--accent-blue);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .feature-box:hover {
+            background: rgba(52, 152, 219, 0.2);
+            transform: translateX(10px);
+        }
+
+        .feature-icon {
+            color: var(--accent-blue);
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .code-example {
+            background: #0d1117;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #30363d;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .code-example pre {
+            margin: 0;
+            color: #c9d1d9;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-label {
+            background: var(--accent-blue);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .comparison-table {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .comparison-table table {
+            margin: 0;
+            color: var(--text-light);
+        }
+
+        .comparison-table th {
+            background: var(--accent-blue);
+            color: white;
+            padding: 15px;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .summary-box h3 {
+            border-bottom: 3px solid white;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .summary-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .summary-box li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .summary-box li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4ecca3;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .btn-custom {
+            background: linear-gradient(135deg, var(--accent-blue), #667eea);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.5);
+            color: white;
+        }
+
+        .alert-custom {
+            border-left: 4px solid #f39c12;
+            background: rgba(243, 156, 18, 0.1);
+            border-radius: 5px;
+        }
+
+        .key-point {
+            background: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid #2ecc71;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .warning-box {
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .memory-diagram {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+
+        .memory-box {
+            display: inline-block;
+            border: 2px solid var(--accent-blue);
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .arrow {
+            color: #2ecc71;
+            font-size: 2rem;
+            margin: 0 10px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .concept-icon {
+                font-size: 2rem;
+            }
+            
+            .content-card {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .code-example {
+                padding: 15px;
+            }
+            
+            .code-example pre {
+                font-size: 0.75rem;
+            }
+            
+            .code-label {
+                position: static;
+                display: block;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0f1419;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap"></i> OOP Tutorial
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Introduction</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book"></i> Core Concepts
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="class.html"><i class="fas fa-cube"></i> Classes & Objects</a></li>
+                            <li><a class="dropdown-item" href="constructor.html"><i class="fas fa-hammer"></i> Constructors</a></li>
+                            <li><a class="dropdown-item" href="encapsulation.html"><i class="fas fa-shield-alt"></i> Encapsulation</a></li>
+                            <li><a class="dropdown-item" href="abstraction.html"><i class="fas fa-eye-slash"></i> Abstraction</a></li>
+                            <li><a class="dropdown-item" href="inheritance.html"><i class="fas fa-sitemap"></i> Inheritance</a></li>
+                            <li><a class="dropdown-item" href="polymorphism.html"><i class="fas fa-shapes"></i> Polymorphism</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Advanced
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="Functions.html"><i class="fas fa-cube"></i> Functions</a></li>
+                            <li><a class="dropdown-item" href="overloading.html"><i class="fas fa-layer-group"></i> Overloading</a></li>
+                            <li><a class="dropdown-item" href="Derived.html"><i class="fas fa-code-branch"></i> Derived Classes</a></li>
+                            <li><a class="dropdown-item" href="Enumerators.html"><i class="fas fa-list-ol"></i> Enumerators</a></li>
+                            <li><a class="dropdown-item" href="static_dynamic.html"><i class="fas fa-shapes"></i> Static vs Dynamic</a></li>
+                            <li><a class="dropdown-item" href="references.html"><i class="fas fa-link"></i> References</a></li>
+                            <li><a class="dropdown-item active" href="dereferences.html"><i class="fas fa-unlink"></i> Dereferences</a></li>
+                            <li><a class="dropdown-item" href="structures.html"><i class="fas fa-cube"></i> Structures</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> UML
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="design.html"><i class="fas fa-drafting-compass"></i> Design</a></li>
+                            <li><a class="dropdown-item" href="uml.html"><i class="fas fa-project-diagram"></i> UML</a></li>
+                            <li><a class="dropdown-item" href="uml-code.html"><i class="fas fa-project-diagram"></i> UML - Code</a></li>
+                            <li><a class="dropdown-item" href="activity.html"><i class="fas fa-project-diagram"></i> Activity Diagrams</a></li>
+                            <li><a class="dropdown-item" href="classCode.html"><i class="fas fa-project-diagram"></i> Class Diagrams</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Practicals
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="practical_3.html"><i class="fas fa-layer-group"></i> Practical 3</a></li>
+                            <li><a class="dropdown-item" href="practical_4.html"><i class="fas fa-layer-group"></i>Practical 4 </a></li>
+                            <li><a class="dropdown-item" href="practical_5.html"><i class="fas fa-layer-group"></i>Practical 5 </a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Papers
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                             <li><a class="dropdown-item" href="models.html"><i class="fas fa-project-diagram"></i> Model Paper</a></li>
+                            <li><a class="dropdown-item" href="exam.html"><i class="fas fa-project-diagram"></i> Exam sheet answers (2024)</a></li>
+                        </ul>
+                    </li>  
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <h1 class="hero-title"><i class="fas fa-link"></i> References in C++</h1>
+            <p class="hero-subtitle">විචල්‍යයන් සඳහා වෙනත් නමක් - Alias for Variables</p>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <!-- Introduction -->
+                <div class="content-card">
+                    <div class="text-center">
+                        <i class="fas fa-link concept-icon"></i>
+                    </div>
+                    <h2 class="text-center mb-4">Reference යනු කුමක්ද?</h2>
+                    <p class="lead">Reference යනු දැනටමත් පවතින විචල්‍යයක් (variable) සඳහා වෙනත් නමක් වේ. එය විචල්‍යයක alias එකක් ලෙස ක්‍රියා කරයි. Reference එකක් භාවිතා කරන විට, ඔබ original variable එක සමඟ කෙලින්ම වැඩ කරනවා.</p>
+                    
+                    <div class="feature-box">
+                        <i class="fas fa-info-circle feature-icon"></i>
+                        <strong>ප්‍රධාන ලක්ෂණය:</strong> Reference එකක් යනු pointer එකක් මෙන් නොව, එය original variable එකටම තවත් නමක් වේ. Reference එකක් initialize කළ පසු, එය වෙනස් කළ නොහැක.
+                    </div>
+                </div>
+
+                <!-- Syntax -->
+                <div class="content-card">
+                    <h3><i class="fas fa-code text-success"></i> Syntax</h3>
+                    <div class="code-example">
+                        <span class="code-label">Syntax</span>
+                        <pre><code>dataType &referenceName = variableName;</code></pre>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> <strong>සටහන:</strong> & (ampersand) සංකේතය භාවිතා කරන්නේ reference එකක් declare කිරීමට.
+                    </div>
+                </div>
+
+                <!-- Basic Example -->
+                <div class="content-card">
+                    <h3><i class="fas fa-code text-warning"></i> මූලික උදාහරණය (Basic Example)</h3>
+                    
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int num = 10;        // Original variable
+    int &ref = num;      // Reference to num
+    
+    cout << "Original value: " << num << endl;
+    cout << "Reference value: " << ref << endl;
+    
+    // Reference එක හරහා අගය වෙනස් කරන්න
+    ref = 20;
+    
+    cout << "\nපසුව අගය වෙනස් කිරීමෙන්:" << endl;
+    cout << "Original value: " << num << endl;
+    cout << "Reference value: " << ref << endl;
+    
+    // Memory address එකම වේ
+    cout << "\nMemory Addresses:" << endl;
+    cout << "Address of num: " << &num << endl;
+    cout << "Address of ref: " << &ref << endl;
+    
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <i class="fas fa-terminal"></i> <strong>Output:</strong><br>
+                        Original value: 10<br>
+                        Reference value: 10<br>
+                        <br>
+                        පසුව අගය වෙනස් කිරීමෙන්:<br>
+                        Original value: 20<br>
+                        Reference value: 20<br>
+                        <br>
+                        Memory Addresses:<br>
+                        Address of num: 0x7fff5fbff8ac<br>
+                        Address of ref: 0x7fff5fbff8ac
+                    </div>
+                </div>
+
+                <!-- Memory Diagram -->
+                <div class="content-card">
+                    <h3><i class="fas fa-memory text-info"></i> Memory Visualization</h3>
+                    <p>Reference එකක් memory එකේ ක්‍රියා කරන ආකාරය:</p>
+                    
+                    <div class="memory-diagram text-center">
+                        <div class="memory-box">
+                            <strong>num</strong><br>
+                            Value: 10<br>
+                            Address: 0x100
+                        </div>
+                        <span class="arrow">⟷</span>
+                        <div class="memory-box">
+                            <strong>ref (alias)</strong><br>
+                            Same Value: 10<br>
+                            Same Address: 0x100
+                        </div>
+                    </div>
+                    
+                    <div class="key-point mt-3">
+                        <i class="fas fa-lightbulb"></i> <strong>වැදගත්:</strong> Reference එකක් separate memory location එකක් භාවිතා නොකරයි. එය original variable එකේ තවත් නමක් පමණි.
+                    </div>
+                </div>
+
+                <!-- Reference as Function Parameters -->
+                <div class="content-card">
+                    <h3><i class="fas fa-exchange-alt text-primary"></i> Functions හි References භාවිතය</h3>
+                    <p>References භාවිතයෙන් functions වලට parameters pass කළ හැකිය. මෙය "pass by reference" ලෙස හැඳින්වේ.</p>
+
+                    <h5 class="mt-4"><i class="fas fa-times-circle text-danger"></i> Pass by Value (සාමාන්‍ය ක්‍රමය)</h5>
+                    <div class="code-example">
+                        <span class="code-label">Pass by Value</span>
+                        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+void increment(int x) {
+    x = x + 10;  // මෙය copy එකක් වෙනස් කරයි
+}
+
+int main() {
+    int num = 5;
+    increment(num);
+    cout << "Value: " << num << endl;  // Output: 5 (වෙනස් නොවේ)
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <h5 class="mt-4"><i class="fas fa-check-circle text-success"></i> Pass by Reference</h5>
+                    <div class="code-example">
+                        <span class="code-label">Pass by Reference</span>
+                        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+void increment(int &x) {  // Reference parameter
+    x = x + 10;  // මෙය original එක වෙනස් කරයි
+}
+
+int main() {
+    int num = 5;
+    increment(num);
+    cout << "Value: " << num << endl;  // Output: 15 (වෙනස් වේ)
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <div class="feature-box">
+                        <i class="fas fa-star feature-icon"></i>
+                        <strong>වාසි:</strong> Pass by reference භාවිතයෙන් large objects copy කිරීම වළක්වා, performance වැඩි දියුණු කළ හැකිය.
+                    </div>
+                </div>
+
+                <!-- Swap Example -->
+                <div class="content-card">
+                    <h3><i class="fas fa-random text-danger"></i> Practical Example - Swap Function</h3>
+                    <p>References භාවිතයෙන් දෙ අගයන් swap කරන function එකක්:</p>
+                    
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+// Reference භාවිතයෙන් swap function
+void swap(int &a, int &b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+int main() {
+    int x = 10, y = 20;
+    
+    cout << "Swapping කිරීමට පෙර:" << endl;
+    cout << "x = " << x << ", y = " << y << endl;
+    
+    swap(x, y);
+    
+    cout << "\nSwapping කිරීමෙන් පසුව:" << endl;
+    cout << "x = " << x << ", y = " << y << endl;
+    
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <i class="fas fa-terminal"></i> <strong>Output:</strong><br>
+                        Swapping කිරීමට පෙර:<br>
+                        x = 10, y = 20<br>
+                        <br>
+                        Swapping කිරීමෙන් පසුව:<br>
+                        x = 20, y = 10
+                    </div>
+                </div>
+
+                <!-- Return References -->
+                <div class="content-card">
+                    <h3><i class="fas fa-undo text-warning"></i> Returning References</h3>
+                    <p>Functions වලින් references return කළ හැකිය:</p>
+                    
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int globalVar = 100;
+
+// Reference return කරන function
+int& getValue() {
+    return globalVar;
+}
+
+int main() {
+    cout << "පළමු අගය: " << getValue() << endl;
+    
+    // Reference හරහා අගය වෙනස් කරන්න
+    getValue() = 200;
+    
+    cout << "වෙනස් කළ අගය: " << globalVar << endl;
+    
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <div class="warning-box">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>අවවාදයයි:</strong> Local variables වල references return කිරීම භයානක ය! Function එක අවසන් වූ පසු local variable එක destroy වේ.
+                    </div>
+                </div>
+
+                <!-- const References -->
+                <div class="content-card">
+                    <h3><i class="fas fa-lock text-info"></i> Const References</h3>
+                    <p>වෙනස් කළ නොහැකි references සඳහා const keyword භාවිතා කරන්න:</p>
+                    
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+// Const reference - වෙනස් කළ නොහැක
+void printName(const string &name) {
+    cout << "Name: " << name << endl;
+    // name = "New Name";  // ERROR! වෙනස් කළ නොහැක
+}
+
+int main() {
+    string myName = "Saman";
+    printName(myName);
+    
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <div class="key-point">
+                        <i class="fas fa-info-circle"></i> <strong>භාවිතය:</strong> Large objects pass කරන විට copy කිරීම වළක්වා, වෙනස් කිරීම ද වළක්වා ගැනීමට const references භාවිතා කරන්න.
+                    </div>
+                </div>
+
+                <!-- Comparison Table -->
+                <div class="content-card">
+                    <h3><i class="fas fa-balance-scale text-success"></i> References vs Pointers</h3>
+                    <div class="comparison-table">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>References (&)</th>
+                                    <th>Pointers (*)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Null අගය</strong></td>
+                                    <td>❌ null විය නොහැක</td>
+                                    <td>✅ null විය හැක</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Initialization</strong></td>
+                                    <td>✅ Declaration කරන විට කළ යුතුය</td>
+                                    <td>❌ පසුව කළ හැක</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>වෙනස් කිරීම</strong></td>
+                                    <td>❌ වෙනස් කළ නොහැක</td>
+                                    <td>✅ වෙනත් address එකකට point කළ හැක</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Syntax</strong></td>
+                                    <td>Simple - int &ref = x;</td>
+                                    <td>Complex - int *ptr = &x;</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Memory</strong></td>
+                                    <td>Alias පමණි</td>
+                                    <td>Separate memory භාවිතා කරයි</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>භාවිතය</strong></td>
+                                    <td>Function parameters, return values</td>
+                                    <td>Dynamic memory, data structures</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Rules and Best Practices -->
+                <div class="content-card">
+                    <h3><i class="fas fa-list-check text-warning"></i> References භාවිතයේ නීති</h3>
+                    
+                    <div class="feature-box">
+                        <i class="fas fa-check feature-icon text-success"></i>
+                        <strong>1. Initialization අනිවාර්ය:</strong>
+                        <div class="code-example mt-2">
+                            <pre><code>int &ref;        // ❌ ERROR - Initialize කළ යුතුය
+int x = 10;
+int &ref = x;    // ✅ Correct</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-box">
+                        <i class="fas fa-check feature-icon text-success"></i>
+                        <strong>2. Null විය නොහැක:</strong>
+                        <div class="code-example mt-2">
+                            <pre><code>int &ref = NULL;   // ❌ ERROR
+int &ref = 0;      // ❌ ERROR</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-box">
+                        <i class="fas fa-check feature-icon text-success"></i>
+                        <strong>3. වෙනස් කළ නොහැක:</strong>
+                        <div class="code-example mt-2">
+                            <pre><code>int x = 10, y = 20;
+int &ref = x;
+ref = y;    // මෙය y එකට point නොකරයි, x හි අගය y බවට වෙනස් කරයි</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-box">
+                        <i class="fas fa="check feature-icon text-success"></i>
+                        <strong>4. Array of References නොමැත:</strong>
+                        <div class="code-example mt-2">
+                            <pre><code>int &arr[5];   // ❌ ERROR - References array එකක් නැත</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practical Applications -->
+                <div class="content-card">
+                    <h3><i class="fas fa-tasks text-primary"></i> Practical Applications</h3>
+                    
+                    <h5 class="mt-4">1. Large Objects Efficiently Pass කිරීම</h5>
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Student {
+public:
+    string name;
+    int age;
+    string address;
+    
+    Student(string n, int a, string addr) {
+        name = n;
+        age = a;
+        address = addr;
+    }
+};
+
+// Const reference භාවිතයෙන් - copy නොවේ
+void displayStudent(const Student &s) {
+    cout << "Name: " << s.name << endl;
+    cout << "Age: " << s.age << endl;
+    cout << "Address: " << s.address << endl;
+}
+
+int main() {
+    Student student1("Kamal", 20, "Colombo");
+    displayStudent(student1);  // Efficient - copy නොවේ
+    
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <h5 class="mt-4">2. Multiple Values Return කිරීම</h5>
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+// References භාවිතයෙන් multiple values return කරන්න
+void getMinMax(int arr[], int size, int &min, int &max) {
+    min = max = arr[0];
+    
+    for(int i = 1; i < size; i++) {
+        if(arr[i] < min) min = arr[i];
+        if(arr[i] > max) max = arr[i];
+    }
+}
+
+int main() {
+    int numbers[] = {45, 23, 78, 12, 90, 34};
+    int minimum, maximum;
+    
+    getMinMax(numbers, 6, minimum, maximum);
+    
+    cout << "Minimum: " << minimum << endl;
+    cout << "Maximum: " << maximum << endl;
+    
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <h5 class="mt-4">3. Operator Overloading</h5>
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Counter {
+private:
+    int count;
+public:
+    Counter() : count(0) {}
+    
+    // Prefix ++ operator - reference return කරයි
+    Counter& operator++() {
+        count++;
+        return *this;
+    }
+    
+    void display() {
+        cout << "Count: " << count << endl;
+    }
+};
+
+int main() {
+    Counter c;
+    ++c;
+    ++c;
+    c.display();  // Output: Count: 2
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Common Mistakes -->
+                <div class="content-card">
+                    <h3><i class="fas fa-exclamation-triangle text-danger"></i> සාමාන්‍ය වැරදි (Common Mistakes)</h3>
+                    
+                    <div class="warning-box">
+                        <strong>❌ වැරදි 1: Local Variable හි Reference Return කිරීම</strong>
+                        <div class="code-example mt-2">
+                            <pre><code>int& getNumber() {
+    int num = 100;  // Local variable
+    return num;     // ❌ භයානකයි! num destroy වේ
+}
+
+int main() {
+    int &ref = getNumber();  // Undefined behavior
+    cout << ref << endl;      // Crash විය හැක
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>❌ වැරදි 2: Uninitialized Reference</strong>
+                        <div class="code-example mt-2">
+                            <pre><code>int &ref;  // ❌ ERROR - Compile error
+// References initialize කළ යුතුය</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>❌ වැරදි 3: Reference to Temporary</strong>
+                        <div class="code-example mt-2">
+                            <pre><code>int& ref = 10;  // ❌ ERROR
+// Temporary values වලට non-const reference එකක් නොමැත
+
+const int& ref = 10;  // ✅ Correct - const reference OK</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Example -->
+                <div class="content-card">
+                    <h3><i class="fas fa-rocket text-success"></i> Advanced Example - Matrix Class</h3>
+                    <p>References භාවිතයෙන් complex program එකක්:</p>
+                    
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Matrix {
+private:
+    int data[3][3];
+public:
+    Matrix() {
+        for(int i = 0; i < 3; i++)
+            for(int j = 0; j < 3; j++)
+                data[i][j] = 0;
+    }
+    
+    // Reference return කරන accessor
+    int& at(int row, int col) {
+        return data[row][col];
+    }
+    
+    // Const reference parameter
+    void add(const Matrix &other) {
+        for(int i = 0; i < 3; i++)
+            for(int j = 0; j < 3; j++)
+                data[i][j] += other.data[i][j];
+    }
+    
+    void display() const {
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++)
+                cout << data[i][j] << " ";
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    Matrix mat1, mat2;
+    
+    // Reference භාවිතයෙන් values set කරන්න
+    mat1.at(0, 0) = 1;
+    mat1.at(1, 1) = 2;
+    mat1.at(2, 2) = 3;
+    
+    mat2.at(0, 0) = 10;
+    mat2.at(1, 1) = 20;
+    mat2.at(2, 2) = 30;
+    
+    cout << "Matrix 1:" << endl;
+    mat1.display();
+    
+    cout << "\nMatrix 2:" << endl;
+    mat2.display();
+    
+    mat1.add(mat2);
+    
+    cout << "\nපසුව Matrix 1 + Matrix 2:" << endl;
+    mat1.display();
+    
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <i class="fas fa-terminal"></i> <strong>Output:</strong><br>
+                        Matrix 1:<br>
+                        1 0 0<br>
+                        0 2 0<br>
+                        0 0 3<br>
+                        <br>
+                        Matrix 2:<br>
+                        10 0 0<br>
+                        0 20 0<br>
+                        0 0 30<br>
+                        <br>
+                        පසුව Matrix 1 + Matrix 2:<br>
+                        11 0 0<br>
+                        0 22 0<br>
+                        0 0 33
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div class="summary-box">
+                    <h3><i class="fas fa-book"></i> සාරාංශය (Summary)</h3>
+                    <ul>
+                        <li><strong>Reference</strong> යනු variable එකක් සඳහා වෙනත් නමක් (alias) වේ</li>
+                        <li>& සංකේතය භාවිතයෙන් references declare කරයි</li>
+                        <li>References initialize කළ යුතු අතර null විය නොහැක</li>
+                        <li>Initialize කළ පසු reference වෙනස් කළ නොහැක</li>
+                        <li><strong>Pass by reference</strong> භාවිතයෙන් functions වලට efficient ලෙස parameters pass කරයි</li>
+                        <li><strong>Const references</strong> භාවිතයෙන් large objects efficiently pass කරන අතර වෙනස් කිරීම වළක්වයි</li>
+                        <li>Local variables වල references return කිරීම භයානකයි</li>
+                        <li>Pointers වලට වඩා references භාවිතය සරල වේ</li>
+                    </ul>
+                </div>
+
+                <!-- Key Takeaways -->
+                <div class="content-card">
+                    <h3><i class="fas fa-star text-warning"></i> මතක තබා ගත යුතු දේවල්</h3>
+                    
+                    <div class="key-point">
+                        <i class="fas fa-check-circle text-success"></i>
+                        <strong>භාවිතා කරන්න References:</strong>
+                        <ul class="mt-2">
+                            <li>Function parameters සඳහා (විශේෂයෙන් large objects)</li>
+                            <li>Operator overloading සඳහා</li>
+                            <li>Multiple return values සඳහා</li>
+                            <li>සරල සහ safe syntax අවශ්‍ය විට</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning-box">
+                        <i class="fas fa-times-circle text-danger"></i>
+                        <strong>භාවිතා නොකරන්න References:</strong>
+                        <ul class="mt-2">
+                            <li>Null values අවශ්‍ය විට (pointers භාවිතා කරන්න)</li>
+                            <li>Reassignment අවශ්‍ය විට (pointers භාවිතා කරන්න)</li>
+                            <li>Dynamic memory management සඳහා (pointers භාවිතා කරන්න)</li>
+                            <li>Arrays of references අවශ්‍ය විට (vectors භාවිතා කරන්න)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="text-center mt-5 mb-4">
+                    <div class="d-flex justify-content-between navigation-buttons">
+                        <a href="static_dynamic.html" class="btn btn-custom">
+                            <i class="fas fa-arrow-left"></i> Previous: Static vs Dynamic
+                        </a>
+                        <a href="dereferences.html" class="btn btn-custom">
+                            Next: Dereferences <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.content-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s, transform 0.5s';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

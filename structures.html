@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structures in C++ - OOP Tutorial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #2c3e50;
+            --accent-blue: #3498db;
+            --dark-bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text-light: #e8e8e8;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(233, 69, 96, 0.4);
+        }
+
+        .concept-icon {
+            font-size: 3rem;
+            color: #e94560;
+            margin-bottom: 20px;
+        }
+
+        .feature-box {
+            background: rgba(233, 69, 96, 0.1);
+            border-left: 4px solid #e94560;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .feature-box:hover {
+            background: rgba(233, 69, 96, 0.2);
+            transform: translateX(10px);
+        }
+
+        .feature-icon {
+            color: #e94560;
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .code-example {
+            background: #0d1117;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #30363d;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .code-example pre {
+            margin: 0;
+            color: #c9d1d9;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-label {
+            background: #e94560;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .comparison-table {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: #e94560;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn-custom {
+            background: linear-gradient(135deg, #e94560, #0f3460);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.5);
+            color: white;
+        }
+
+        .key-point {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #4ecca3;
+        }
+
+        .interactive-demo {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .demo-output {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            min-height: 100px;
+            color: #4ecca3;
+            font-family: monospace;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .concept-icon {
+                font-size: 2rem;
+            }
+            
+            .content-card {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .code-example {
+                padding: 15px;
+                font-size: 0.85rem;
+            }
+            
+            .code-example pre {
+                font-size: 0.75rem;
+            }
+            
+            .code-label {
+                font-size: 0.7rem;
+                padding: 4px 10px;
+                position: static;
+                display: block;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0f1419;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap"></i> OOP Tutorial
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Introduction</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book"></i> Core Concepts
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="class.html"><i class="fas fa-cube"></i> Classes & Objects</a></li>
+                            <li><a class="dropdown-item" href="constructor.html"><i class="fas fa-hammer"></i> Constructors</a></li>
+                            <li><a class="dropdown-item" href="encapsulation.html"><i class="fas fa-shield-alt"></i> Encapsulation</a></li>
+                            <li><a class="dropdown-item" href="abstraction.html"><i class="fas fa-eye-slash"></i> Abstraction</a></li>
+                            <li><a class="dropdown-item" href="inheritance.html"><i class="fas fa-sitemap"></i> Inheritance</a></li>
+                            <li><a class="dropdown-item" href="polymorphism.html"><i class="fas fa-shapes"></i> Polymorphism</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Advanced
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="Functions.html"><i class="fas fa-cube"></i> Functions</a></li>
+                            <li><a class="dropdown-item" href="overloading.html"><i class="fas fa-layer-group"></i> Overloading</a></li>
+                            <li><a class="dropdown-item" href="Derived.html"><i class="fas fa-code-branch"></i> Derived Classes</a></li>
+                            <li><a class="dropdown-item" href="Enumerators.html"><i class="fas fa-list-ol"></i> Enumerators</a></li>
+                            <li><a class="dropdown-item" href="static_dynamic.html"><i class="fas fa-shapes"></i> Static vs Dynamic</a></li>
+                            <li><a class="dropdown-item" href="references.html"><i class="fas fa-link"></i> References</a></li>
+                            <li><a class="dropdown-item active" href="dereferences.html"><i class="fas fa-unlink"></i> Dereferences</a></li>
+                            <li><a class="dropdown-item" href="structures.html"><i class="fas fa-cube"></i> Structures</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> UML
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="design.html"><i class="fas fa-drafting-compass"></i> Design</a></li>
+                            <li><a class="dropdown-item" href="uml.html"><i class="fas fa-project-diagram"></i> UML</a></li>
+                            <li><a class="dropdown-item" href="uml-code.html"><i class="fas fa-project-diagram"></i> UML - Code</a></li>
+                            <li><a class="dropdown-item" href="activity.html"><i class="fas fa-project-diagram"></i> Activity Diagrams</a></li>
+                            <li><a class="dropdown-item" href="classCode.html"><i class="fas fa-project-diagram"></i> Class Diagrams</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Practicals
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="practical_3.html"><i class="fas fa-layer-group"></i> Practical 3</a></li>
+                            <li><a class="dropdown-item" href="practical_4.html"><i class="fas fa-layer-group"></i>Practical 4 </a></li>
+                            <li><a class="dropdown-item" href="practical_5.html"><i class="fas fa-layer-group"></i>Practical 5 </a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Papers
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                             <li><a class="dropdown-item" href="models.html"><i class="fas fa-project-diagram"></i> Model Paper</a></li>
+                            <li><a class="dropdown-item" href="exam.html"><i class="fas fa-project-diagram"></i> Exam sheet answers (2024)</a></li>
+                        </ul>
+                    </li>  
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <h1 class="hero-title"><i class="fas fa-cube"></i> Structures (struct)</h1>
+            <p class="hero-subtitle">C++ හි Structures භාවිතා කරන ආකාරය ඉගෙන ගනිමු</p>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <!-- Introduction -->
+                <div class="content-card">
+                    <div class="text-center">
+                        <i class="fas fa-cube concept-icon"></i>
+                    </div>
+                    <h2 class="text-center mb-4">Structure යනු කුමක්ද?</h2>
+                    <p class="lead">Structure (struct) යනු විවිධ data types එකට එක් unit එකක් ලෙස group කිරීමට භාවිතා කරන user-defined data type එකකි. මෙය classes වලට සමාන නමුත් වෙනස්කම් කිහිපයක් ඇත.</p>
+                    
+                    <div class="feature-box">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <strong>ප්‍රධාන ලක්ෂණ:</strong> Structures හි සියලුම members default වශයෙන් public වේ. Classes වලදී default වශයෙන් private වේ.
+                    </div>
+                </div>
+
+                <!-- Basic Syntax -->
+                <div class="content-card">
+                    <h3><i class="fas fa-code text-success"></i> මූලික Syntax</h3>
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>struct StructureName {
+    // Data members
+    dataType member1;
+    dataType member2;
+    // ...
+    
+    // Member functions (optional)
+    void functionName() {
+        // function body
+    }
+};</code></pre>
+                    </div>
+                </div>
+
+                <!-- Simple Example -->
+                <div class="content-card">
+                    <h3><i class="fas fa-user text-primary"></i> සරල උදාහරණය - Student Record</h3>
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+// Student structure එක define කිරීම
+struct Student {
+    int id;
+    string name;
+    float gpa;
+    
+    // Member function
+    void display() {
+        cout << "ID: " << id << endl;
+        cout << "Name: " << name << endl;
+        cout << "GPA: " << gpa << endl;
+    }
+};
+
+int main() {
+    // Structure variable එකක් create කිරීම
+    Student s1;
+    
+    // Members වලට values assign කිරීම
+    s1.id = 101;
+    s1.name = "Kamal Perera";
+    s1.gpa = 3.75;
+    
+    // Display function එක call කිරීම
+    s1.display();
+    
+    return 0;
+}</code></pre>
+                    </div>
+                    
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                        ID: 101<br>
+                        Name: Kamal Perera<br>
+                        GPA: 3.75
+                    </div>
+                </div>
+
+                <!-- Initialization Methods -->
+                <div class="content-card">
+                    <h3><i class="fas fa-hammer text-warning"></i> Structures Initialize කිරීමේ ක්‍රම</h3>
+                    
+                    <h5 class="mt-4">1. Member-wise Initialization</h5>
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>struct Point {
+    int x;
+    int y;
+};
+
+Point p1;
+p1.x = 10;
+p1.y = 20;</code></pre>
+                    </div>
+
+                    <h5 class="mt-4">2. Aggregate Initialization</h5>
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>struct Point {
+    int x;
+    int y;
+};
+
+Point p1 = {10, 20};  // සරලම ක්‍රමය
+Point p2{15, 25};     // C++11 style</code></pre>
+                    </div>
+
+                    <h5 class="mt-4">3. Constructor සමඟ</h5>
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>struct Point {
+    int x;
+    int y;
+    
+    // Constructor
+    Point(int xVal, int yVal) {
+        x = xVal;
+        y = yVal;
+    }
+};
+
+Point p1(10, 20);</code></pre>
+                    </div>
+                </div>
+
+                <!-- Structure vs Class -->
+                <div class="content-card">
+                    <h3><i class="fas fa-balance-scale text-info"></i> Structure vs Class</h3>
+                    <div class="table-responsive">
+                        <table class="table comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>Structure</th>
+                                    <th>Class</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Default Access</strong></td>
+                                    <td>Public</td>
+                                    <td>Private</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Keyword</strong></td>
+                                    <td>struct</td>
+                                    <td>class</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Inheritance</strong></td>
+                                    <td>Public (default)</td>
+                                    <td>Private (default)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>භාවිතය</strong></td>
+                                    <td>සරල data grouping සඳහා</td>
+                                    <td>Complex objects සඳහා</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Constructors</strong></td>
+                                    <td>භාවිතා කළ හැකිය</td>
+                                    <td>භාවිතා කළ හැකිය</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Nested Structures -->
+                <div class="content-card">
+                    <h3><i class="fas fa-layer-group text-danger"></i> Nested Structures</h3>
+                    <p>Structure එකක් තුළ තවත් structure එකක් define කළ හැකිය:</p>
+                    
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+struct Address {
+    string street;
+    string city;
+    int zipCode;
+};
+
+struct Employee {
+    int id;
+    string name;
+    Address address;  // Nested structure
+    
+    void display() {
+        cout << "ID: " << id << endl;
+        cout << "Name: " << name << endl;
+        cout << "Address: " << address.street << ", " 
+             << address.city << " - " << address.zipCode << endl;
+    }
+};
+
+int main() {
+    Employee emp;
+    emp.id = 201;
+    emp.name = "Nimal Silva";
+    emp.address.street = "Main Street";
+    emp.address.city = "Colombo";
+    emp.address.zipCode = 10100;
+    
+    emp.display();
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Array of Structures -->
+                <div class="content-card">
+                    <h3><i class="fas fa-th text-success"></i> Array of Structures</h3>
+                    <p>Structure objects ගණනාවක් array එකක store කළ හැකිය:</p>
+                    
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+struct Book {
+    string title;
+    string author;
+    float price;
+};
+
+int main() {
+    // Array of structures
+    Book library[3] = {
+        {"C++ Programming", "Bjarne Stroustrup", 1500.00},
+        {"Data Structures", "Seymour Lipschutz", 1200.00},
+        {"Algorithms", "Thomas Cormen", 2000.00}
+    };
+    
+    // Display all books
+    cout << "Library Books:" << endl;
+    cout << "------------------------" << endl;
+    for(int i = 0; i < 3; i++) {
+        cout << "Title: " << library[i].title << endl;
+        cout << "Author: " << library[i].author << endl;
+        cout << "Price: Rs. " << library[i].price << endl;
+        cout << "------------------------" << endl;
+    }
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Pointer to Structure -->
+                <div class="content-card">
+                    <h3><i class="fas fa-arrow-pointer text-warning"></i> Pointer to Structure</h3>
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+struct Car {
+    string brand;
+    string model;
+    int year;
+};
+
+int main() {
+    Car myCar = {"Toyota", "Corolla", 2023};
+    
+    // Structure pointer එකක් create කිරීම
+    Car *ptr = &myCar;
+    
+    // Arrow operator (->) භාවිතයෙන් access කිරීම
+    cout << "Brand: " << ptr->brand << endl;
+    cout << "Model: " << ptr->model << endl;
+    cout << "Year: " << ptr->year << endl;
+    
+    return 0;
+}</code></pre>
+                    </div>
+                    
+                    <div class="key-point">
+                        <i class="fas fa-lightbulb"></i> <strong>සටහන:</strong> Pointer භාවිතයෙන් structure members access කිරීමට arrow operator (->) භාවිතා කරන්න. Dot operator (.) normal variables සඳහා භාවිතා වේ.
+                    </div>
+                </div>
+
+                <!-- Interactive Demo -->
+                <div class="interactive-demo">
+                    <h3><i class="fas fa-play-circle text-danger"></i> Interactive Demo</h3>
+                    <p>Product Structure එකක් සාදන්න:</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control mb-2" id="productName" placeholder="Product Name">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control mb-2" id="productPrice" placeholder="Price">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control mb-2" id="productQty" placeholder="Quantity">
+                        </div>
+                    </div>
+                    <button class="btn btn-custom mt-2" onclick="createProduct()">
+                        <i class="fas fa-box"></i> Create Product Structure
+                    </button>
+                    <div class="demo-output" id="output">
+                        Output will appear here...
+                    </div>
+                </div>
+
+                <!-- Key Points -->
+                <div class="content-card">
+                    <h3><i class="fas fa-key text-warning"></i> ප්‍රධාන කරුණු</h3>
+                    <div class="feature-box">
+                        <i class="fas fa-check feature-icon"></i>
+                        Structures භාවිතයෙන් related data එකට එක් unit එකක් ලෙස group කළ හැකිය
+                    </div>
+                    <div class="feature-box">
+                        <i class="fas fa-check feature-icon"></i>
+                        Default access specifier එක public වේ
+                    </div>
+                    <div class="feature-box">
+                        <i class="fas fa-check feature-icon"></i>
+                        Structures වලට member functions තිබිය හැකිය
+                    </div>
+                    <div class="feature-box">
+                        <i class="fas fa-check feature-icon"></i>
+                        Arrays, pointers, nested structures භාවිතා කළ හැකිය
+                    </div>
+                    <div class="feature-box">
+                        <i class="fas fa-check feature-icon"></i>
+                        සරල data grouping සඳහා classes වලට වඩා structures සුදුසුය
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="text-center mt-5 mb-4">
+                    <div class="d-flex justify-content-between navigation-buttons">
+                        <a href="dereferences.html" class="btn btn-custom">
+                            <i class="fas fa-arrow-left"></i> Previous: Dereferences
+                        </a>
+                        <a href="index.html" class="btn btn-custom">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function createProduct() {
+            const name = document.getElementById('productName').value || 'Laptop';
+            const price = document.getElementById('productPrice').value || '75000';
+            const qty = document.getElementById('productQty').value || '10';
+            
+            const output = `
+// Product structure එකක් define කිරීම:
+struct Product {
+    string name;
+    float price;
+    int quantity;
+};
+
+// Product object එකක් create කිරීම:
+Product p1;
+p1.name = "${name}";
+p1.price = ${price};
+p1.quantity = ${qty};
+
+// Output:
+------------------------
+Product Details:
+Name: ${name}
+Price: Rs. ${price}.00
+Quantity: ${qty} units
+Total Value: Rs. ${(parseFloat(price) * parseInt(qty)).toFixed(2)}
+------------------------
+            `;
+            
+            document.getElementById('output').innerText = output;
+        }
+    </script>
+</body>
+</html>

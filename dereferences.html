@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dereferencing in C++ - OOP Tutorial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #2c3e50;
+            --accent-blue: #3498db;
+            --dark-bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text-light: #e8e8e8;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(231, 76, 60, 0.4);
+        }
+
+        .concept-icon {
+            font-size: 3rem;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        .feature-box {
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid #e74c3c;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .feature-box:hover {
+            background: rgba(231, 76, 60, 0.2);
+            transform: translateX(10px);
+        }
+
+        .feature-icon {
+            color: #e74c3c;
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .code-example {
+            background: #0d1117;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #30363d;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .code-example pre {
+            margin: 0;
+            color: #c9d1d9;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-label {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .memory-diagram {
+            background: rgba(231, 76, 60, 0.1);
+            border: 2px solid #e74c3c;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+
+        .memory-cell {
+            display: inline-block;
+            border: 2px solid #e74c3c;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 5px;
+            background: var(--card-bg);
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .pointer-arrow {
+            color: #e74c3c;
+            font-size: 2rem;
+            margin: 0 10px;
+        }
+
+        .btn-custom {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.5);
+            color: white;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .summary-box h3 {
+            border-bottom: 3px solid white;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .summary-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .summary-box li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .summary-box li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4ecca3;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .comparison-table {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(231, 76, 60, 0.2);
+        }
+
+        .interactive-demo {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .demo-output {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            min-height: 100px;
+            color: #4ecca3;
+            font-family: monospace;
+        }
+
+        .warning-box {
+            background: rgba(231, 76, 60, 0.2);
+            border: 2px solid #e74c3c;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .concept-icon {
+                font-size: 2rem;
+            }
+            
+            .content-card {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .code-example {
+                padding: 15px;
+                font-size: 0.85rem;
+            }
+            
+            .code-example pre {
+                font-size: 0.75rem;
+            }
+            
+            .code-label {
+                font-size: 0.7rem;
+                padding: 4px 10px;
+                position: static;
+                display: block;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .memory-cell {
+                min-width: 100px;
+                padding: 10px 15px;
+                margin: 5px;
+            }
+            
+            .pointer-arrow {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-section {
+                padding: 40px 0;
+            }
+            
+            .hero-title {
+                font-size: 1.5rem;
+            }
+            
+            .content-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0f1419;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap"></i> OOP Tutorial
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home"></i> Introduction</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-book"></i> Core Concepts
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="class.html"><i class="fas fa-cube"></i> Classes & Objects</a></li>
+                            <li><a class="dropdown-item" href="constructor.html"><i class="fas fa-hammer"></i> Constructors</a></li>
+                            <li><a class="dropdown-item" href="encapsulation.html"><i class="fas fa-shield-alt"></i> Encapsulation</a></li>
+                            <li><a class="dropdown-item" href="abstraction.html"><i class="fas fa-eye-slash"></i> Abstraction</a></li>
+                            <li><a class="dropdown-item" href="inheritance.html"><i class="fas fa-sitemap"></i> Inheritance</a></li>
+                            <li><a class="dropdown-item" href="polymorphism.html"><i class="fas fa-shapes"></i> Polymorphism</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Advanced
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="Functions.html"><i class="fas fa-cube"></i> Functions</a></li>
+                            <li><a class="dropdown-item" href="overloading.html"><i class="fas fa-layer-group"></i> Overloading</a></li>
+                            <li><a class="dropdown-item" href="Derived.html"><i class="fas fa-code-branch"></i> Derived Classes</a></li>
+                            <li><a class="dropdown-item" href="Enumerators.html"><i class="fas fa-list-ol"></i> Enumerators</a></li>
+                            <li><a class="dropdown-item" href="static_dynamic.html"><i class="fas fa-shapes"></i> Static vs Dynamic</a></li>
+                            <li><a class="dropdown-item" href="references.html"><i class="fas fa-link"></i> References</a></li>
+                            <li><a class="dropdown-item active" href="dereferences.html"><i class="fas fa-unlink"></i> Dereferences</a></li>
+                            <li><a class="dropdown-item" href="structures.html"><i class="fas fa-cube"></i> Structures</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> UML
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="design.html"><i class="fas fa-drafting-compass"></i> Design</a></li>
+                            <li><a class="dropdown-item" href="uml.html"><i class="fas fa-project-diagram"></i> UML</a></li>
+                            <li><a class="dropdown-item" href="uml-code.html"><i class="fas fa-project-diagram"></i> UML - Code</a></li>
+                            <li><a class="dropdown-item" href="activity.html"><i class="fas fa-project-diagram"></i> Activity Diagrams</a></li>
+                            <li><a class="dropdown-item" href="classCode.html"><i class="fas fa-project-diagram"></i> Class Diagrams</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Practicals
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="practical_3.html"><i class="fas fa-layer-group"></i> Practical 3</a></li>
+                            <li><a class="dropdown-item" href="practical_4.html"><i class="fas fa-layer-group"></i>Practical 4 </a></li>
+                            <li><a class="dropdown-item" href="practical_5.html"><i class="fas fa-layer-group"></i>Practical 5 </a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools"></i> Papers
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                             <li><a class="dropdown-item" href="models.html"><i class="fas fa-project-diagram"></i> Model Paper</a></li>
+                            <li><a class="dropdown-item" href="exam.html"><i class="fas fa-project-diagram"></i> Exam sheet answers (2024)</a></li>
+                        </ul>
+                    </li>  
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <h1 class="hero-title"><i class="fas fa-unlink"></i> Dereferencing</h1>
+            <p class="hero-subtitle">Pointer වලින් Value එක Access කරමු</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                
+                <!-- Introduction -->
+                <div class="content-card">
+                    <div class="text-center">
+                        <i class="fas fa-asterisk concept-icon"></i>
+                    </div>
+                    <h2 class="text-center mb-4">Dereferencing යනු කුමක්ද?</h2>
+                    <p class="lead">Dereferencing යනු pointer එකක් භාවිතයෙන් එය point කරන memory location එකේ ඇති value එක access කිරීමයි. මෙය asterisk (*) operator එක භාවිතයෙන් සිදු කරයි.</p>
+                    
+                    <div class="feature-box">
+                        <i class="fas fa-asterisk feature-icon"></i>
+                        <strong>Dereference Operator (*):</strong> Pointer එකක් මඟින් point කරන address එකේ ඇති value එක ලබා ගැනීමට භාවිතා කරයි.
+                    </div>
+                    
+                    <div class="feature-box">
+                        <i class="fas fa-exchange-alt feature-icon"></i>
+                        <strong>Purpose:</strong> Pointer මඟින් memory location එකේ value එක read කිරීමට හෝ modify කිරීමට ඉඩ සලසයි.
+                    </div>
+                </div>
+
+                <!-- Memory Visualization -->
+                <div class="content-card">
+                    <h3><i class="fas fa-memory text-warning"></i> Memory Visualization</h3>
+                    <p>Dereferencing කොහොමද වැඩ කරන්නේ කියලා බලමු:</p>
+                    
+                    <div class="memory-diagram text-center">
+                        <div class="mb-4">
+                            <strong>Variable Declaration:</strong><br>
+                            <code>int num = 42;</code><br>
+                            <code>int* ptr = &num;</code>
+                        </div>
+                        
+                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                            <div class="memory-cell">
+                                <strong>num</strong><br>
+                                Value: 42<br>
+                                Address: 0x1000
+                            </div>
+                            
+                            <span class="pointer-arrow">←</span>
+                            
+                            <div class="memory-cell">
+                                <strong>ptr</strong><br>
+                                Value: 0x1000<br>
+                                (points to num)
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <strong>Dereferencing:</strong><br>
+                            <code>*ptr</code> → Returns the value <strong>42</strong><br>
+                            <small class="text-muted">ptr එකේ address එකට ගිහින් එතන ඇති value එක ගෙන එනවා</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Syntax -->
+                <div class="content-card">
+                    <h3><i class="fas fa-code text-success"></i> Basic Syntax</h3>
+                    
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    // Variable එකක් declare කරමු
+    int num = 100;
+    
+    // Pointer එකක් create කරලා address එක assign කරමු
+    int* ptr = &num;
+    
+    // විවිධ ආකාරවලින් access කරමු
+    cout << "Value of num: " << num << endl;           // 100
+    cout << "Address of num: " << &num << endl;        // 0x... (address)
+    cout << "Value of ptr: " << ptr << endl;           // 0x... (same address)
+    cout << "Dereferenced ptr: " << *ptr << endl;      // 100 (value at address)
+    
+    // Dereferencing මඟින් value එක change කරමු
+    *ptr = 200;
+    
+    cout << "\nAfter changing *ptr to 200:" << endl;
+    cout << "Value of num: " << num << endl;           // 200 (changed!)
+    cout << "Dereferenced ptr: " << *ptr << endl;      // 200
+    
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                        Value of num: 100<br>
+                        Address of num: 0x7ffeeb8c9a5c<br>
+                        Value of ptr: 0x7ffeeb8c9a5c<br>
+                        Dereferenced ptr: 100<br>
+                        <br>
+                        After changing *ptr to 200:<br>
+                        Value of num: 200<br>
+                        Dereferenced ptr: 200
+                    </div>
+                </div>
+
+                <!-- Two Contexts -->
+                <div class="content-card">
+                    <h3><i class="fas fa-sitemap text-info"></i> Asterisk (*) හි භාවිත දෙක</h3>
+                    <p>Asterisk (*) operator එක contexts දෙකකදී භාවිතා වෙනවා. අවුල් වෙන්න එපා!</p>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <h5><i class="fas fa-1 feature-icon"></i> Declaration Context</h5>
+                                <p>Pointer type එකක් declare කරන විට:</p>
+                                <div class="code-example">
+                                    <pre><code>int* ptr;      // ptr is a pointer to int
+double* dptr;  // dptr is a pointer to double
+char* cptr;    // cptr is a pointer to char</code></pre>
+                                </div>
+                                <small class="text-muted">මෙහිදී * යනු "pointer to" යන්න අදහස් කරනවා</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <h5><i class="fas fa-2 feature-icon"></i> Dereference Context</h5>
+                                <p>Pointer එකක value එක access කරන විට:</p>
+                                <div class="code-example">
+                                    <pre><code>int num = 50;
+int* ptr = &num;
+cout << *ptr;  // Prints 50
+*ptr = 100;    // Changes num to 100</code></pre>
+                                </div>
+                                <small class="text-muted">මෙහිදී * යනු "value at" යන්න අදහස් කරනවා</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practical Examples -->
+                <div class="content-card">
+                    <h3><i class="fas fa-laptop-code text-primary"></i> ප්‍රායෝගික උදාහරණ</h3>
+                    
+                    <h5 class="mt-4"><i class="fas fa-exchange-alt"></i> Example 1: Swapping Values Using Pointers</h5>
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+void swap(int* a, int* b) {
+    // Dereference කරලා values swap කරමු
+    int temp = *a;  // temp = value at address a
+    *a = *b;        // value at a = value at b
+    *b = temp;      // value at b = temp
+}
+
+int main() {
+    int x = 10, y = 20;
+    
+    cout << "Before swap: x = " << x << ", y = " << y << endl;
+    
+    swap(&x, &y);  // addresses pass කරනවා
+    
+    cout << "After swap: x = " << x << ", y = " << y << endl;
+    
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <h5 class="mt-4"><i class="fas fa-edit"></i> Example 2: Modifying Array Elements</h5>
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int arr[5] = {10, 20, 30, 40, 50};
+    int* ptr = arr;  // Array name එක pointer එකක් වගේ
+    
+    cout << "Original array: ";
+    for(int i = 0; i < 5; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    
+    // Pointer arithmetic සහ dereferencing භාවිතා කරමු
+    for(int i = 0; i < 5; i++) {
+        *(ptr + i) = *(ptr + i) * 2;  // Each element double කරනවා
+    }
+    
+    cout << "Modified array: ";
+    for(int i = 0; i < 5; i++) {
+        cout << *(ptr + i) << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}</code></pre>
+                    </div>
+
+                    <h5 class="mt-4"><i class="fas fa-cube"></i> Example 3: Working with Objects</h5>
+                    <div class="code-example">
+                        <span class="code-label">C++</span>
+                        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Student {
+    public:
+        string name;
+        int age;
+        
+        void display() {
+            cout << "Name: " << name << ", Age: " << age << endl;
+        }
+};
+
+int main() {
+    Student s1;
+    s1.name = "Kasun";
+    s1.age = 20;
+    
+    // Object pointer එකක් create කරමු
+    Student* ptr = &s1;
+    
+    // Dereference කරලා members access කරමු
+    (*ptr).display();  // Method 1: Dereference කරලා dot operator
+    ptr->display();    // Method 2: Arrow operator (වඩා common)
+    
+    // Members modify කරමු
+    (*ptr).age = 21;
+    ptr->name = "Kasun Perera";
+    
+    cout << "\nAfter modification:" << endl;
+    ptr->display();
+    
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Comparison Table -->
+                <div class="content-card">
+                    <h3><i class="fas fa-balance-scale text-warning"></i> Reference vs Dereference</h3>
+                    <div class="table-responsive">
+                        <table class="table comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>Reference (&)</th>
+                                    <th>Dereference (*)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Purpose</strong></td>
+                                    <td>Address එක ගන්නවා</td>
+                                    <td>Value එක ගන්නවා</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Syntax</strong></td>
+                                    <td><code>&variable</code></td>
+                                    <td><code>*pointer</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Returns</strong></td>
+                                    <td>Memory address</td>
+                                    <td>Value at address</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Use Case</strong></td>
+                                    <td>Pointer initialize කරන විට</td>
+                                    <td>Pointer මඟින් value access කරන විට</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Example</strong></td>
+                                    <td><code>ptr = &num;</code></td>
+                                    <td><code>val = *ptr;</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Common Mistakes -->
+                <div class="content-card">
+                    <h3><i class="fas fa-exclamation-triangle text-danger"></i> සාමාන්‍ය වැරදි (Common Mistakes)</h3>
+                    
+                    <div class="warning-box">
+                        <h5><i class="fas fa-bug"></i> Mistake 1: Uninitialized Pointer</h5>
+                        <div class="code-example">
+                            <pre><code>// ❌ Wrong - Dangerous!
+int* ptr;
+*ptr = 10;  // ptr initialize කරලා නෑ - segmentation fault!
+
+// ✅ Correct
+int* ptr = nullptr;  // හෝ valid address එකක්
+int num = 0;
+ptr = &num;
+*ptr = 10;  // Safe now</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <h5><i class fas fa-bug"></i> Mistake 2: Dereferencing NULL Pointer</h5>
+<div class="code-example">
+<pre><code>// ❌ Wrong - Crash!
+int* ptr = nullptr;
+cout << *ptr;  // NULL pointer dereference කරනවා - crash!// ✅ Correct
+int* ptr = nullptr;
+if(ptr != nullptr) {
+cout << *ptr;
+} else {
+cout << "Pointer is null!" << endl;
+}</code></pre>
+</div>
+</div>                <div class="warning-box">
+                    <h5><i class="fas fa-bug"></i> Mistake 3: Confusing Declaration and Dereferencing</h5>
+                    <div class="code-example">
+                        <pre><code>// ❌ Wrong - Type mismatch
+int num = 50;
+int* ptr = num;  // Cannot assign int to int*// ✅ Correct
+int num = 50;
+int* ptr = #  // Assign address
+int value = *ptr;  // Get value through dereference</code></pre>
+</div>
+</div>                <div class="warning-box">
+                    <h5><i class="fas fa-bug"></i> Mistake 4: Dangling Pointer</h5>
+                    <div class="code-example">
+                        <pre><code>// ❌ Wrong - Dangling pointer
+int* ptr;
+{
+int num = 100;
+ptr = #
+}  // num goes out of scope
+cout << *ptr;  // Undefined behavior!// ✅ Correct
+int* ptr;
+int num = 100;  // num has wider scope
+ptr = #
+cout << *ptr;  // Safe</code></pre>
+</div>
+</div>
+</div>            <!-- Advanced Concepts -->
+            <div class="content-card">
+                <h3><i class="fas fa-graduation-cap text-info"></i> Advanced Concepts</h3>                <h5 class="mt-4"><i class="fas fa-layer-group"></i> 1. Pointer to Pointer (Double Pointer)</h5>
+                <p>Pointer එකක address එක තවත් pointer එකක store කරන්න පුළුවන්:</p>
+                <div class="code-example">
+                    <span class="code-label">C++</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;int main() {
+int num = 42;
+int* ptr = #      // Pointer to int
+int** pptr = &ptr;    // Pointer to pointer to intcout << "Value using num: " << num << endl;           // 42
+cout << "Value using *ptr: " << *ptr << endl;         // 42
+cout << "Value using **pptr: " << **pptr << endl;     // 42// pptr dereference කරනකොට ptr එක ලැබෙනවා
+// එය තවත් dereference කරනකොට num එකේ value එක ලැබෙනවා**pptr = 100;  // num එකේ value එක change කරනවා
+cout << "After changing **pptr: " << num << endl;     // 100return 0;
+}</code></pre>
+</div>                <h5 class="mt-4"><i class="fas fa-arrows-alt-h"></i> 2. Pointer Arithmetic with Dereferencing</h5>
+                <div class="code-example">
+                    <span class="code-label">C++</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;int main() {
+int arr[5] = {10, 20, 30, 40, 50};
+int* ptr = arr;// විවිධ ආකාර pointer arithmetic
+cout << "First element: " << *ptr << endl;           // 10
+cout << "Second element: " << *(ptr + 1) << endl;    // 20
+cout << "Third element: " << *(ptr + 2) << endl;     // 30// Increment කරලා access කරමු
+ptr++;  // ptr දැන් දෙවන element එක point කරනවා
+cout << "After ptr++: " << *ptr << endl;             // 20// Decrement කරමු
+ptr--;  // ptr නැවත පළමු element එක point කරනවා
+cout << "After ptr--: " << *ptr << endl;             // 10return 0;
+}</code></pre>
+</div>                <h5 class="mt-4"><i class="fas fa-memory"></i> 3. Dynamic Memory with Dereferencing</h5>
+                <div class="code-example">
+                    <span class="code-label">C++</span>
+                    <pre><code>#include &lt;iostream&gt;
+using namespace std;int main() {
+// Dynamically allocate memory
+int* ptr = new int;
+*ptr = 75;  // Dereference කරලා value assign කරමුcout << "Dynamically allocated value: " << *ptr << endl;delete ptr;  // Memory free කරමු
+ptr = nullptr;  // Dangling pointer වෙන්න දෙන්නේ නෑ// Dynamic array
+int size = 5;
+int* arr = new int[size];// Array fill කරමු
+for(int i = 0; i < size; i++) {
+    *(arr + i) = (i + 1) * 10;
+}// Array print කරමු
+cout << "Dynamic array: ";
+for(int i = 0; i < size; i++) {
+    cout << *(arr + i) << " ";
+}
+cout << endl;delete[] arr;  // Array memory free කරමු
+arr = nullptr;return 0;
+}</code></pre>
+</div>
+</div>            <!-- Interactive Demo -->
+            <div class="interactive-demo">
+                <h3><i class="fas fa-play-circle text-danger"></i> Interactive Dereferencing Demo</h3>
+                <p>Pointer dereferencing කොහොමද වැඩ කරන්නේ කියලා බලමු:</p>                <div class="row">
+                    <div class="col-md-6">
+                        <label>Enter a value:</label>
+                        <input type="number" class="form-control mb-2" id="inputValue" placeholder="e.g., 100" value="100">
+                    </div>
+                    <div class="col-md-6">
+                        <label>New value through pointer:</label>
+                        <input type="number" class="form-control mb-2" id="newValue" placeholder="e.g., 200" value="200">
+                    </div>
+                </div>                <button class="btn btn-custom mt-2" onclick="demonstrateDereference()">
+                    <i class="fas fa-play"></i> Run Demonstration
+                </button>                <div class="demo-output" id="output">
+                    Click the button to see dereferencing in action...
+                </div>
+            </div>            <!-- Use Cases -->
+            <div class="content-card">
+                <h3><i class="fas fa-tasks text-success"></i> Dereferencing භාවිත කරන තැන්</h3>                <div class="feature-box">
+                    <i class="fas fa-exchange-alt feature-icon"></i>
+                    <strong>Function Parameters:</strong> Functions වලට values pass කරන විට by reference pass කිරීම සඳහා
+                    <div class="code-example mt-2">
+                        <pre><code>void increment(int* num) {
+(*num)++;  // Dereference කරලා value එක වැඩි කරනවා
+}</code></pre>
+</div>
+</div>                <div class="feature-box">
+                    <i class="fas fa-database feature-icon"></i>
+                    <strong>Dynamic Data Structures:</strong> Linked lists, trees වගේ structures වල node values access කිරීම
+                    <div class="code-example mt-2">
+                        <pre><code>struct Node {
+int data;
+Node* next;
+};Node* current = head;
+cout << (*current).data;  // හෝ current->data</code></pre>
+</div>
+</div>                <div class="feature-box">
+                    <i class="fas fa-list feature-icon"></i>
+                    <strong>Array Manipulation:</strong> Arrays හැසිරවීම pointer arithmetic සමඟ
+                    <div class="code-example mt-2">
+                        <pre><code>int arr[5] = {1, 2, 3, 4, 5};
+int* ptr = arr;
+for(int i = 0; i < 5; i++) {
+cout << *(ptr + i) << " ";
+}</code></pre>
+</div>
+</div>                <div class="feature-box">
+                    <i class="fas fa-memory feature-icon"></i>
+                    <strong>Memory Management:</strong> Dynamically allocated memory access කිරීම
+                    <div class="code-example mt-2">
+                        <pre><code>int* ptr = new int(50);
+cout << *ptr;  // 50
+delete ptr;</code></pre>
+</div>
+</div>
+</div>            <!-- Best Practices -->
+            <div class="content-card">
+                <h3><i class="fas fa-check-circle text-success"></i> Best Practices</h3>                <div class="row">
+                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <h5><i class="fas fa-check feature-icon"></i> Do's</h5>
+                            <ul>
+                                <li>Pointer use කිරීමට පෙර initialize කරන්න</li>
+                                <li>Dereference කිරීමට පෙර NULL check කරන්න</li>
+                                <li>Delete කළ පසු pointer එක nullptr කරන්න</li>
+                                <li>Const correctness භාවිතා කරන්න</li>
+                                <li>Smart pointers භාවිතා කරන්න (modern C++)</li>
+                            </ul>
+                        </div>
+                    </div>                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <h5><i class="fas fa-times feature-icon"></i> Don'ts</h5>
+                            <ul>
+                                <li>Uninitialized pointers dereference කරන්න එපා</li>
+                                <li>NULL pointers dereference කරන්න එපා</li>
+                                <li>Deleted memory access කරන්න එපා</li>
+                                <li>Array bounds එකෙන් පිටත access කරන්න එපා</li>
+                                <li>Memory leaks හදන්න එපා</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>            <!-- Summary -->
+            <div class="summary-box">
+                <h3><i class="fas fa-book"></i> සාරාංශය (Summary)</h3>
+                <ul>
+                    <li><strong>Dereferencing</strong> යනු pointer එකක් මඟින් point කරන memory location එකේ value එක access කිරීමයි</li>
+                    <li><strong>Asterisk (*)</strong> operator එක dereferencing සඳහා භාවිතා කරයි</li>
+                    <li>Dereferencing මඟින් pointer වලින් values <strong>read සහ write</strong> කළ හැක</li>
+                    <li><strong>NULL pointers</strong> dereference කිරීම program crash කරයි</li>
+                    <li>Pointer <strong>arithmetic</strong> සහ dereferencing එකතු කරලා arrays manipulate කරන්න පුළුවන්</li>
+                    <li><strong>Double dereferencing (**)</strong> pointer to pointer වලදී භාවිතා වෙනවා</li>
+                    <li>Always check pointers are <strong>valid</strong> before dereferencing</li>
+                    <li><strong>Arrow operator (->)</strong> object pointers සඳහා වඩා convenient</li>
+                </ul>
+            </div>            <!-- Navigation Buttons -->
+            <div class="navigation-buttons">
+                <a href="references.html" class="btn btn-custom">
+                    <i class="fas fa-arrow-left"></i> Previous: References
+                </a>
+                <a href="structures.html" class="btn btn-custom">
+                    Next: Structures <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>        </div>
+    </div>
+</div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function demonstrateDereference() {
+        const inputValue = document.getElementById('inputValue').value || 100;
+        const newValue = document.getElementById('newValue').value || 200;        const output = `
+// Step 1: Variable එකක් declare කරමු
+int num = ${inputValue};
+Memory Address: 0x1000 (example)
+Value: ${inputValue}// Step 2: Pointer එකක් create කරලා address එක assign කරමු
+int* ptr = #
+ptr value: 0x1000 (num හි address එක)// Step 3: Dereference කරලා value එක access කරමු
+cout << *ptr;  // Output: ${inputValue}// Step 4: Pointer මඟින් value එක change කරමු
+*ptr = ${newValue};// Step 5: Changes verify කරමු
+cout << "num value: " << num;     // Output: ${newValue}
+cout << "*ptr value: " << *ptr;   // Output: ${newValue}✓ num සහ *ptr දෙකම එකම memory location එක share කරනවා!
+✓ *ptr මඟින් change කළ විට num එකත් change වෙනවා!
+`;        document.getElementById('output').innerText = output;
+    }    // Add smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });    // Add animation on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);    document.querySelectorAll('.content-card, .interactive-demo, .summary-box').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+</script>
+</body>
+</html>

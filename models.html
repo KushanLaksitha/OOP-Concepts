@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object-Oriented Programming Exam Paper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 25px;
+            border-left: 5px solid #667eea;
+            margin: 20px;
+        }
+
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .question-block {
+            margin: 30px 0;
+            padding: 25px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+        }
+
+        .question-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-header h2 {
+            font-size: 1.5em;
+        }
+
+        .marks-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .sub-question {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 3px solid #764ba2;
+        }
+
+        .sub-question h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 2px solid #667eea;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .answer-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .answer-section h5 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .answer-section ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .answer-section li {
+            margin: 8px 0;
+        }
+
+        .toggle-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .toggle-btn:hover {
+            background: #45a049;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .keyword {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #98c379;
+        }
+
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .toggle-btn {
+                display: none;
+            }
+            .answer-section {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Object-Oriented Programming</h1>
+            <p>Final Examination Paper - C++</p>
+            <p>Total Marks: 100 | Duration: 3 Hours</p>
+        </div>
+
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <ul>
+                <li>Answer ALL questions</li>
+                <li>Write clear, well-commented code where required</li>
+                <li>Explain your reasoning for theoretical questions</li>
+                <li>Pay attention to mark allocation for each part</li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <!-- Question 1 -->
+            <div class="question-block">
+                <div class="question-header">
+                    <h2>Question 1: Encapsulation & Constructors</h2>
+                    <span class="marks-badge">20 Marks</span>
+                </div>
+
+                <p>Consider the following Vehicle class:</p>
+
+                <pre><code><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+<span class="keyword">#include</span> <span class="string">&lt;string&gt;</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Vehicle {
+<span class="keyword">private</span>:
+    <span class="keyword">const int</span> vehicleID;
+    string brand;
+    <span class="keyword">int</span> speed;
+
+<span class="keyword">public</span>:
+    Vehicle(<span class="keyword">int</span> id, string b) : vehicleID(id), brand(b), speed(0) {}
+    
+    <span class="keyword">void</span> updateBrand(string *b) { brand = *b; }
+    <span class="keyword">void</span> updateSpeed(<span class="keyword">int</span> &s) { speed = s; }
+    <span class="keyword">void</span> accelerate(<span class="keyword">int</span> increment) { speed += increment; }
+    
+    <span class="keyword">void</span> display() <span class="keyword">const</span> {
+        cout &lt;&lt; <span class="string">"ID: "</span> &lt;&lt; vehicleID &lt;&lt; <span class="string">", Brand: "</span> &lt;&lt; brand 
+             &lt;&lt; <span class="string">", Speed: "</span> &lt;&lt; speed &lt;&lt; endl;
+    }
+};</code></pre>
+
+                <div class="sub-question">
+                    <h4>(a) Why is vehicleID declared as const and initialized using an initializer list? (3 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q1a')">Show Answer</button>
+                    <div id="q1a" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <p><strong>vehicleID is const because:</strong></p>
+                        <ul>
+                            <li>A vehicle's ID should never change after creation - it's a permanent identifier</li>
+                            <li>Const data members MUST be initialized using an initializer list, not in the constructor body</li>
+                            <li>This enforces immutability and prevents accidental modification of the ID</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(b) Explain the difference between updateBrand() and updateSpeed() in terms of parameter passing. (3 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q1b')">Show Answer</button>
+                    <div id="q1b" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li><strong>updateBrand(string *b)</strong> - Uses a pointer parameter. Must be called with the address of a string (&variableName). Dereferences the pointer (*b) to access the value.</li>
+                            <li><strong>updateSpeed(int &s)</strong> - Uses a reference parameter. Called directly with the variable name. No dereferencing needed, works like an alias.</li>
+                            <li>Both allow modification of the original variable, but reference syntax is cleaner and safer (can't be null).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(c) Write the output of the following code and explain the memory addresses: (6 marks)</h4>
+                    <pre><code><span class="keyword">int</span> main() {
+    Vehicle car(101, <span class="string">"Toyota"</span>);
+    string newBrand = <span class="string">"Honda"</span>;
+    <span class="keyword">int</span> newSpeed = 60;
+    
+    cout &lt;&lt; <span class="string">"Address of newBrand: "</span> &lt;&lt; &newBrand &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Address of newSpeed: "</span> &lt;&lt; &newSpeed &lt;&lt; endl;
+    
+    car.updateBrand(&newBrand);
+    car.updateSpeed(newSpeed);
+    car.display();
+    
+    <span class="keyword">return</span> 0;
+}</code></pre>
+                    <button class="toggle-btn" onclick="toggleAnswer('q1c')">Show Answer</button>
+                    <div id="q1c" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <p><strong>Output:</strong></p>
+                        <pre>Address of newBrand: 0x7ffc8b2a3c40  (example address)
+Address of newSpeed: 0x7ffc8b2a3c3c  (example address)
+ID: 101, Brand: Honda, Speed: 60</pre>
+                        <p><strong>Explanation:</strong></p>
+                        <ul>
+                            <li>The addresses shown are memory locations on the stack where newBrand and newSpeed are stored</li>
+                            <li>updateBrand receives the address (&newBrand) and dereferences it to copy "Honda"</li>
+                            <li>updateSpeed receives a reference (alias) to newSpeed, so it directly modifies the speed to 60</li>
+                            <li>The display shows the updated values</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(d) Explain how this class demonstrates encapsulation and data hiding. Provide specific examples from the code. (8 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q1d')">Show Answer</button>
+                    <div id="q1d" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <p><strong>Encapsulation demonstrated through:</strong></p>
+                        <ul>
+                            <li><strong>Private data members:</strong> vehicleID, brand, and speed cannot be accessed directly from outside the class</li>
+                            <li><strong>Public interface:</strong> Controlled access through updateBrand(), updateSpeed(), accelerate(), and display() methods</li>
+                            <li><strong>Data hiding:</strong> Internal implementation is hidden - users don't know how speed is stored or calculated</li>
+                            <li><strong>Const correctness:</strong> vehicleID cannot be modified, display() is const (read-only)</li>
+                            <li><strong>Controlled modification:</strong> Speed can only be changed through designated methods, preventing invalid states</li>
+                            <li><strong>Benefits:</strong> If we need to add validation (e.g., speed limits), we only modify the methods, not external code</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-block">
+                <div class="question-header">
+                    <h2>Question 2: Inheritance & Constructor Chaining</h2>
+                    <span class="marks-badge">20 Marks</span>
+                </div>
+
+                <pre><code><span class="keyword">class</span> Shape {
+<span class="keyword">protected</span>:
+    string color;
+    <span class="keyword">int</span> borderWidth;
+
+<span class="keyword">public</span>:
+    Shape(string c, <span class="keyword">int</span> w) : color(c), borderWidth(w) {
+        cout &lt;&lt; <span class="string">"Shape constructor called"</span> &lt;&lt; endl;
+    }
+    
+    ~Shape() {
+        cout &lt;&lt; <span class="string">"Shape destructor called"</span> &lt;&lt; endl;
+    }
+    
+    <span class="keyword">void</span> displayInfo() {
+        cout &lt;&lt; <span class="string">"Color: "</span> &lt;&lt; color &lt;&lt; <span class="string">", Border: "</span> &lt;&lt; borderWidth &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">class</span> Circle : <span class="keyword">public</span> Shape {
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> radius;
+
+<span class="keyword">public</span>:
+    Circle(string c, <span class="keyword">int</span> w, <span class="keyword">double</span> r) : Shape(c, w), radius(r) {
+        cout &lt;&lt; <span class="string">"Circle constructor called"</span> &lt;&lt; endl;
+    }
+    
+    ~Circle() {
+        cout &lt;&lt; <span class="string">"Circle destructor called"</span> &lt;&lt; endl;
+    }
+    
+    <span class="keyword">void</span> displayInfo() {
+        Shape::displayInfo();
+        cout &lt;&lt; <span class="string">"Radius: "</span> &lt;&lt; radius &lt;&lt; endl;
+    }
+    
+    <span class="keyword">double</span> area() <span class="keyword">const</span> {
+        <span class="keyword">return</span> 3.14159 * radius * radius;
+    }
+};</code></pre>
+
+                <div class="sub-question">
+                    <h4>(a) What is the purpose of the 'protected' access specifier in the Shape class? (3 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q2a')">Show Answer</button>
+                    <div id="q2a" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li><strong>Protected members</strong> are accessible within the class itself AND in derived classes</li>
+                            <li>In this case, Circle class can directly access 'color' and 'borderWidth' from Shape</li>
+                            <li>However, these members remain hidden from external code (not accessible in main())</li>
+                            <li>This provides a middle ground between private (too restrictive for inheritance) and public (too permissive)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(b) Explain the constructor chaining shown in Circle's constructor. (3 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q2b')">Show Answer</button>
+                    <div id="q2b" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li><strong>Constructor chaining:</strong> Circle(c, w, r) : Shape(c, w) explicitly calls the base class constructor</li>
+                            <li>The base class constructor (Shape) ALWAYS executes first, before Circle's constructor body</li>
+                            <li>This ensures the base class is fully initialized before the derived class adds its own data</li>
+                            <li>Without : Shape(c, w), the compiler would try to call a default Shape() constructor, which doesn't exist</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(c) Write the complete output when the following code executes: (2 marks)</h4>
+                    <pre><code>Circle c(<span class="string">"Red"</span>, 2, 5.5);</code></pre>
+                    <button class="toggle-btn" onclick="toggleAnswer('q2c')">Show Answer</button>
+                    <div id="q2c" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <pre>Shape constructor called
+Circle constructor called
+Circle destructor called
+Shape destructor called</pre>
+                        <p><strong>Note:</strong> Constructors execute base-to-derived, destructors execute derived-to-base</p>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(d) What is the difference between function overriding and function hiding? Give examples from the code. (4 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q2d')">Show Answer</button>
+                    <div id="q2d" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li><strong>Function Hiding (shown here):</strong> Circle's displayInfo() hides Shape's displayInfo(). This is redefinition, not overriding.</li>
+                            <li>Since displayInfo() is not virtual, it's resolved at compile-time based on the object's declared type</li>
+                            <li>Circle explicitly calls Shape::displayInfo() to access the hidden base version</li>
+                            <li><strong>Function Overriding:</strong> Would require 'virtual' keyword in base class, enables runtime polymorphism</li>
+                            <li>Key difference: Hiding is compile-time (static), overriding is runtime (dynamic)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(e) Why is the area() function declared as const? (3 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q2e')">Show Answer</button>
+                    <div id="q2e" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li><strong>Const member function:</strong> Promises not to modify any member variables of the object</li>
+                            <li>area() only reads the radius value, doesn't change any state</li>
+                            <li>Allows the function to be called on const Circle objects</li>
+                            <li>Good practice: Mark all read-only functions as const for const correctness</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(f) Design a Rectangle class that inherits from Shape. Include appropriate constructor, destructor, and a calculateArea() method. (5 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q2f')">Show Answer</button>
+                    <div id="q2f" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <pre><code><span class="keyword">class</span> Rectangle : <span class="keyword">public</span> Shape {
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> length;
+    <span class="keyword">double</span> width;
+
+<span class="keyword">public</span>:
+    Rectangle(string c, <span class="keyword">int</span> bw, <span class="keyword">double</span> l, <span class="keyword">double</span> w) 
+        : Shape(c, bw), length(l), width(w) {
+        cout &lt;&lt; <span class="string">"Rectangle constructor called"</span> &lt;&lt; endl;
+    }
+    
+    ~Rectangle() {
+        cout &lt;&lt; <span class="string">"Rectangle destructor called"</span> &lt;&lt; endl;
+    }
+    
+    <span class="keyword">double</span> calculateArea() <span class="keyword">const</span> {
+        <span class="keyword">return</span> length * width;
+    }
+    
+    <span class="keyword">void</span> displayInfo() {
+        Shape::displayInfo();
+        cout &lt;&lt; <span class="string">"Length: "</span> &lt;&lt; length 
+             &lt;&lt; <span class="string">", Width: "</span> &lt;&lt; width &lt;&lt; endl;
+    }
+};</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-block">
+                <div class="question-header">
+                    <h2>Question 3: Polymorphism & Abstraction</h2>
+                    <span class="marks-badge">20 Marks</span>
+                </div>
+
+                <pre><code><span class="keyword">class</span> Animal {
+<span class="keyword">public</span>:
+    <span class="keyword">virtual void</span> makeSound() = 0;
+    <span class="keyword">virtual void</span> move() {
+        cout &lt;&lt; <span class="string">"Animal is moving"</span> &lt;&lt; endl;
+    }
+    <span class="keyword">virtual</span> ~Animal() {}
+};
+
+<span class="keyword">class</span> Dog : <span class="keyword">public</span> Animal {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> makeSound() <span class="keyword">override</span> {
+        cout &lt;&lt; <span class="string">"Woof! Woof!"</span> &lt;&lt; endl;
+    }
+    <span class="keyword">void</span> move() <span class="keyword">override</span> {
+        cout &lt;&lt; <span class="string">"Dog runs on four legs"</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">class</span> Bird : <span class="keyword">public</span> Animal {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> makeSound() <span class="keyword">override</span> {
+        cout &lt;&lt; <span class="string">"Chirp! Chirp!"</span> &lt;&lt; endl;
+    }
+    <span class="keyword">void</span> move() <span class="keyword">override</span> {
+        cout &lt;&lt; <span class="string">"Bird flies in the sky"</span> &lt;&lt; endl;
+    }
+};</code></pre>
+
+                <div class="sub-question">
+                    <h4>(a) What makes Animal an abstract class? Can you create an instance of Animal? (4 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q3a')">Show Answer</button>
+                    <div id="q3a" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li><strong>Pure virtual function:</strong> makeSound() = 0 makes Animal abstract</li>
+                            <li><strong>Cannot instantiate:</strong> Animal a; would cause a compilation error</li>
+                            <li><strong>Purpose:</strong> Abstract classes serve as interfaces/contracts for derived classes</li>
+                            <li><strong>Requirement:</strong> Any concrete derived class MUST implement all pure virtual functions</li>
+                            <li>You CAN create pointers/references to Animal (e.g., Animal* ptr = new Dog();)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(b) Explain the difference between compile-time and runtime polymorphism with examples. (4 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q3b')">Show Answer</button>
+                    <div id="q3b" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li><strong>Compile-time (Static) Polymorphism:</strong> Function overloading, operator overloading. Resolved during compilation. Example: multiple constructors with different parameters.</li>
+                            <li><strong>Runtime (Dynamic) Polymorphism:</strong> Virtual functions and overriding. Resolved during program execution based on actual object type.</li>
+                            <li><strong>Example from code:</strong> Animal* ptr = new Dog(); ptr->makeSound(); calls Dog's version at runtime, not Animal's.</li>
+                            <li><strong>Key requirement:</strong> Runtime polymorphism requires virtual keyword and pointer/reference to base class</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(c) Write the output of this code and explain why: (4 marks)</h4>
+                    <pre><code>Animal* animals[2];
+animals[0] = <span class="keyword">new</span> Dog();
+animals[1] = <span class="keyword">new</span> Bird();
+
+<span class="keyword">for</span>(<span class="keyword">int</span> i = 0; i < 2; i++) {
+    animals[i]->makeSound();
+    animals[i]->move();
+}</code></pre>
+                    <button class="toggle-btn" onclick="toggleAnswer('q3c')">Show Answer</button>
+                    <div id="q3c" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <pre>Woof! Woof!
+Dog runs on four legs
+Chirp! Chirp!
+Bird flies in the sky</pre>
+                        <p><strong>Explanation:</strong></p>
+                        <ul>
+                            <li>Array holds Animal pointers, but points to Dog and Bird objects</li>
+                            <li>Both makeSound() and move() are virtual, enabling runtime polymorphism</li>
+                            <li>At runtime, the actual object type (Dog/Bird) determines which function executes</li>
+                            <li>This is the power of polymorphism - same interface, different behaviors</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(d) Why is the destructor declared as virtual in the Animal class? (4 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q3d')">Show Answer</button>
+                    <div id="q3d" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li><strong>Proper cleanup:</strong> When deleting through a base class pointer, virtual destructor ensures derived class destructor is called first</li>
+                            <li><strong>Without virtual:</strong> Only Animal's destructor would run, causing memory leaks if Dog/Bird allocated resources</li>
+                            <li><strong>Rule of thumb:</strong> ANY class with virtual functions should have a virtual destructor</li>
+                            <li><strong>Example:</strong> delete animals[0]; would call Dog's destructor, then Animal's destructor</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(e) Create a Fish class that inherits from Animal and implements the required functions. (4 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q3e')">Show Answer</button>
+                    <div id="q3e" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <pre><code><span class="keyword">class</span> Fish : <span class="keyword">public</span> Animal {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> makeSound() <span class="keyword">override</span> {
+        cout &lt;&lt; <span class="string">"Blub! Blub!"</span> &lt;&lt; endl;
+    }
+    
+    <span class="keyword">void</span> move() <span class="keyword">override</span> {
+        cout &lt;&lt; <span class="string">"Fish swims in water"</span> &lt;&lt; endl;
+    }
+};</code></pre>
+                        <p><strong>Key points:</strong></p>
+                        <ul>
+                            <li>Must implement makeSound() because it's pure virtual</li>
+                            <li>Uses override keyword for clarity and compiler checking</li>
+                            <li>Can now be instantiated unlike abstract Animal class</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-block">
+                <div class="question-header">
+                    <h2>Question 4: Operator Overloading</h2>
+                    <span class="marks-badge">20 Marks</span>
+                </div>
+
+                <pre><code><span class="keyword">class</span> Complex {
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> real;
+    <span class="keyword">double</span> imag;
+
+<span class="keyword">public</span>:
+    Complex(<span class="keyword">double</span> r = 0, <span class="keyword">double</span> i = 0) : real(r), imag(i) {}
+    
+    Complex <span class="keyword">operator</span>+(<span class="keyword">const</span> Complex& other) <span class="keyword">const</span> {
+        <span class="keyword">return</span> Complex(real + other.real, imag + other.imag);
+    }
+    
+    Complex <span class="keyword">operator</span>*(<span class="keyword">const</span> Complex& other) <span class="keyword">const</span> {
+        <span class="keyword">return</span> Complex(
+            real * other.real - imag * other.imag,
+            real * other.imag + imag * other.real
+        );
+    }
+    
+    <span class="keyword">void</span> display() <span class="keyword">const</span> {
+        cout &lt;&lt; real &lt;&lt; <span class="string">" + "</span> &lt;&lt; imag &lt;&lt; <span class="string">"i"</span> &lt;&lt; endl;
+    }
+};</code></pre>
+
+                <div class="sub-question">
+                    <h4>(a) Explain why operator+ returns by value and takes a const reference parameter. (4 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q4a')">Show Answer</button>
+                    <div id="q4a" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li><strong>Returns by value:</strong> Creates a new Complex object with the sum, doesn't modify original objects</li>
+                            <li><strong>Const reference parameter:</strong> Avoids copying the parameter (efficient) and promises not to modify it</li>
+                            <li><strong>Safety:</strong> Both operands remain unchanged, following mathematical convention (3 + 4 doesn't change 3 or 4)</li>
+                            <li><strong>Member function const:</strong> The function itself doesn't modify 'this' object</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(b) What would happen if we wrote: Complex c = c1 + c2 + c3; (2 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q4b')">Show Answer</button>
+                    <div id="q4b" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li>It would work perfectly due to left-to-right evaluation</li>
+                            <li>Step 1: (c1 + c2) creates temporary Complex object</li>
+                            <li>Step 2: (temporary + c3) creates final result</li>
+                            <li>This is called operator chaining, enabled by returning Complex by value</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(c) Implement the operator- (subtraction) for this class. (4 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q4c')">Show Answer</button>
+                    <div id="q4c" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <pre><code>Complex <span class="keyword">operator</span>-(<span class="keyword">const</span> Complex& other) <span class="keyword">const</span> {
+    <span class="keyword">return</span> Complex(real - other.real, imag - other.imag);
+}</code></pre>
+                        <p><strong>Explanation:</strong></p>
+                        <ul>
+                            <li>Follows same pattern as operator+</li>
+                            <li>Subtracts real parts and imaginary parts separately</li>
+                            <li>Returns new Complex object with the difference</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(d) Explain the formula used in operator* for complex multiplication and why it's correct. Write example output. (6 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q4d')">Show Answer</button>
+                    <div id="q4d" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <p><strong>Formula for (a + bi) * (c + di):</strong></p>
+                        <ul>
+                            <li>Real part: ac - bd (because i² = -1)</li>
+                            <li>Imaginary part: ad + bc</li>
+                            <li>The formula comes from expanding: (a + bi)(c + di) = ac + adi + bci + bdi²</li>
+                            <li>Since i² = -1, we get: ac + adi + bci - bd = (ac - bd) + (ad + bc)i</li>
+                        </ul>
+                        <p><strong>Example:</strong></p>
+                        <pre><code>Complex c1(3, 2);  <span class="comment">// 3 + 2i</span>
+Complex c2(1, 4);  <span class="comment">// 1 + 4i</span>
+Complex c3 = c1 * c2;
+c3.display();  <span class="comment">// Output: -5 + 14i</span>
+
+<span class="comment">// Calculation: (3*1 - 2*4) + (3*4 + 2*1)i = -5 + 14i</span></code></pre>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(e) Implement operator== to compare two Complex numbers. (4 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q4e')">Show Answer</button>
+                    <div id="q4e" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <pre><code><span class="keyword">bool</span> <span class="keyword">operator</span>==(<span class="keyword">const</span> Complex& other) <span class="keyword">const</span> {
+    <span class="keyword">return</span> (real == other.real) && (imag == other.imag);
+}</code></pre>
+                        <p><strong>Key points:</strong></p>
+                        <ul>
+                            <li>Returns bool instead of Complex</li>
+                            <li>Two complex numbers are equal if both real and imaginary parts match</li>
+                            <li>Still uses const reference and is a const member function</li>
+                            <li>Can now use: if (c1 == c2) { ... }</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question-block">
+                <div class="question-header">
+                    <h2>Question 5: Comprehensive OOP Design</h2>
+                    <span class="marks-badge">20 Marks</span>
+                </div>
+
+                <p><strong>Scenario:</strong> Design a library management system with the following requirements:</p>
+                <ul>
+                    <li>Base class LibraryItem with title, itemID (const), and availabilityStatus</li>
+                    <li>Derived classes: Book (author, ISBN) and Magazine (issueNumber, month)</li>
+                    <li>Abstract method getItemType() that must be implemented by derived classes</li>
+                    <li>Method to check out and return items</li>
+                </ul>
+
+                <div class="sub-question">
+                    <h4>(a) Design the complete class hierarchy with proper encapsulation, constructors, and member functions. (8 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q5a')">Show Answer</button>
+                    <div id="q5a" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <pre><code><span class="keyword">class</span> LibraryItem {
+<span class="keyword">protected</span>:
+    string title;
+    <span class="keyword">const int</span> itemID;
+    <span class="keyword">bool</span> availabilityStatus;
+
+<span class="keyword">public</span>:
+    LibraryItem(<span class="keyword">const</span> string& t, <span class="keyword">int</span> id) 
+        : title(t), itemID(id), availabilityStatus(<span class="keyword">true</span>) {}
+    
+    <span class="keyword">virtual</span> ~LibraryItem() {}
+    
+    <span class="keyword">virtual</span> string getItemType() <span class="keyword">const</span> = 0;
+    
+    <span class="keyword">bool</span> checkout() {
+        <span class="keyword">if</span> (availabilityStatus) {
+            availabilityStatus = <span class="keyword">false</span>;
+            cout &lt;&lt; title &lt;&lt; <span class="string">" checked out successfully"</span> &lt;&lt; endl;
+            <span class="keyword">return true</span>;
+        }
+        cout &lt;&lt; title &lt;&lt; <span class="string">" is not available"</span> &lt;&lt; endl;
+        <span class="keyword">return false</span>;
+    }
+    
+    <span class="keyword">void</span> returnItem() {
+        availabilityStatus = <span class="keyword">true</span>;
+        cout &lt;&lt; title &lt;&lt; <span class="string">" returned successfully"</span> &lt;&lt; endl;
+    }
+    
+    <span class="keyword">void</span> displayInfo() <span class="keyword">const</span> {
+        cout &lt;&lt; <span class="string">"ID: "</span> &lt;&lt; itemID &lt;&lt; <span class="string">", Title: "</span> &lt;&lt; title
+             &lt;&lt; <span class="string">", Available: "</span> &lt;&lt; (availabilityStatus ? <span class="string">"Yes"</span> : <span class="string">"No"</span>) &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">class</span> Book : <span class="keyword">public</span> LibraryItem {
+<span class="keyword">private</span>:
+    string author;
+    string ISBN;
+
+<span class="keyword">public</span>:
+    Book(<span class="keyword">const</span> string& t, <span class="keyword">int</span> id, <span class="keyword">const</span> string& a, <span class="keyword">const</span> string& isbn)
+        : LibraryItem(t, id), author(a), ISBN(isbn) {}
+    
+    string getItemType() <span class="keyword">const override</span> {
+        <span class="keyword">return</span> <span class="string">"Book"</span>;
+    }
+    
+    <span class="keyword">void</span> displayInfo() <span class="keyword">const</span> {
+        LibraryItem::displayInfo();
+        cout &lt;&lt; <span class="string">"Type: Book, Author: "</span> &lt;&lt; author 
+             &lt;&lt; <span class="string">", ISBN: "</span> &lt;&lt; ISBN &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">class</span> Magazine : <span class="keyword">public</span> LibraryItem {
+<span class="keyword">private</span>:
+    <span class="keyword">int</span> issueNumber;
+    string month;
+
+<span class="keyword">public</span>:
+    Magazine(<span class="keyword">const</span> string& t, <span class="keyword">int</span> id, <span class="keyword">int</span> issue, <span class="keyword">const</span> string& m)
+        : LibraryItem(t, id), issueNumber(issue), month(m) {}
+    
+    string getItemType() <span class="keyword">const override</span> {
+        <span class="keyword">return</span> <span class="string">"Magazine"</span>;
+    }
+    
+    <span class="keyword">void</span> displayInfo() <span class="keyword">const</span> {
+        LibraryItem::displayInfo();
+        cout &lt;&lt; <span class="string">"Type: Magazine, Issue: "</span> &lt;&lt; issueNumber 
+             &lt;&lt; <span class="string">", Month: "</span> &lt;&lt; month &lt;&lt; endl;
+    }
+};</code></pre>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(b) Write a main() function demonstrating polymorphism with at least 3 items. (6 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q5b')">Show Answer</button>
+                    <div id="q5b" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <pre><code><span class="keyword">int</span> main() {
+    LibraryItem* library[3];
+    
+    library[0] = <span class="keyword">new</span> Book(<span class="string">"1984"</span>, 101, <span class="string">"George Orwell"</span>, <span class="string">"978-0451524935"</span>);
+    library[1] = <span class="keyword">new</span> Book(<span class="string">"To Kill a Mockingbird"</span>, 102, <span class="string">"Harper Lee"</span>, <span class="string">"978-0061120084"</span>);
+    library[2] = <span class="keyword">new</span> Magazine(<span class="string">"National Geographic"</span>, 201, 45, <span class="string">"October"</span>);
+    
+    <span class="comment">// Display all items</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; 3; i++) {
+        cout &lt;&lt; <span class="string">"\n--- "</span> &lt;&lt; library[i]->getItemType() &lt;&lt; <span class="string">" ---"</span> &lt;&lt; endl;
+        library[i]->displayInfo();
+    }
+    
+    <span class="comment">// Checkout and return</span>
+    cout &lt;&lt; <span class="string">"\n--- Checkout Operations ---"</span> &lt;&lt; endl;
+    library[0]->checkout();
+    library[0]->checkout();  <span class="comment">// Try again - should fail</span>
+    
+    cout &lt;&lt; <span class="string">"\n--- Return Operations ---"</span> &lt;&lt; endl;
+    library[0]->returnItem();
+    
+    <span class="comment">// Clean up</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; 3; i++) {
+        <span class="keyword">delete</span> library[i];
+    }
+    
+    <span class="keyword">return</span> 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(d) List all OOP principles demonstrated in your design. (2 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q5d')">Show Answer</button>
+                    <div id="q5d" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li><strong>Encapsulation:</strong> Private/protected data, public interface</li>
+                            <li><strong>Inheritance:</strong> Book and Magazine inherit from LibraryItem</li>
+                            <li><strong>Polymorphism:</strong> Virtual functions, runtime binding via base class pointers</li>
+                            <li><strong>Abstraction:</strong> Pure virtual getItemType() makes LibraryItem abstract</li>
+                            <li><strong>Data Hiding:</strong> Implementation details hidden, controlled access</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(e) Why is itemID declared as const? (2 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q5e')">Show Answer</button>
+                    <div id="q5e" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li>Library item IDs should be unique and permanent identifiers</li>
+                            <li>Once assigned, they should never change throughout the object's lifetime</li>
+                            <li>Prevents accidental modification that could cause database inconsistencies</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-question">
+                    <h4>(f) What would happen if the destructor wasn't virtual? (2 marks)</h4>
+                    <button class="toggle-btn" onclick="toggleAnswer('q5f')">Show Answer</button>
+                    <div id="q5f" class="answer-section hidden">
+                        <h5>Answer:</h5>
+                        <ul>
+                            <li>When deleting through a base class pointer (LibraryItem*), only the base destructor would be called</li>
+                            <li>Derived class destructors (Book/Magazine) would not execute</li>
+                            <li>Could cause memory leaks if derived classes allocated resources</li>
+                            <li>Virtual destructor ensures proper cleanup in inheritance hierarchies</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p><strong>End of Examination Paper</strong></p>
+            <p>Total Marks: 100 | Duration: 3 Hours</p>
+            <p>Good Luck!</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(id) {
+            const element = document.getElementById(id);
+            const button = element.previousElementSibling;
+            
+            if (element.classList.contains('hidden')) {
+                element.classList.remove('hidden');
+                button.textContent = 'Hide Answer';
+                button.style.background = '#f44336';
+            } else {
+                element.classList.add('hidden');
+                button.textContent = 'Show Answer';
+                button.style.background = '#4caf50';
+            }
+        }
+
+        // Add print functionality
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                window.print();
+            }
+        });
+    </script>
+</body>
+</html>
