@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT 1306 Practical 03 - C++ විසඳුම්</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .question {
+            margin-bottom: 40px;
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+        }
+        
+        .question h2 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .description {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .code-container {
+            position: relative;
+            margin-top: 15px;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+        
+        .copied {
+            background: #10b981 !important;
+        }
+        
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; font-style: italic; }
+        .function { color: #dcdcaa; }
+        .number { color: #b5cea8; }
+        .class-name { color: #4ec9b0; }
+        
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .note strong {
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ICT 1306 - Object Oriented Programming</h1>
+            <p>Practical 03: Objects and Classes - C++ විසඳුම්</p>
+        </header>
+        
+        <div class="content">
+            <!-- Question 1 -->
+            <div class="question">
+                <h2>ප්‍රශ්නය 1: වෘත්තයක් නියෝජනය කරන Circle Class එක</h2>
+                <div class="description">
+                    මෙම වැඩසටහනෙන් වෘත්තයක් (Circle) නියෝජනය කරන class එකක් නිර්මාණය කරනවා. radius එක set කිරීමට, වර්ගඵලය ගණනය කිරීමට සහ display කිරීමට functions තුනක් ඇතුළත් වෙනවා.
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this, 'code1')">Copy Code</button>
+                    <pre><code id="code1"><span class="comment">// Question 1: Circle Class</span>
+<span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> <span class="class-name">Circle</span> {
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> radius;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Function to set radius</span>
+    <span class="keyword">void</span> <span class="function">setRadius</span>(<span class="keyword">double</span> r) {
+        radius = r;
+    }
+
+    <span class="comment">// Function to calculate area</span>
+    <span class="keyword">double</span> <span class="function">calculateArea</span>() {
+        <span class="keyword">return</span> <span class="number">3.14159</span> * radius * radius;
+    }
+
+    <span class="comment">// Function to display area</span>
+    <span class="keyword">void</span> <span class="function">displayArea</span>() {
+        cout &lt;&lt; <span class="string">"වෘත්තයේ වර්ගඵලය: "</span> &lt;&lt; <span class="function">calculateArea</span>() &lt;&lt; <span class="string">" වර්ග ඒකක"</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="class-name">Circle</span> c;
+    <span class="keyword">double</span> r;
+
+    cout &lt;&lt; <span class="string">"වෘත්තයේ අරය (radius) ඇතුලත් කරන්න: "</span>;
+    cin &gt;&gt; r;
+
+    c.<span class="function">setRadius</span>(r);
+    c.<span class="function">displayArea</span>();
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question">
+                <h2>ප්‍රශ්නය 2: ගිටාර් වෙළඳසැල් පද්ධතිය</h2>
+                <div class="description">
+                    සංගීත උපකරණ වෙළඳසැලක් විසින් ගිටාර් විකිණීම සඳහා පරිගණක පද්ධතියක් භාවිතා කරනවා. ගිටාර් code එකක් ඇතුලත් කිරීමෙන් එම ගිටාරය පිළිබඳ විස්තර ලබා ගත හැකියි. වෙළඳසැලේ ගිටාර් වර්ග හතරක් පවතී.
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this, 'code2')">Copy Code</button>
+                    <pre><code id="code2"><span class="comment">// Question 2: Guitar Shop System</span>
+<span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+<span class="keyword">#include</span> <span class="string">&lt;string&gt;</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> <span class="class-name">Guitar</span> {
+<span class="keyword">private</span>:
+    <span class="keyword">int</span> code;
+    string brand;
+    string model;
+    <span class="keyword">double</span> price;
+    string type;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Function to set guitar details</span>
+    <span class="keyword">void</span> <span class="function">setDetails</span>(<span class="keyword">int</span> c, string b, string m, <span class="keyword">double</span> p, string t) {
+        code = c;
+        brand = b;
+        model = m;
+        price = p;
+        type = t;
+    }
+
+    <span class="comment">// Function to get code</span>
+    <span class="keyword">int</span> <span class="function">getCode</span>() {
+        <span class="keyword">return</span> code;
+    }
+
+    <span class="comment">// Function to display guitar details</span>
+    <span class="keyword">void</span> <span class="function">displayDetails</span>() {
+        cout &lt;&lt; <span class="string">"\n===== ගිටාර් විස්තර ====="</span> &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"කේතය: "</span> &lt;&lt; code &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"සන්නාමය: "</span> &lt;&lt; brand &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"ආකෘතිය: "</span> &lt;&lt; model &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"මිල: Rs. "</span> &lt;&lt; price &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"වර්ගය: "</span> &lt;&lt; type &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"========================\n"</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="class-name">Guitar</span> guitars[<span class="number">4</span>];
+    
+    <span class="comment">// Initialize guitars with details</span>
+    guitars[<span class="number">0</span>].<span class="function">setDetails</span>(<span class="number">101</span>, <span class="string">"Fender"</span>, <span class="string">"Stratocaster"</span>, <span class="number">125000.00</span>, <span class="string">"Electric"</span>);
+    guitars[<span class="number">1</span>].<span class="function">setDetails</span>(<span class="number">102</span>, <span class="string">"Gibson"</span>, <span class="string">"Les Paul"</span>, <span class="number">185000.00</span>, <span class="string">"Electric"</span>);
+    guitars[<span class="number">2</span>].<span class="function">setDetails</span>(<span class="number">103</span>, <span class="string">"Yamaha"</span>, <span class="string">"F310"</span>, <span class="number">35000.00</span>, <span class="string">"Acoustic"</span>);
+    guitars[<span class="number">3</span>].<span class="function">setDetails</span>(<span class="number">104</span>, <span class="string">"Taylor"</span>, <span class="string">"214ce"</span>, <span class="number">275000.00</span>, <span class="string">"Acoustic"</span>);
+
+    <span class="keyword">int</span> searchCode;
+    <span class="keyword">bool</span> found = <span class="keyword">false</span>;
+
+    cout &lt;&lt; <span class="string">"ගිටාර් කේතය ඇතුලත් කරන්න: "</span>;
+    cin &gt;&gt; searchCode;
+
+    <span class="comment">// Search for guitar</span>
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) {
+        <span class="keyword">if</span>(guitars[i].<span class="function">getCode</span>() == searchCode) {
+            guitars[i].<span class="function">displayDetails</span>();
+            found = <span class="keyword">true</span>;
+            <span class="keyword">break</span>;
+        }
+    }
+
+    <span class="keyword">if</span>(!found) {
+        cout &lt;&lt; <span class="string">"මෙම කේතය සඳහා ගිටාර් එකක් හමු නොවීය!"</span> &lt;&lt; endl;
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question">
+                <h2>ප්‍රශ්නය 3: බැංකු ගිණුම් පද්ධතිය</h2>
+                <div class="description">
+                    බැංකු ගිණුමක් නියෝජනය කරන class එකක් නිර්මාණය කරනවා. ගිණුම් හිමියාගේ නම, ගිණුම් අංකය සහ ශේෂය data members ලෙස ඇතුළත් වෙනවා. මුදල් තැන්පත් කිරීමට සහ ආපසු ගැනීමට functions ඇතුළත් වෙනවා.
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this, 'code3')">Copy Code</button>
+                    <pre><code id="code3"><span class="comment">// Question 3: Bank Account System</span>
+<span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+<span class="keyword">#include</span> <span class="string">&lt;string&gt;</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> <span class="class-name">BankAccount</span> {
+<span class="keyword">private</span>:
+    string accountHolderName;
+    <span class="keyword">long long</span> accountNumber;
+    <span class="keyword">double</span> balance;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Function to set account details</span>
+    <span class="keyword">void</span> <span class="function">setAccountDetails</span>(string name, <span class="keyword">long long</span> accNum, <span class="keyword">double</span> bal) {
+        accountHolderName = name;
+        accountNumber = accNum;
+        balance = bal;
+    }
+
+    <span class="comment">// Function to withdraw money</span>
+    <span class="keyword">void</span> <span class="function">withdraw</span>(<span class="keyword">double</span> amount) {
+        <span class="keyword">if</span>(amount &gt; balance) {
+            cout &lt;&lt; <span class="string">"ප්‍රමාණවත් මුදල් නොමැත!"</span> &lt;&lt; endl;
+            cout &lt;&lt; <span class="string">"වත්මන් ශේෂය: Rs. "</span> &lt;&lt; balance &lt;&lt; endl;
+        } <span class="keyword">else</span> {
+            balance -= amount;
+            cout &lt;&lt; <span class="string">"Rs. "</span> &lt;&lt; amount &lt;&lt; <span class="string">" සාර්ථකව ආපසු ගන්නා ලදී."</span> &lt;&lt; endl;
+            cout &lt;&lt; <span class="string">"නව ශේෂය: Rs. "</span> &lt;&lt; balance &lt;&lt; endl;
+        }
+    }
+
+    <span class="comment">// Function to deposit money</span>
+    <span class="keyword">void</span> <span class="function">deposit</span>(<span class="keyword">double</span> amount) {
+        balance += amount;
+        cout &lt;&lt; <span class="string">"Rs. "</span> &lt;&lt; amount &lt;&lt; <span class="string">" සාර්ථකව තැන්පත් කරන ලදී."</span> &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"නව ශේෂය: Rs. "</span> &lt;&lt; balance &lt;&lt; endl;
+    }
+
+    <span class="comment">// Function to display account details</span>
+    <span class="keyword">void</span> <span class="function">displayData</span>() {
+        cout &lt;&lt; <span class="string">"\n===== ගිණුම් විස්තර ====="</span> &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"ගිණුම් හිමියා: "</span> &lt;&lt; accountHolderName &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"ගිණුම් අංකය: "</span> &lt;&lt; accountNumber &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"ශේෂය: Rs. "</span> &lt;&lt; balance &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"======================\n"</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="class-name">BankAccount</span> account;
+    string name;
+    <span class="keyword">long long</span> accNum;
+    <span class="keyword">double</span> initialBalance, amount;
+    <span class="keyword">int</span> choice;
+
+    cout &lt;&lt; <span class="string">"ගිණුම් හිමියාගේ නම ඇතුලත් කරන්න: "</span>;
+    cin.ignore();
+    getline(cin, name);
+
+    cout &lt;&lt; <span class="string">"ගිණුම් අංකය ඇතුලත් කරන්න: "</span>;
+    cin &gt;&gt; accNum;
+
+    cout &lt;&lt; <span class="string">"ආරම්භක ශේෂය ඇතුලත් කරන්න: Rs. "</span>;
+    cin &gt;&gt; initialBalance;
+
+    account.<span class="function">setAccountDetails</span>(name, accNum, initialBalance);
+    account.<span class="function">displayData</span>();
+
+    <span class="keyword">do</span> {
+        cout &lt;&lt; <span class="string">"\n----- මෙනුව -----"</span> &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"1. මුදල් තැන්පත් කරන්න"</span> &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"2. මුදල් ආපසු ගන්න"</span> &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"3. ගිණුම් විස්තර පෙන්වන්න"</span> &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"4. පිටවන්න"</span> &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"ඔබේ තේරීම: "</span>;
+        cin &gt;&gt; choice;
+
+        <span class="keyword">switch</span>(choice) {
+            <span class="keyword">case</span> <span class="number">1</span>:
+                cout &lt;&lt; <span class="string">"තැන්පත් කිරීමේ මුදල: Rs. "</span>;
+                cin &gt;&gt; amount;
+                account.<span class="function">deposit</span>(amount);
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="number">2</span>:
+                cout &lt;&lt; <span class="string">"ආපසු ගැනීමේ මුදල: Rs. "</span>;
+                cin &gt;&gt; amount;
+                account.<span class="function">withdraw</span>(amount);
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="number">3</span>:
+                account.<span class="function">displayData</span>();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="number">4</span>:
+                cout &lt;&lt; <span class="string">"ස්තූතියි!"</span> &lt;&lt; endl;
+                <span class="keyword">break</span>;
+            <span class="keyword">default</span>:
+                cout &lt;&lt; <span class="string">"වැරදි තේරීමක්!"</span> &lt;&lt; endl;
+        }
+    } <span class="keyword">while</span>(choice != <span class="number">4</span>);
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Take Home Assignment -->
+            <div class="question">
+                <h2>ගෙදර වැඩ පැවරුම: ශිෂ්‍ය ශ්‍රේණිගත කිරීමේ පද්ධතිය</h2>
+                <div class="description">
+                    ශිෂ්‍යන්ගේ ලකුණු ඇතුළත් කර ශ්‍රේණිය (Grade) ගණනය කරන පද්ධතියක් නිර්මාණය කරනවා. මෙහි ශිෂ්‍ය විස්තර, විෂයයන් සහ ලකුණු ඇතුළත් වෙනවා.
+                </div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this, 'code4')">Copy Code</button>
+                    <pre><code id="code4"><span class="comment">// Take Home Assignment: Student Grading System</span>
+<span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+<span class="keyword">#include</span> <span class="string">&lt;string&gt;</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> <span class="class-name">Student</span> {
+<span class="keyword">private</span>:
+    string name;
+    <span class="keyword">int</span> studentID;
+    <span class="keyword">double</span> marks[<span class="number">5</span>];
+    <span class="keyword">double</span> average;
+    string grade;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Function to set student details</span>
+    <span class="keyword">void</span> <span class="function">setStudentDetails</span>(string n, <span class="keyword">int</span> id) {
+        name = n;
+        studentID = id;
+    }
+
+    <span class="comment">// Function to input marks</span>
+    <span class="keyword">void</span> <span class="function">inputMarks</span>() {
+        cout &lt;&lt; <span class="string">"\nවිෂයයන් 5 සඳහා ලකුණු ඇතුලත් කරන්න:\n"</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) {
+            cout &lt;&lt; <span class="string">"විෂය "</span> &lt;&lt; (i+<span class="number">1</span>) &lt;&lt; <span class="string">": "</span>;
+            cin &gt;&gt; marks[i];
+            
+            <span class="comment">// Validation</span>
+            <span class="keyword">while</span>(marks[i] &lt; <span class="number">0</span> || marks[i] &gt; <span class="number">100</span>) {
+                cout &lt;&lt; <span class="string">"වලංගු නොවේ! නැවත ඇතුලත් කරන්න (0-100): "</span>;
+                cin &gt;&gt; marks[i];
+            }
+        }
+    }
+
+    <span class="comment">// Function to calculate average</span>
+    <span class="keyword">void</span> <span class="function">calculateAverage</span>() {
+        <span class="keyword">double</span> sum = <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) {
+            sum += marks[i];
+        }
+        average = sum / <span class="number">5.0</span>;
+    }
+
+    <span class="comment">// Function to determine grade</span>
+    <span class="keyword">void</span> <span class="function">determineGrade</span>() {
+        <span class="keyword">if</span>(average &gt;= <span class="number">75</span>) {
+            grade = <span class="string">"A (විශිෂ්ට)"</span>;
+        } <span class="keyword">else if</span>(average &gt;= <span class="number">65</span>) {
+            grade = <span class="string">"B (ඉතා හොඳ)"</span>;
+        } <span class="keyword">else if</span>(average &gt;= <span class="number">55</span>) {
+            grade = <span class="string">"C (හොඳ)"</span>;
+        } <span class="keyword">else if</span>(average &gt;= <span class="number">35</span>) {
+            grade = <span class="string">"S (සමත්)"</span>;
+        } <span class="keyword">else</span> {
+            grade = <span class="string">"F (අසමත්)"</span>;
+        }
+    }
+
+    <span class="comment">// Function to display student details</span>
+    <span class="keyword">void</span> <span class="function">displayDetails</span>() {
+        cout &lt;&lt; <span class="string">"\n========== ශිෂ්‍ය වාර්තාව =========="</span> &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"නම: "</span> &lt;&lt; name &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"අංකය: "</span> &lt;&lt; studentID &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"\nවිෂය ලකුණු:"</span> &lt;&lt; endl;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) {
+            cout &lt;&lt; <span class="string">"  විෂය "</span> &lt;&lt; (i+<span class="number">1</span>) &lt;&lt; <span class="string">": "</span> &lt;&lt; marks[i] &lt;&lt; endl;
+        }
+        cout &lt;&lt; <span class="string">"\nසාමාන්‍ය ලකුණු: "</span> &lt;&lt; average &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"ශ්‍රේණිය: "</span> &lt;&lt; grade &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"===================================\n"</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="class-name">Student</span> student;
+    string name;
+    <span class="keyword">int</span> id;
+
+    cout &lt;&lt; <span class="string">"===== ශිෂ්‍ය ශ්‍රේණිගත කිරීමේ පද්ධතිය =====\n"</span> &lt;&lt; endl;
+    
+    cout &lt;&lt; <span class="string">"ශිෂ්‍ය නම ඇතුලත් කරන්න: "</span>;
+    cin.ignore();
+    getline(cin, name);
+
+    cout &lt;&lt; <span class="string">"ශිෂ්‍ය අංකය ඇතුලත් කරන්න: "</span>;
+    cin &gt;&gt; id;
+
+    student.<span class="function">setStudentDetails</span>(name, id);
+    student.<span class="function">inputMarks</span>();
+    student.<span class="function">calculateAverage</span>();
+    student.<span class="function">determineGrade</span>();
+    student.<span class="function">displayDetails</span>();
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>සටහන:</strong> මෙම වැඩසටහන් සම්පාදනය කිරීමට C++ compiler එකක් භාවිතා කරන්න (උදා: g++, Dev-C++, Code::Blocks, Visual Studio). සම්පාදනය සඳහා: <code>g++ filename.cpp -o output</code>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Rajarata University of Sri Lanka</strong></p>
+            <p>Faculty of Applied Sciences - ICT 1306</p>
+            <p>Object Oriented Programming - Practical 03</p>
+        </footer>
+    </div>
+
+    <script>
+        function copyCode(button, codeId) {
+            const code = document.getElementById(codeId).innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = 'Copy Code';
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+    </script>
+</body>
+</html>

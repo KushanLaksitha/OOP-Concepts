@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT 1306 - Practical 05: Operator Overloading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .question {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 15px 20px;
+            margin: 25px 0 15px 0;
+            border-radius: 5px;
+        }
+        
+        .question h2 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+        
+        .description {
+            color: #555;
+            font-size: 0.95em;
+            margin-top: 8px;
+            padding-left: 10px;
+        }
+        
+        .code-container {
+            position: relative;
+            margin: 15px 0;
+        }
+        
+        .code-header {
+            background: #2d3748;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .code-title {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+        
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+        
+        pre {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 0 0 8px 8px;
+            overflow-x: auto;
+            margin: 0;
+            font-size: 0.9em;
+        }
+        
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #856404;
+        }
+        
+        .note strong {
+            color: #664d03;
+        }
+
+        .output-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #2e7d32;
+        }
+
+        .output-box strong {
+            color: #1b5e20;
+        }
+
+        .error-box {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #c62828;
+        }
+
+        .error-box strong {
+            color: #b71c1c;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            pre {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 ICT 1306 - Practical 05: Operator Overloading</h1>
+        <p class="subtitle">Static, Constants, Operator Overloading සහ Data Conversion</p>
+        
+        <!-- Question 1 -->
+        <div class="question">
+            <h2>ප්‍රශ්නය 1: Book Class - Static Counter</h2>
+            <p class="description">Book class එකක් සාදන්න. Book එකක් නිර්මාණය කරන සෑම විටම counter එක 1කින් වැඩි විය යුතුයි.</p>
+        </div>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span class="code-title">ප්‍රශ්නය 1 - Static Counter සමඟ Book Class</span>
+                <button class="copy-btn" onclick="copyCode(this, 'code1')">Copy</button>
+            </div>
+            <pre><code id="code1">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Book {
+private:
+    static int counter;  // Static variable - සියලු objects වලට common
+    float price;
+    string name;
+    
+public:
+    // Constructor - object එකක් create වන සෑම විටම counter වැඩි කරයි
+    Book() {
+        counter++;
+        price = 0.0;
+        name = "OOP";
+    }
+    
+    // Display function - සියලු data members print කරයි
+    void display() {
+        cout << "\n----- පොත් විස්තර -----" << endl;
+        cout << "Counter: " << counter << endl;
+        cout << "Price: Rs. " << price << endl;
+        cout << "Name: " << name << endl;
+        cout << "------------------------" << endl;
+    }
+};
+
+// Static variable initialize කිරීම (class එකෙන් පිටත)
+int Book::counter = 0;
+
+int main() {
+    cout << "===== Book Counter Demo =====" << endl;
+    
+    cout << "\n>> b1 object එක create කරමින්..." << endl;
+    Book b1;
+    b1.display();
+    
+    cout << "\n>> b2 object එක create කරමින්..." << endl;
+    Book b2;
+    b2.display();
+    
+    // නිරීක්ෂණය: b2 හි counter = 2 (දෙවැනි book එක නිසා)
+    
+    return 0;
+}</code></pre>
+        </div>
+
+        <div class="output-box">
+            <strong>⚡ Output:</strong><br>
+            Counter value එක b1 හි 1 වන අතර b2 හි 2 වේ. Static variable එක නිසා සියලු objects එකම counter එක share කරයි.
+        </div>
+        
+        <!-- Question 2 -->
+        <div class="question">
+            <h2>ප්‍රශ්නය 2: Constants සහ Constant Functions</h2>
+            <p class="description">Publisher ID එකක් එක් කර const keyword එකේ භාවිතය පරීක්ෂා කරන්න.</p>
+        </div>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span class="code-title">ප්‍රශ්නය 2 - Constants Demo සම්පූර්ණ Program</span>
+                <button class="copy-btn" onclick="copyCode(this, 'code2')">Copy</button>
+            </div>
+            <pre><code id="code2">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Book {
+private:
+    static int counter;
+    float price;
+    string name;
+    int pid;  // Publisher ID (සාමාන්‍ය variable)
+    // const int pid;  // මෙය uncomment කළහොත් compilation error
+    
+public:
+    // Default Constructor
+    Book() {
+        counter++;
+        price = 0.0;
+        name = "OOP";
+        pid = 0;
+    }
+    
+    // Parameterized Constructor
+    Book(string n, float p, int id) {
+        counter++;
+        name = n;
+        price = p;
+        pid = id;
+    }
+    
+    // සාමාන්‍ය Display function
+    void display() {
+        cout << "\n----- පොත් විස්තර -----" << endl;
+        cout << "Counter: " << counter << endl;
+        cout << "Name: " << name << endl;
+        cout << "Price: Rs. " << price << endl;
+        pid = 90;  // pid එක වෙනස් කරන්න පුළුවන්
+        cout << "Publisher ID: " << pid << endl;
+        cout << "------------------------" << endl;
+    }
+    
+    // Constant function - data members වෙනස් කරන්න බැහැ
+    void displayConst() const {
+        cout << "\n----- Constant Display -----" << endl;
+        cout << "Counter: " << counter << endl;
+        cout << "Name: " << name << endl;
+        cout << "Price: Rs. " << price << endl;
+        // pid = 90;  // ERROR! const function එකක් data වෙනස් කරන්න බැහැ
+        cout << "Publisher ID: " << pid << endl;
+        cout << "---------------------------" << endl;
+    }
+    
+    // display2 - Book object එකක් argument ලෙස ගනී
+    void display2(Book b) {
+        cout << "\n----- Display2 (Normal) -----" << endl;
+        b.pid = b.pid + 3;  // pid එක වෙනස් කරන්න පුළුවන්
+        cout << "Modified Publisher ID: " << b.pid << endl;
+        cout << "----------------------------" << endl;
+    }
+    
+    // display2 - Constant argument
+    void display2Const(const Book &b) {
+        cout << "\n----- Display2 (Const Arg) -----" << endl;
+        // b.pid = b.pid + 3;  // ERROR! const argument එකක් වෙනස් කරන්න බැහැ
+        cout << "Publisher ID: " << b.pid << endl;
+        cout << "-------------------------------" << endl;
+    }
+};
+
+int Book::counter = 0;
+
+int main() {
+    cout << "===== Constants Demo =====" << endl;
+    
+    // සාමාන්‍ය objects
+    Book b1("C++ Programming", 1500.0, 101);
+    Book b2("Java Basics", 1200.0, 102);
+    
+    cout << "\n>> සාමාන්‍ය display() function:" << endl;
+    b1.display();
+    
+    cout << "\n>> Constant display() function:" << endl;
+    b2.displayConst();
+    
+    cout << "\n>> display2() සාමාන්‍ය argument සමඟ:" << endl;
+    b1.display2(b2);
+    
+    cout << "\n>> display2() const argument සමඟ:" << endl;
+    b1.display2Const(b2);
+    
+    // Constant object
+    const Book b3("Python Guide", 1800.0, 103);
+    
+    cout << "\n>> Constant object එකක් සමඟ:" << endl;
+    // b3.display();  // ERROR! non-const function එකක් const object එකක් සමඟ call කරන්න බැහැ
+    b3.displayConst();  // OK! const function එකක් පමණක් call කරන්න පුළුවන්
+    
+    return 0;
+}</code></pre>
+        </div>
+
+        <div class="note">
+            <strong>📌 වැදගත් සටහන්:</strong><br>
+            <strong>1. const int pid</strong> - වෙනස් කරන්න බැරි variable එකක්. Constructor එකෙන් පමණක් initialize කරන්න පුළුවන්.<br>
+            <strong>2. const function</strong> - data members වෙනස් කරන්න බැරි function එකක්.<br>
+            <strong>3. const argument</strong> - function එක තුළ argument එක වෙනස් කරන්න බැරි.<br>
+            <strong>4. const object</strong> - const functions පමණක් call කරන්න පුළුවන්.
+        </div>
+        
+        <!-- Question 3 -->
+        <div class="question">
+            <h2>ප්‍රශ්නය 3: Operator Overloading (++ Operator)</h2>
+            <p class="description">++ operator එක overload කරලා counter එක increment කරන්න.</p>
+        </div>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span class="code-title">ප්‍රශ්නය 3 - Increment Operator Overloading</span>
+                <button class="copy-btn" onclick="copyCode(this, 'code3')">Copy</button>
+            </div>
+            <pre><code id="code3">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Book {
+private:
+    static int counter;
+    float price;
+    string name;
+    
+public:
+    Book() {
+        counter++;
+        price = 0.0;
+        name = "OOP";
+    }
+    
+    Book(string n, float p) {
+        counter++;
+        name = n;
+        price = p;
+    }
+    
+    void display() {
+        cout << "\n----- පොත් විස්තර -----" << endl;
+        cout << "Counter: " << counter << endl;
+        cout << "Name: " << name << endl;
+        cout << "Price: Rs. " << price << endl;
+        cout << "------------------------" << endl;
+    }
+    
+    // වැරදි ක්‍රමය - void return කරයි (assign කරන්න බැහැ)
+    void operator++() {
+        ++counter;
+        cout << "Counter increment කරන ලදී (void return)" << endl;
+    }
+    
+    // නිවැරදි ක්‍රමය - Book object එකක් return කරයි
+    Book operator++(int) {  // Post-increment (int parameter එක dummy)
+        Book temp = *this;
+        counter++;
+        cout << "Counter increment කරන ලදී (Book return)" << endl;
+        return temp;
+    }
+};
+
+int Book::counter = 0;
+
+int main() {
+    cout << "===== Operator Overloading Demo =====" << endl;
+    
+    Book b1("C++ Guide", 1500.0);
+    b1.display();
+    
+    cout << "\n>> ++b1 භාවිතා කිරීම (void operator):" << endl;
+    ++b1;  // OK - increment වෙයි
+    b1.display();
+    
+    // Book b2 = ++b1;  // ERROR! void return කරන නිසා assign කරන්න බැහැ
+    
+    cout << "\n>> b1++ භාවිතා කිරීම (Book return operator):" << endl;
+    Book b2 = b1++;  // OK - Book object එකක් return කරන නිසා
+    
+    cout << "\n>> b1 after increment:" << endl;
+    b1.display();
+    
+    cout << "\n>> b2 (පැරණි value එක):" << endl;
+    b2.display();
+    
+    return 0;
+}</code></pre>
+        </div>
+
+        <div class="error-box">
+            <strong>❌ සාමාන්‍ය Errors:</strong><br>
+            <strong>++object</strong> operator overload නොකර භාවිතා කළහොත්: <em>"no match for 'operator++'"</em> error එකක්.<br>
+            <strong>void operator++</strong> යොදන විට: assign කරන්න බැහැ (<code>Book b2 = ++b1;</code> වැඩ නොකරයි).
+        </div>
+        
+        <!-- Question 4 -->
+        <div class="question">
+            <h2>ප්‍රශ්නය 4: Data Conversion - Distance Class</h2>
+            <p class="description">Meters සිට Distance (feet & inches) වෙත සහ ආපසු convert කරන class එකක්.</p>
+        </div>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span class="code-title">ප්‍රශ්නය 4 - Distance Conversion සම්පූර්ණ Program</span>
+                <button class="copy-btn" onclick="copyCode(this, 'code4')">Copy</button>
+            </div>
+            <pre><code id="code4">#include &lt;iostream&gt;
+using namespace std;
+
+class Distance {
+private:
+    int feet;
+    float inches;
+    static const float MTF;  // Meter to Feet conversion (3.28)
+    
+public:
+    // Default Constructor - feet සහ inches 0 ට initialize කරයි
+    Distance() {
+        feet = 0;
+        inches = 0.0;
+        cout << "Default Distance නිර්මාණය කරන ලදී" << endl;
+    }
+    
+    // Meter to Distance Conversion Constructor
+    Distance(float meter) {
+        cout << "\nMeters සිට Distance වෙත convert කරමින්..." << endl;
+        cout << "Input: " << meter << " meters" << endl;
+        
+        float f = MTF * meter;  // මුළු feet (decimal සමඟ)
+        feet = static_cast<int>(f);  // පූර්ණ ආකාරයේ feet
+        inches = 12 * (f - feet);  // ඉතිරි කොටස inches බවට
+        
+        cout << "Converted: " << feet << " feet, " << inches << " inches" << endl;
+    }
+    
+    // Parameterized Constructor
+    Distance(int ft, float in) {
+        feet = ft;
+        inches = in;
+    }
+    
+    // Display function (const function)
+    void showdist() const {
+        cout << "Distance: " << feet << " feet, " << inches << " inches" << endl;
+    }
+    
+    // Distance to Meter Conversion Operator
+    operator float() const {
+        float f = inches / 12.0;  // inches එක feet බවට
+        f += static_cast<float>(feet);  // මුළු feet එකතු කරන්න
+        return f / MTF;  // feet එක meters බවට
+    }
+};
+
+// Static constant initialize කිරීම
+const float Distance::MTF = 3.28;
+
+int main() {
+    cout << "===== Distance Conversion Demo =====" << endl;
+    
+    // Test 1: Meter to Distance Conversion
+    cout << "\n========== Test 1: Meter to Distance ==========" << endl;
+    float meters = 5.5;
+    cout << "Input: " << meters << " meters" << endl;
+    
+    Distance d1(meters);  // Constructor calls conversion
+    d1.showdist();
+    
+    // Test 2: Distance to Meter Conversion
+    cout << "\n========== Test 2: Distance to Meter ==========" << endl;
+    Distance d2(10, 6.5);  // 10 feet, 6.5 inches
+    cout << "Input Distance: ";
+    d2.showdist();
+    
+    float convertedMeters = d2;  // Conversion operator calls
+    cout << "Converted: " << convertedMeters << " meters" << endl;
+    
+    // Test 3: පූර්ණ Cycle - Meter → Distance → Meter
+    cout << "\n========== Test 3: Round Trip Conversion ==========" << endl;
+    float originalMeters = 10.0;
+    cout << "Original: " << originalMeters << " meters" << endl;
+    
+    Distance d3(originalMeters);  // Meter → Distance
+    cout << "As Distance: ";
+    d3.showdist();
+    
+    float backToMeters = d3;  // Distance → Meter
+    cout << "Back to Meters: " << backToMeters << " meters" << endl;
+    cout << "Difference: " << (originalMeters - backToMeters) << " meters" << endl;
+    
+    // Test 4: සෘජු Conversion
+    cout << "\n========== Test 4: Direct Conversions ==========" << endl;
+    Distance d4 = 7.5;  // Implicit conversion (7.5 meters → Distance)
+    cout << "7.5 meters as Distance: ";
+    d4.showdist();
+    
+    float m = d4;  // Implicit conversion (Distance → meters)
+    cout << "Back to meters: " << m << endl;
+    
+    return 0;
+}</code></pre>
+        </div>
+
+        <div class="note">
+            <strong>🔄 Conversion ක්‍රියාවලිය:</strong><br>
+            <strong>Meter → Distance:</strong> Constructor භාවිතා කරයි. <code>Distance d(5.5);</code><br>
+            <strong>Distance → Meter:</strong> Conversion operator භාවිතා කරයි. <code>float m = d;</code><br><br>
+            <strong>ගණනය කිරීම:</strong><br>
+            • MTF = 3.28 (1 meter = 3.28 feet)<br>
+            • Meters → Feet: <code>feet = meter × 3.28</code><br>
+            • Feet → Meters: <code>meters = feet ÷ 3.28</code><br>
+            • Decimal part → Inches: <code>inches = (decimal × 12)</code>
+        </div>
+
+        <!-- Bonus: Combined Example -->
+        <div class="question">
+            <h2>🎁 Bonus: සියල්ල එකට එක් කළ සම්පූර්ණ Program</h2>
+            <p class="description">සියලු concepts එකට භාවිතා කරන advanced program එකක්.</p>
+        </div>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span class="code-title">සම්පූර්ණ Book Management System</span>
+                <button class="copy-btn" onclick="copyCode(this, 'code5')">Copy</button>
+            </div>
+            <pre><code id="code5">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Book {
+private:
+    static int counter;
+    string name;
+    float price;
+    const int pid;  // Constant publisher ID
+    
+public:
+    // Default Constructor
+    Book() : pid(0) {
+        counter++;
+        name = "Unknown";
+        price = 0.0;
+    }
+    
+    // Parameterized Constructor (const member initialize කරන්න initializer list යොදන්න ඕනේ)
+    Book(string n, float p, int id) : pid(id) {
+        counter++;
+        name = n;
+        price = p;
+    }
+    
+    // Copy Constructor
+    Book(const Book &b) : pid(b.pid) {
+        counter++;
+        name = b.name;
+        price = b.price;
+    }
+    
+    // Const display function
+    void display() const {
+        cout << "\n╔════════════════════════════╗" << endl;
+        cout << "║      Book Details         ║" << endl;
+        cout << "╠════════════════════════════╣" << endl;
+        cout << "║ Total Books: " << counter << "           ║" << endl;
+        cout << "║ Name: " << name;
+        for(int i=name.length(); i<18; i++) cout << " ";
+        cout << "║" << endl;
+        cout << "║ Price: Rs. " << price;
+        for(int i=to_string((int)price).length(); i<13; i++) cout << " ";
+        cout << "║" << endl;
+        cout << "║ Publisher ID: " << pid;
+        for(int i=to_string(pid).length(); i<12; i++) cout << " ";
+        cout << "║" << endl;
+        cout << "╚════════════════════════════╝" << endl;
+    }
+    
+    // Prefix increment operator (++book)
+    Book& operator++() {
+        ++counter;
+        price += 100;  // මිල Rs. 100 කින් වැඩි කරයි
+        cout << "✓ Price increment කරන ලදී (+Rs.100)" << endl;
+        return *this;
+    }
+    
+    // Postfix increment operator (book++)
+    Book operator++(int) {
+        Book temp = *this;
+        counter++;
+        price += 100;
+        cout << "✓ Price increment කරන ලදී (+Rs.100)" << endl;
+        return temp;
+    }
+    
+    // Comparison operator
+    bool operator>(const Book &b) const {
+        return price > b.price;
+    }
+    
+    // Addition operator (මිල එකතු කරයි)
+    Book operator+(const Book &b) const {
+        Book temp;
+        temp.name = name + " & " + b.name;
+        temp.price = price + b.price;
+        return temp;
+    }
+    
+    // Static function
+    static int getBookCount() {
+        return counter;
+    }
+};
+
+int Book::counter = 0;
+
+int main() {
+    cout << "╔══════════════════════════════════════════════╗" << endl;
+    cout << "║   📚 Advanced Book Management System 📚     ║" << endl;
+    cout << "╚══════════════════════════════════════════════╝" << endl;
+    
+    // Books නිර්මාණය කිරීම
+    cout << "\n>> පොත් නිර්මාණය කරමින්..." << endl;
+    Book b1("C++ Programming", 1500.0, 101);
+    Book b2("Java Basics", 1200.0, 102);
+    const Book b3("Python Guide", 1800.0, 103);
+    
+    // Display කිරීම
+    cout << "\n>> Book 1:" << endl;
+    b1.display();
+    
+    cout << "\n>> Book 2:" << endl;
+    b2.display();
+    
+    cout << "\n>> Book 3 (const):" << endl;
+    b3.display();
+    
+    // Operator overloading tests
+    cout << "\n>> Prefix increment (++b1):" << endl;
+    ++b1;
+    b1.display();
+    
+    cout << "\n>> මිල comparison:" << endl;
+    if(b1 > b2) {
+        cout << "✓ " << "Book 1 මිල වැඩියි" << endl;
+    } else {
+        cout << "✓ " << "Book 2 මිල වැඩියි" << endl;
+    }
+    
+    cout << "\n>> දෙ පොත් එකතු කිරීම (b1 + b2):" << endl;
+    Book b4 = b1 + b2;
+    b4.display();
+    
+    // Static function call
+    cout << "\n>> මුළු පොත් ගණන: " << Book::getBookCount() << endl;
+    
+    cout << "\n╔══════════════════════════════════════════════╗" << endl;
+    cout << "║           Program අවසන් විය! ✓             ║" << endl;
+    cout << "╚══════════════════════════════════════════════╝" << endl;
+    
+    return 0;
+}</code></pre>
+        </div>
+
+        <div class="output-box">
+            <strong>✨ මෙම Program එකේ විශේෂාංග:</strong><br>
+            ✓ Static counter (සියලු objects count කරයි)<br>
+            ✓ Const data members (pid වෙනස් කරන්න බැහැ)<br>
+            ✓ Const member functions (const objects වලට භාවිතා කරන්න පුළුවන්)<br>
+            ✓ Operator overloading (++, >, + operators)<br>
+            ✓ Copy constructor<br>
+            ✓ Static member function<br>
+            ✓ ලස්සන output formatting
+        </div>
+        
+        <div class="note">
+            <strong>💡 වැදගත් සංකල්ප:</strong><br><br>
+            <strong>1. Static Members:</strong> Class එකේ සියලු objects වලට common. Memory එකේ එක පිටපතක් පමණක්.<br><br>
+            <strong>2. Const Members:</strong> <code>const int pid;</code> - Initialize කළ පසු වෙනස් කරන්න බැහැ. Initializer list භාවිතා කරන්න ඕනේ.<br><br>
+            <strong>3. Const Functions:</strong> <code>void display() const</code> - Data members වෙනස් කරන්න බැහැ. Const objects වලට භාවිතා කරන්න පුළුවන්.<br><br>
+            <strong>4. Operator Overloading:</strong> Operators වලට custom behavior එකක් define කරන්න පුළුවන්.<br><br>
+            <strong>5. Conversion:</strong> Constructors සහ conversion operators භාවිතයෙන් data types අතර convert කරන්න පුළුවන්.
+        </div>
+
+        <!-- Summary Table -->
+        <div class="question">
+            <h2>📊 Operator Overloading Types</h2>
+        </div>
+
+        <div style="overflow-x: auto; margin: 20px 0;">
+            <table style="width: 100%; border-collapse: collapse; background: white;">
+                <thead>
+                    <tr style="background: #667eea; color: white;">
+                        <th style="padding: 12px; border: 1px solid #ddd;">Operator</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">Syntax</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">සිංහල විස්තරය</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">++</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>operator++()</code></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Prefix increment</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>++obj</code></td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">++</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>operator++(int)</code></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Postfix increment</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>obj++</code></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">+</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>operator+()</code></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">එකතු කිරීම</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>obj1 + obj2</code></td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">-</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>operator-()</code></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">අඩු කිරීම</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>obj1 - obj2</code></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">==</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>operator==()</code></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">සමානද යන්න පරීක්ෂාව</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>obj1 == obj2</code></td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">&gt;</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>operator&gt;()</code></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">වැඩිද යන්න පරීක්ෂාව</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>obj1 &gt; obj2</code></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Type</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>operator Type()</code></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Type conversion</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><code>float f = obj;</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Quick Reference -->
+        <div class="question">
+            <h2>🔖 Quick Reference Guide</h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin: 20px 0;">
+            <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; border-left: 4px solid #2196f3;">
+                <h3 style="color: #1565c0; margin-bottom: 10px;">📌 Static</h3>
+                <code style="display: block; background: white; padding: 8px; border-radius: 4px; margin: 5px 0;">static int count;</code>
+                <p style="font-size: 0.9em; margin-top: 8px; color: #333;">Class එකේ සියලු objects වලට common variable එකක්.</p>
+            </div>
+
+            <div style="background: #fff3e0; padding: 15px; border-radius: 8px; border-left: 4px solid #ff9800;">
+                <h3 style="color: #e65100; margin-bottom: 10px;">🔒 Const Variable</h3>
+                <code style="display: block; background: white; padding: 8px; border-radius: 4px; margin: 5px 0;">const int pid;</code>
+                <p style="font-size: 0.9em; margin-top: 8px; color: #333;">වෙනස් කරන්න බැරි variable. Initializer list යොදන්න ඕනේ.</p>
+            </div>
+
+            <div style="background: #f3e5f5; padding: 15px; border-radius: 8px; border-left: 4px solid #9c27b0;">
+                <h3 style="color: #6a1b9a; margin-bottom: 10px;">🔐 Const Function</h3>
+                <code style="display: block; background: white; padding: 8px; border-radius: 4px; margin: 5px 0;">void show() const { }</code>
+                <p style="font-size: 0.9em; margin-top: 8px; color: #333;">Data members වෙනස් කරන්න බැරි function. Const objects වලට භාවිතා කරන්න පුළුවන්.</p>
+            </div>
+
+            <div style="background: #e8f5e9; padding: 15px; border-radius: 8px; border-left: 4px solid #4caf50;">
+                <h3 style="color: #2e7d32; margin-bottom: 10px;">⚡ Operator Overload</h3>
+                <code style="display: block; background: white; padding: 8px; border-radius: 4px; margin: 5px 0;">Type operator++() { }</code>
+                <p style="font-size: 0.9em; margin-top: 8px; color: #333;">Operators වලට custom behavior define කිරීම.</p>
+            </div>
+
+            <div style="background: #fce4ec; padding: 15px; border-radius: 8px; border-left: 4px solid #e91e63;">
+                <h3 style="color: #c2185b; margin-bottom: 10px;">🔄 Conversion</h3>
+                <code style="display: block; background: white; padding: 8px; border-radius: 4px; margin: 5px 0;">operator float() { }</code>
+                <p style="font-size: 0.9em; margin-top: 8px; color: #333;">Object එකක් වෙනත් type එකකට convert කිරීම.</p>
+            </div>
+
+            <div style="background: #e0f2f1; padding: 15px; border-radius: 8px; border-left: 4px solid #009688;">
+                <h3 style="color: #00695c; margin-bottom: 10px;">📝 Initializer List</h3>
+                <code style="display: block; background: white; padding: 8px; border-radius: 4px; margin: 5px 0;">Book() : pid(0) { }</code>
+                <p style="font-size: 0.9em; margin-top: 8px; color: #333;">Const සහ reference members initialize කිරීමට භාවිතා කරයි.</p>
+            </div>
+        </div>
+
+        <!-- Common Errors -->
+        <div class="question">
+            <h2>⚠️ සාමාන්‍ය වැරදි සහ විසඳුම්</h2>
+        </div>
+
+        <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 20px; margin: 15px 0;">
+            <h3 style="color: #856404; margin-bottom: 15px;">❌ වැරදි 1: Const variable වෙනස් කිරීම</h3>
+            <div style="background: white; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <code style="color: #d32f2f;">void display() {<br>
+                &nbsp;&nbsp;pid = 90; // ERROR!<br>
+                }</code>
+            </div>
+            <div style="background: white; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong style="color: #2e7d32;">✓ විසඳුම:</strong><br>
+                <code style="color: #2e7d32;">// const variables වෙනස් කරන්න බැහැ<br>
+                // Constructor එකෙන් initialize කරන්න පුළුවන් පමණක්</code>
+            </div>
+        </div>
+
+        <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 20px; margin: 15px 0;">
+            <h3 style="color: #856404; margin-bottom: 15px;">❌ වැරදි 2: Non-const function const object එකක් සමඟ</h3>
+            <div style="background: white; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <code style="color: #d32f2f;">const Book b1;<br>
+                b1.display(); // ERROR if display() is not const</code>
+            </div>
+            <div style="background: white; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong style="color: #2e7d32;">✓ විසඳුම:</strong><br>
+                <code style="color: #2e7d32;">void display() const { } // Function එක const කරන්න</code>
+            </div>
+        </div>
+
+        <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 20px; margin: 15px 0;">
+            <h3 style="color: #856404; margin-bottom: 15px;">❌ වැරදි 3: Static variable initialize නොකිරීම</h3>
+            <div style="background: white; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <code style="color: #d32f2f;">class Book {<br>
+                &nbsp;&nbsp;static int counter; // Declaration පමණක්<br>
+                };<br>
+                // Initialize කළේ නැහැ - ERROR!</code>
+            </div>
+            <div style="background: white; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong style="color: #2e7d32;">✓ විසඳුම:</strong><br>
+                <code style="color: #2e7d32;">int Book::counter = 0; // Class එකෙන් පිටත initialize කරන්න</code>
+            </div>
+        </div>
+
+        <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 20px; margin: 15px 0;">
+            <h3 style="color: #856404; margin-bottom: 15px;">❌ වැරදි 4: Operator overloading return type</h3>
+            <div style="background: white; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <code style="color: #d32f2f;">void operator++() { }<br>
+                Book b2 = ++b1; // ERROR! void return කරන නිසා</code>
+            </div>
+            <div style="background: white; padding: 12px; border-radius: 5px; margin: 10px 0;">
+                <strong style="color: #2e7d32;">✓ විසඳුම:</strong><br>
+                <code style="color: #2e7d32;">Book& operator++() { return *this; } // Object reference return කරන්න</code>
+            </div>
+        </div>
+
+        <!-- Compilation Commands -->
+        <div class="note">
+            <strong>🖥️ Programs Compile සහ Run කරන්නේ කෙසේද:</strong><br><br>
+            <strong>Windows (g++):</strong><br>
+            <code>g++ filename.cpp -o output.exe</code><br>
+            <code>output.exe</code><br><br>
+            
+            <strong>Linux/Mac:</strong><br>
+            <code>g++ filename.cpp -o output</code><br>
+            <code>./output</code><br><br>
+            
+            <strong>Code::Blocks හෝ Visual Studio:</strong><br>
+            Build → Build and Run (F9) ඔබන්න
+        </div>
+
+        <!-- Practice Questions -->
+        <div class="question">
+            <h2>🎯 අතිරේක පුහුණු ප්‍රශ්න</h2>
+        </div>
+
+        <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 15px 0;">
+            <ol style="line-height: 2; color: #333;">
+                <li><strong>Complex Number Class:</strong> Real සහ imaginary parts ඇති complex number class එකක් සාදන්න. +, -, * operators overload කරන්න.</li>
+                <li><strong>String Class:</strong> Custom string class එකක් සාදන්න. + (concatenation), == (comparison) operators implement කරන්න.</li>
+                <li><strong>Fraction Class:</strong> Numerator සහ denominator සමඟ fraction class එකක්. +, -, *, / operators සහ simplify() function එකක්.</li>
+                <li><strong>Time Class:</strong> Hours, minutes, seconds සමඟ. + operator (add times), > operator (compare times) implement කරන්න.</li>
+                <li><strong>Matrix Class:</strong> 2D matrix එකක්. + (addition), * (multiplication), transpose() implement කරන්න.</li>
+            </ol>
+        </div>
+        
+        <div class="footer">
+            <p><strong>ICT 1306 - Object Oriented Programming</strong></p>
+            <p>Rajarata University of Sri Lanka</p>
+            <p>Faculty of Applied Sciences</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">📚 Practical 05: Static, Constants, Operator Overloading & Data Conversion</p>
+        </div>
+    </div>
+    
+    <script>
+        function copyCode(button, codeId) {
+            const code = document.getElementById(codeId).innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.innerText;
+                button.innerText = 'Copied! ✓';
+                button.style.background = '#48bb78';
+                
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.style.background = '#667eea';
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                alert('Copy කිරීමට නොහැකි විය. කරුණාකර manually copy කරන්න.');
+            });
+        }
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Console welcome message
+        console.log('%c📚 ICT 1306 - Practical 05', 'color: #667eea; font-size: 20px; font-weight: bold;');
+        console.log('%cOperator Overloading සහ Constants පිළිබඳ ප්‍රායෝගික අභ්‍යාස', 'color: #764ba2; font-size: 14px;');
+    </script>
+</body>
+</html>

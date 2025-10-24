@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT 1306 - Practical 04: Constructors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .question {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 15px 20px;
+            margin: 25px 0 15px 0;
+            border-radius: 5px;
+        }
+        
+        .question h2 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+        
+        .description {
+            color: #555;
+            font-size: 0.95em;
+            margin-top: 8px;
+            padding-left: 10px;
+        }
+        
+        .code-container {
+            position: relative;
+            margin: 15px 0;
+        }
+        
+        .code-header {
+            background: #2d3748;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .code-title {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+        
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+        
+        pre {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 0 0 8px 8px;
+            overflow-x: auto;
+            margin: 0;
+            font-size: 0.9em;
+        }
+        
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #856404;
+        }
+        
+        .note strong {
+            color: #664d03;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            pre {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 ICT 1306 - Practical 04: Constructors</h1>
+        <p class="subtitle">Object Oriented Programming - C++ Constructors පිළිබඳ ප්‍රායෝගික අභ්‍යාස</p>
+        
+        <!-- Question 1 -->
+        <div class="question">
+            <h2>ප්‍රශ්නය 1: බැංකු ගිණුම් පද්ධතිය</h2>
+            <p class="description">බැංකු ගිණුමක් නියෝජනය කිරීම සඳහා class එකක් සකස් කරන්න. එහි ගිණුම් හිමියාගේ නම, ගිණුම් අංකය සහ ශේෂය (balance) ගබඩා කරන්න.</p>
+        </div>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span class="code-title">1.1 - setBalance() function භාවිතයෙන් Rs. 20,000 set කරන්න</span>
+                <button class="copy-btn" onclick="copyCode(this, 'code1_1')">Copy</button>
+            </div>
+            <pre><code id="code1_1">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class BankAccount {
+private:
+    string accountHolderName;
+    int accountNumber;
+    double balance;
+    
+public:
+    // Account balance set කිරීම සඳහා function
+    void setBalance(double bal) {
+        balance = bal;
+    }
+    
+    void setName(string name) {
+        accountHolderName = name;
+    }
+    
+    void setAccountNumber(int accNum) {
+        accountNumber = accNum;
+    }
+    
+    void deposit(double amount) {
+        balance += amount;
+        cout << "Rs. " << amount << " ගිණුමට බැර කරන ලදී." << endl;
+    }
+    
+    void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            cout << "Rs. " << amount << " ගිණුමෙන් ගලවා ගන්නා ලදී." << endl;
+        } else {
+            cout << "ප්‍රමාණවත් ශේෂයක් නොමැත!" << endl;
+        }
+    }
+    
+    void displayData() {
+        cout << "\n--- ගිණුම් විස්තර ---" << endl;
+        cout << "ගිණුම් හිමියාගේ නම: " << accountHolderName << endl;
+        cout << "ගිණුම් අංකය: " << accountNumber << endl;
+        cout << "ශේෂය: Rs. " << balance << endl;
+    }
+};
+
+int main() {
+    BankAccount acc;
+    string name;
+    int accNum, choice;
+    double amount;
+    
+    cout << "ඔබගේ නම ඇතුළත් කරන්න: ";
+    getline(cin, name);
+    acc.setName(name);
+    
+    cout << "ගිණුම් අංකය ඇතුළත් කරන්න: ";
+    cin >> accNum;
+    acc.setAccountNumber(accNum);
+    
+    // setBalance භාවිතයෙන් Rs. 20000 set කිරීම
+    acc.setBalance(20000);
+    
+    cout << "\n1. මුදල් බැර කරන්න (Deposit)" << endl;
+    cout << "2. මුදල් ගලවා ගන්න (Withdraw)" << endl;
+    cout << "ඔබගේ තේරීම: ";
+    cin >> choice;
+    
+    if (choice == 1) {
+        cout << "බැර කිරීමට මුදල: Rs. ";
+        cin >> amount;
+        acc.deposit(amount);
+    } else if (choice == 2) {
+        cout << "ගලවා ගැනීමට මුදල: Rs. ";
+        cin >> amount;
+        acc.withdraw(amount);
+    }
+    
+    acc.displayData();
+    
+    return 0;
+}</code></pre>
+        </div>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span class="code-title">1.2 - Default Constructor භාවිතයෙන් Rs. 20,000 set කරන්න</span>
+                <button class="copy-btn" onclick="copyCode(this, 'code1_2')">Copy</button>
+            </div>
+            <pre><code id="code1_2">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class BankAccount {
+private:
+    string accountHolderName;
+    int accountNumber;
+    double balance;
+    
+public:
+    // Default Constructor - balance එක Rs. 20000 ට set කරයි
+    BankAccount() {
+        balance = 20000;
+        accountNumber = 0;
+        accountHolderName = "";
+    }
+    
+    void setName(string name) {
+        accountHolderName = name;
+    }
+    
+    void setAccountNumber(int accNum) {
+        accountNumber = accNum;
+    }
+    
+    void deposit(double amount) {
+        balance += amount;
+        cout << "Rs. " << amount << " ගිණුමට බැර කරන ලදී." << endl;
+    }
+    
+    void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            cout << "Rs. " << amount << " ගිණුමෙන් ගලවා ගන්නා ලදී." << endl;
+        } else {
+            cout << "ප්‍රමාණවත් ශේෂයක් නොමැත!" << endl;
+        }
+    }
+    
+    void displayData() {
+        cout << "\n--- ගිණුම් විස්තර ---" << endl;
+        cout << "ගිණුම් හිමියාගේ නම: " << accountHolderName << endl;
+        cout << "ගිණුම් අංකය: " << accountNumber << endl;
+        cout << "ශේෂය: Rs. " << balance << endl;
+    }
+};
+
+int main() {
+    // Object එක create කරන විට default constructor call වී balance 20000 set වේ
+    BankAccount acc;
+    
+    string name;
+    int accNum, choice;
+    double amount;
+    
+    cout << "ඔබගේ නම ඇතුළත් කරන්න: ";
+    getline(cin, name);
+    acc.setName(name);
+    
+    cout << "ගිණුම් අංකය ඇතුළත් කරන්න: ";
+    cin >> accNum;
+    acc.setAccountNumber(accNum);
+    
+    cout << "\n1. මුදල් බැර කරන්න (Deposit)" << endl;
+    cout << "2. මුදල් ගලවා ගන්න (Withdraw)" << endl;
+    cout << "ඔබගේ තේරීම: ";
+    cin >> choice;
+    
+    if (choice == 1) {
+        cout << "බැර කිරීමට මුදල: Rs. ";
+        cin >> amount;
+        acc.deposit(amount);
+    } else if (choice == 2) {
+        cout << "ගලවා ගැනීමට මුදල: Rs. ";
+        cin >> amount;
+        acc.withdraw(amount);
+    }
+    
+    acc.displayData();
+    
+    return 0;
+}</code></pre>
+        </div>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span class="code-title">1.3 - Parameterized Constructor භාවිතයෙන් balance සහ account number set කරන්න</span>
+                <button class="copy-btn" onclick="copyCode(this, 'code1_3')">Copy</button>
+            </div>
+            <pre><code id="code1_3">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class BankAccount {
+private:
+    string accountHolderName;
+    int accountNumber;
+    double balance;
+    
+public:
+    // Default Constructor
+    BankAccount() {
+        balance = 0;
+        accountNumber = 0;
+        accountHolderName = "";
+    }
+    
+    // Parameterized Constructor - balance සහ account number arguments ලෙස pass කරයි
+    BankAccount(int accNum, double bal) {
+        accountNumber = accNum;
+        balance = bal;
+        accountHolderName = "";
+    }
+    
+    void setName(string name) {
+        accountHolderName = name;
+    }
+    
+    void deposit(double amount) {
+        balance += amount;
+        cout << "Rs. " << amount << " ගිණුමට බැර කරන ලදී." << endl;
+    }
+    
+    void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            cout << "Rs. " << amount << " ගිණුමෙන් ගලවා ගන්නා ලදී." << endl;
+        } else {
+            cout << "ප්‍රමාණවත් ශේෂයක් නොමැත!" << endl;
+        }
+    }
+    
+    void displayData() {
+        cout << "\n--- ගිණුම් විස්තර ---" << endl;
+        cout << "ගිණුම් හිමියාගේ නම: " << accountHolderName << endl;
+        cout << "ගිණුම් අංකය: " << accountNumber << endl;
+        cout << "ශේෂය: Rs. " << balance << endl;
+    }
+};
+
+int main() {
+    // Parameterized constructor භාවිතයෙන් account number 123 සහ balance 20000 set කරයි
+    BankAccount acc(123, 20000);
+    
+    string name;
+    int choice;
+    double amount;
+    
+    cout << "ඔබගේ නම ඇතුළත් කරන්න: ";
+    getline(cin, name);
+    acc.setName(name);
+    
+    cout << "\n1. මුදල් බැර කරන්න (Deposit)" << endl;
+    cout << "2. මුදල් ගලවා ගන්න (Withdraw)" << endl;
+    cout << "ඔබගේ තේරීම: ";
+    cin >> choice;
+    
+    if (choice == 1) {
+        cout << "බැර කිරීමට මුදල: Rs. ";
+        cin >> amount;
+        acc.deposit(amount);
+    } else if (choice == 2) {
+        cout << "ගලවා ගැනීමට මුදල: Rs. ";
+        cin >> amount;
+        acc.withdraw(amount);
+    }
+    
+    acc.displayData();
+    
+    return 0;
+}</code></pre>
+        </div>
+        
+        <!-- Question 2 -->
+        <div class="question">
+            <h2>ප්‍රශ්නය 2: නම සහ වයස Display කරන්න</h2>
+            <p class="description">Object එකක් create කිරීමෙන්ම "My name is Saman and I am 21 years old" ආකාරයේ output එකක් ලබා ගන්න.</p>
+        </div>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span class="code-title">ප්‍රශ්නය 2 - Constructor භාවිතයෙන් විස්තර display කරන්න</span>
+                <button class="copy-btn" onclick="copyCode(this, 'code2')">Copy</button>
+            </div>
+            <pre><code id="code2">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Person {
+private:
+    string name;
+    int age;
+    
+public:
+    // Parameterized Constructor - object create කරන විටම details display කරයි
+    Person(string n, int a) {
+        name = n;
+        age = a;
+        // Object create වූ වහාම output display කරයි
+        cout << "My name is " << name << " and I am " << age << " years old" << endl;
+    }
+};
+
+int main() {
+    string name;
+    int age;
+    
+    cout << "ඔබගේ නම ඇතුළත් කරන්න: ";
+    getline(cin, name);
+    
+    cout << "ඔබගේ වයස ඇතුළත් කරන්න: ";
+    cin >> age;
+    
+    // Object create කරන විට constructor automatically call වී output display වේ
+    Person p(name, age);
+    
+    return 0;
+}</code></pre>
+        </div>
+        
+        <!-- Question 3 -->
+        <div class="question">
+            <h2>ප්‍රශ්නය 3: සමාගම් සේවක පද්ධතිය</h2>
+            <p class="description">සමාගමේ විවිධ තනතුරුවල සේවකයින්ගේ විස්තර ගබඩා කරන පද්ධතියක්. තනතුර අනුව විවිධ constructors භාවිතා කරන්න.</p>
+        </div>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span class="code-title">ප්‍රශ්නය 3 - Constructor Overloading භාවිතයෙන් සේවක පද්ධතිය</span>
+                <button class="copy-btn" onclick="copyCode(this, 'code3')">Copy</button>
+            </div>
+            <pre><code id="code3">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Employee {
+private:
+    string name;
+    string position;
+    string branch;
+    string section;
+    
+public:
+    // Constructor 1: Manager සඳහා (Name පමණක්)
+    Employee(string n) {
+        name = n;
+        position = "Manager";
+        branch = "";
+        section = "";
+    }
+    
+    // Constructor 2: Assistant Manager සඳහා (Name සහ Branch)
+    Employee(string n, string b) {
+        name = n;
+        position = "Assistant Manager";
+        branch = b;
+        section = "";
+    }
+    
+    // Constructor 3: Branch Manager සඳහා (Name, Position, Branch)
+    Employee(string n, string pos, string b) {
+        name = n;
+        position = pos;
+        branch = b;
+        section = "";
+    }
+    
+    // Constructor 4: සාමාන්‍ය සේවකයින් සඳහා (Name, Position, Branch, Section)
+    Employee(string n, string pos, string b, string s) {
+        name = n;
+        position = pos;
+        branch = b;
+        section = s;
+    }
+    
+    // විස්තර display කිරීමේ method
+    void displayInfo() {
+        cout << "\n========== සේවක විස්තර ==========" << endl;
+        cout << "නම: " << name << endl;
+        
+        if (position != "") {
+            cout << "තනතුර: " << position << endl;
+        }
+        
+        if (branch != "") {
+            cout << "ශාඛාව: " << branch << endl;
+        }
+        
+        if (section != "") {
+            cout << "අංශය: " << section << endl;
+        }
+        cout << "================================" << endl;
+    }
+};
+
+int main() {
+    int choice;
+    string name, position, branch, section;
+    
+    cout << "===== සමාගම් දත්ත කළමනාකරණ පද්ධතිය =====" << endl;
+    cout << "1. Manager" << endl;
+    cout << "2. Assistant Manager" << endl;
+    cout << "3. Branch Manager" << endl;
+    cout << "4. Employee (සාමාන්‍ය සේවකයා)" << endl;
+    cout << "තනතුර තෝරන්න: ";
+    cin >> choice;
+    cin.ignore();
+    
+    switch(choice) {
+        case 1:
+            // Manager - නම පමණක් අවශ්‍යයි
+            cout << "\nනම ඇතුළත් කරන්න: ";
+            getline(cin, name);
+            {
+                Employee emp(name);
+                emp.displayInfo();
+            }
+            break;
+            
+        case 2:
+            // Assistant Manager - නම සහ ශාඛාව අවශ්‍යයි
+            cout << "\nනම ඇතුළත් කරන්න: ";
+            getline(cin, name);
+            cout << "ශාඛාව ඇතුළත් කරන්න: ";
+            getline(cin, branch);
+            {
+                Employee emp(name, branch);
+                emp.displayInfo();
+            }
+            break;
+            
+        case 3:
+            // Branch Manager - නම, තනතුර සහ ශාඛාව අවශ්‍යයි
+            cout << "\nනම ඇතුළත් කරන්න: ";
+            getline(cin, name);
+            cout << "තනතුර ඇතුළත් කරන්න: ";
+            getline(cin, position);
+            cout << "ශාඛාව ඇතුළත් කරන්න: ";
+            getline(cin, branch);
+            {
+                Employee emp(name, position, branch);
+                emp.displayInfo();
+            }
+            break;
+            
+        case 4:
+            // සාමාන්‍ය සේවකයා - සියලු විස්තර අවශ්‍යයි
+            cout << "\nනම ඇතුළත් කරන්න: ";
+            getline(cin, name);
+            cout << "තනතුර ඇතුළත් කරන්න: ";
+            getline(cin, position);
+            cout << "ශාඛාව ඇතුළත් කරන්න: ";
+            getline(cin, branch);
+            cout << "අංශය ඇතුළත් කරන්න: ";
+            getline(cin, section);
+            {
+                Employee emp(name, position, branch, section);
+                emp.displayInfo();
+            }
+            break;
+            
+        default:
+            cout << "වැරදි තේරීමක්!" << endl;
+    }
+    
+    return 0;
+}</code></pre>
+        </div>
+        
+        <!-- Take Home Assignment -->
+        <div class="question">
+            <h2>Take Home Assignment: Circle (වෘත්තය) Class</h2>
+            <p class="description">වෘත්තයක් නියෝජනය කරන Circle class එකක් සාදන්න. Default සහ parameterized constructors සමග වර්ගඵලය ගණනය කරන method එකක් ඇතුළත් කරන්න.</p>
+        </div>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span class="code-title">Take Home - Circle Class සම්පූර්ණ අනුවාදය</span>
+                <button class="copy-btn" onclick="copyCode(this, 'code4')">Copy</button>
+            </div>
+            <pre><code id="code4">#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+class Circle {
+private:
+    double radius;
+    
+public:
+    // Default Constructor - radius එක 1.0 ට set කරයි
+    Circle() {
+        radius = 1.0;
+        cout << "Default වෘත්තයක් නිර්මාණය කරන ලදී (radius = 1.0)" << endl;
+    }
+    
+    // Parameterized Constructor - user input radius භාවිතා කරයි
+    Circle(double r) {
+        radius = r;
+        cout << "වෘත්තයක් නිර්මාණය කරන ලදී (radius = " << radius << ")" << endl;
+    }
+    
+    // වර්ගඵලය ගණනය කරන method - π * r²
+    double area() {
+        return M_PI * radius * radius;
+    }
+    
+    // Radius එක display කිරීම
+    void displayRadius() {
+        cout << "වෘත්තයේ අරය (Radius): " << radius << endl;
+    }
+};
+
+int main() {
+    int choice;
+    double userRadius;
+    
+    cout << "===== වෘත්ත වර්ගඵල ගණක =====" << endl;
+    cout << "1. Default වෘත්තය (radius = 1.0)" << endl;
+    cout << "2. විශේෂිත radius එකක් ඇතුළත් කරන්න" << endl;
+    cout << "ඔබගේ තේරීම: ";
+    cin >> choice;
+    
+    if (choice == 1) {
+        // Default constructor භාවිතා කරයි
+        Circle c1;
+        c1.displayRadius();
+        cout << "වර්ගඵලය: " << c1.area() << " වර්ග ඒකක" << endl;
+    } 
+    else if (choice == 2) {
+        // Parameterized constructor භාවිතා කරයි
+        cout << "\nවෘත්තයේ අරය (radius) ඇතුළත් කරන්න: ";
+        cin >> userRadius;
+        
+        Circle c2(userRadius);
+        c2.displayRadius();
+        cout << "වර්ගඵලය: " << c2.area() << " වර්ග ඒකක" << endl;
+    }
+    else {
+        cout << "වැරදි තේරීමක්!" << endl;
+    }
+    
+    return 0;
+}</code></pre>
+        </div>
+        
+        <div class="note">
+            <strong>📝 සටහන:</strong> මෙම සියලු programs compile කිරීමට C++ compiler එකක් (g++, Visual Studio, Code::Blocks ආදිය) භාවිතා කරන්න. 
+            <br><br>
+            <strong>Compile කරන්නේ කෙසේද:</strong><br>
+            Terminal/CMD එකේ: <code>g++ filename.cpp -o output</code><br>
+            Run කරන්න: <code>./output</code> (Linux/Mac) හෝ <code>output.exe</code> (Windows)
+        </div>
+        
+        <div class="footer">
+            <p><strong>ICT 1306 - Object Oriented Programming</strong></p>
+            <p>Rajarata University of Sri Lanka</p>
+            <p>Faculty of Applied Sciences</p>
+        </div>
+    </div>
+    
+    <script>
+        function copyCode(button, codeId) {
+            const code = document.getElementById(codeId).innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.innerText;
+                button.innerText = 'Copied!';
+                button.style.background = '#48bb78';
+                
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.style.background = '#667eea';
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                alert('Copy කිරීමට නොහැකි විය. කරුණාකර manually copy කරන්න.');
+            });
+        }
+    </script>
+</body>
+</html>
