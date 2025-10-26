@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ OOP Model Exam Paper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-right: 20px;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.4);
+        }
+
+        .question-title {
+            flex: 1;
+            font-size: 1.3em;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .question-text {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: #34495e;
+            border: 2px solid #e9ecef;
+        }
+
+        .answer-section {
+            margin-top: 20px;
+        }
+
+        .answer-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .answer-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .answer-content {
+            display: none;
+            margin-top: 20px;
+            padding: 25px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+        }
+
+        .answer-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .language-tab {
+            display: inline-block;
+            padding: 8px 20px;
+            background: #e9ecef;
+            border: 2px solid #667eea;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .language-tab:first-child {
+            border-radius: 8px 0 0 8px;
+        }
+
+        .language-tab:last-child {
+            border-radius: 0 8px 8px 0;
+            border-left: none;
+        }
+
+        .language-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .lang-content {
+            display: none;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 15px;
+            line-height: 1.8;
+        }
+
+        .lang-content.active {
+            display: block;
+        }
+
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 25px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 15px 0;
+            border: 3px solid #667eea;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .code-line {
+            display: block;
+            min-height: 1.6em;
+        }
+
+        .keyword { color: #c678dd; font-weight: bold; }
+        .string { color: #98c379; }
+        .comment { color: #5c6370; font-style: italic; }
+        .function { color: #61afef; }
+        .class-name { color: #e5c07b; }
+        .number { color: #d19a66; }
+        .operator { color: #56b6c2; }
+
+        .topic-badge {
+            display: inline-block;
+            background: #e7f3ff;
+            color: #0066cc;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-right: 10px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        .uml-diagram {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border: 3px solid #667eea;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            line-height: 1.8;
+            overflow-x: auto;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .uml-class {
+            background: white;
+            border: 3px solid #2c3e50;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px auto;
+            max-width: 400px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .uml-class-name {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #2c3e50;
+            padding: 10px;
+            background: #e7f3ff;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .uml-attributes, .uml-methods {
+            padding: 10px;
+            border-top: 2px solid #2c3e50;
+        }
+
+        .uml-item {
+            padding: 5px 0;
+            color: #34495e;
+        }
+
+        .uml-abstract {
+            font-style: italic;
+            color: #e74c3c;
+        }
+
+        .uml-inheritance {
+            text-align: center;
+            font-size: 40px;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        .uml-children {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            margin-top: 20px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 5px;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        ul {
+            margin-left: 25px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .inline-code {
+            background: #f0f0f0;
+            color: #e83e8c;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 C++ Object-Oriented Programming</h1>
+            <p>Model Examination Paper | Advanced OOP Concepts</p>
+        </div>
+
+        <div class="content">
+            <!-- Question 1 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">1</div>
+                    <div class="question-title">Constructors and Destructors</div>
+                </div>
+                <div class="topic-badge">Constructors</div>
+                <div class="topic-badge">Memory Management</div>
+                
+                <div class="question-text">
+                    <strong>Question:</strong> Write a C++ class called <span class="inline-code">BankAccount</span> that demonstrates the use of default constructor, parameterized constructor, copy constructor, and destructor. The class should have member variables for account number, account holder name, and balance. Explain each type of constructor with an example.
+                </div>
+
+                <div class="answer-section">
+                    <button class="answer-toggle" onclick="toggleAnswer(1)">Show Answer</button>
+                    <button class="answer-toggle" style="background:linear-gradient(135deg, #f093fb 0%, #f5576c 100%)" onclick="toggleAllLanguages(1)">Toggle Languages</button>
+                    
+                    <div id="answer-1" class="answer-content">
+                        <div class="language-tab active" onclick="switchLanguage(1, 'en')">English</div>
+                        <div class="language-tab" onclick="switchLanguage(1, 'si')">සිංහල</div>
+                        
+                        <div id="lang-1-en" class="lang-content active">
+                            <h3>Answer (English):</h3>
+                            
+                            <pre><span class="code-line"><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span></span>
+<span class="code-line"><span class="keyword">#include</span> <span class="string">&lt;string&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">class</span> <span class="class-name">BankAccount</span> {</span>
+<span class="code-line"><span class="keyword">private</span>:</span>
+<span class="code-line">    <span class="keyword">int</span> accountNumber;</span>
+<span class="code-line">    <span class="keyword">string</span> holderName;</span>
+<span class="code-line">    <span class="keyword">double</span> balance;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">public</span>:</span>
+<span class="code-line">    <span class="comment">// Default Constructor</span></span>
+<span class="code-line">    <span class="function">BankAccount</span>() {</span>
+<span class="code-line">        accountNumber = <span class="number">0</span>;</span>
+<span class="code-line">        holderName = <span class="string">"Unknown"</span>;</span>
+<span class="code-line">        balance = <span class="number">0.0</span>;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Default constructor called"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Parameterized Constructor</span></span>
+<span class="code-line">    <span class="function">BankAccount</span>(<span class="keyword">int</span> accNum, <span class="keyword">string</span> name, <span class="keyword">double</span> bal) {</span>
+<span class="code-line">        accountNumber = accNum;</span>
+<span class="code-line">        holderName = name;</span>
+<span class="code-line">        balance = bal;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Parameterized constructor called"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Copy Constructor</span></span>
+<span class="code-line">    <span class="function">BankAccount</span>(<span class="keyword">const</span> <span class="class-name">BankAccount</span> &acc) {</span>
+<span class="code-line">        accountNumber = acc.accountNumber;</span>
+<span class="code-line">        holderName = acc.holderName;</span>
+<span class="code-line">        balance = acc.balance;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Copy constructor called"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Destructor</span></span>
+<span class="code-line">    <span class="operator">~</span><span class="function">BankAccount</span>() {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Destructor called for account: "</span></span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> accountNumber <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">display</span>() {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Account: "</span> <span class="operator">&lt;&lt;</span> accountNumber</span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> <span class="string">", Holder: "</span> <span class="operator">&lt;&lt;</span> holderName</span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> <span class="string">", Balance: $"</span> <span class="operator">&lt;&lt;</span> balance <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">};</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Example Usage</span></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="class-name">BankAccount</span> acc1;  <span class="comment">// Default constructor</span></span>
+<span class="code-line">    <span class="class-name">BankAccount</span> acc2(<span class="number">12345</span>, <span class="string">"John Doe"</span>, <span class="number">5000.0</span>);  <span class="comment">// Parameterized</span></span>
+<span class="code-line">    <span class="class-name">BankAccount</span> acc3 = acc2;  <span class="comment">// Copy constructor</span></span>
+<span class="code-line">    </span>
+<span class="code-line">    acc2.<span class="function">display</span>();</span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+
+                            <strong>Explanation:</strong>
+                            <ul>
+                                <li><strong>Default Constructor:</strong> Called when an object is created without parameters. Initializes member variables with default values.</li>
+                                <li><strong>Parameterized Constructor:</strong> Accepts arguments to initialize object with specific values at creation time.</li>
+                                <li><strong>Copy Constructor:</strong> Creates a new object as a copy of an existing object. Takes a constant reference to another object of the same class.</li>
+                                <li><strong>Destructor:</strong> Automatically called when an object goes out of scope or is deleted. Used for cleanup operations like releasing memory.</li>
+                            </ul>
+                        </div>
+
+                        <div id="lang-1-si" class="lang-content">
+                            <h3>පිළිතුර (සිංහල):</h3>
+                            
+                            <strong>පැහැදිලි කිරීම:</strong>
+                            <ul>
+                                <li><strong>පෙරනිමි ඉදිකිරීම්කරු (Default Constructor):</strong> පරාමිති නොමැතිව වස්තුවක් නිර්මාණය කරන විට කැඳවනු ලැබේ. සාමාජික විචල්‍යයන් පෙරනිමි අගයන් සමඟ ආරම්භ කරයි.</li>
+                                <li><strong>පරාමිති සහිත ඉදිකිරීම්කරු (Parameterized Constructor):</strong> නිර්මාණය කරන අවස්ථාවේදී නිශ්චිත අගයන් සමඟ වස්තුව ආරම්භ කිරීමට තර්ක භාර ගනී.</li>
+                                <li><strong>පිටපත් ඉදිකිරීම්කරු (Copy Constructor):</strong> පවතින වස්තුවක පිටපතක් ලෙස නව වස්තුවක් නිර්මාණය කරයි. එකම පන්තියේ වෙනත් වස්තුවක නියත යොමුවක් ගනී.</li>
+                                <li><strong>විනාශකරු (Destructor):</strong> වස්තුවක් විෂය පථයෙන් බැහැර වූ විට හෝ මකා දැමූ විට ස්වයංක්‍රීයව කැඳවනු ලැබේ. මතකය මුදා හැරීම වැනි පිරිසිදු කිරීමේ මෙහෙයුම් සඳහා භාවිතා වේ.</li>
+                            </ul>
+
+                            <strong>ප්‍රධාන කරුණු:</strong>
+                            <ul>
+                                <li>ඉදිකිරීම්කරුවන් වස්තු ආරම්භ කිරීම සඳහා භාවිතා වේ</li>
+                                <li>විනාශකරු (~) සංකේතය සමඟ ප්‍රකාශ කරනු ලැබේ</li>
+                                <li>පිටපත් ඉදිකිරීම්කරු ගැඹුරු පිටපත් කිරීම සඳහා වැදගත් වේ</li>
+                                <li>එක් පන්තියකට බොහෝ ඉදිකිරීම්කරුවන් තිබිය හැකිය (අධික පැටවීම)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">2</div>
+                    <div class="question-title">Inheritance and UML Diagrams</div>
+                </div>
+                <div class="topic-badge">Inheritance</div>
+                <div class="topic-badge">UML Diagrams</div>
+                
+                <div class="question-text">
+                    <strong>Question:</strong> Create a class hierarchy for a university system with a base class <span class="inline-code">Person</span> and derived classes <span class="inline-code">Student</span> and <span class="inline-code">Teacher</span>. Draw the UML class diagram and implement the classes in C++ demonstrating single inheritance.
+                </div>
+
+                <div class="answer-section">
+                    <button class="answer-toggle" onclick="toggleAnswer(2)">Show Answer</button>
+                    <button class="answer-toggle" style="background:linear-gradient(135deg, #f093fb 0%, #f5576c 100%)" onclick="toggleAllLanguages(2)">Toggle Languages</button>
+                    
+                    <div id="answer-2" class="answer-content">
+                        <div class="language-tab active" onclick="switchLanguage(2, 'en')">English</div>
+                        <div class="language-tab" onclick="switchLanguage(2, 'si')">සිංහල</div>
+                        
+                        <div id="lang-2-en" class="lang-content active">
+                            <h3>Answer (English):</h3>
+                            
+                            <strong>UML Class Diagram:</strong>
+                            <div class="uml-diagram">
+                                <div class="uml-class">
+                                    <div class="uml-class-name">Person</div>
+                                    <div class="uml-attributes">
+                                        <div class="uml-item">- name: string</div>
+                                        <div class="uml-item">- age: int</div>
+                                        <div class="uml-item">- id: string</div>
+                                    </div>
+                                    <div class="uml-methods">
+                                        <div class="uml-item">+ Person()</div>
+                                        <div class="uml-item">+ setName(string): void</div>
+                                        <div class="uml-item">+ getName(): string</div>
+                                        <div class="uml-item">+ display(): void</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="uml-inheritance">△</div>
+                                <div style="text-align: center; color: #667eea; font-weight: bold; margin: 10px 0;">inherits from (IS-A relationship)</div>
+                                
+                                <div class="uml-children">
+                                    <div class="uml-class" style="max-width: 350px;">
+                                        <div class="uml-class-name">Student</div>
+                                        <div class="uml-attributes">
+                                            <div class="uml-item">- grade: string</div>
+                                            <div class="uml-item">- gpa: double</div>
+                                        </div>
+                                        <div class="uml-methods">
+                                            <div class="uml-item">+ Student()</div>
+                                            <div class="uml-item">+ study(): void</div>
+                                            <div class="uml-item">+ display(): void</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="uml-class" style="max-width: 350px;">
+                                        <div class="uml-class-name">Teacher</div>
+                                        <div class="uml-attributes">
+                                            <div class="uml-item">- subject: string</div>
+                                            <div class="uml-item">- salary: double</div>
+                                        </div>
+                                        <div class="uml-methods">
+                                            <div class="uml-item">+ Teacher()</div>
+                                            <div class="uml-item">+ teach(): void</div>
+                                            <div class="uml-item">+ display(): void</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <pre><span class="code-line"><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span></span>
+<span class="code-line"><span class="keyword">#include</span> <span class="string">&lt;string&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Base Class</span></span>
+<span class="code-line"><span class="keyword">class</span> <span class="class-name">Person</span> {</span>
+<span class="code-line"><span class="keyword">protected</span>:</span>
+<span class="code-line">    <span class="keyword">string</span> name;</span>
+<span class="code-line">    <span class="keyword">int</span> age;</span>
+<span class="code-line">    <span class="keyword">string</span> id;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">public</span>:</span>
+<span class="code-line">    <span class="function">Person</span>() : <span class="function">name</span>(<span class="string">""</span>), <span class="function">age</span>(<span class="number">0</span>), <span class="function">id</span>(<span class="string">""</span>) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Person default constructor"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="function">Person</span>(<span class="keyword">string</span> n, <span class="keyword">int</span> a, <span class="keyword">string</span> i)</span>
+<span class="code-line">        : <span class="function">name</span>(n), <span class="function">age</span>(a), <span class="function">id</span>(i) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Person parameterized constructor"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">setName</span>(<span class="keyword">string</span> n) {</span>
+<span class="code-line">        name = n;</span>
+<span class="code-line">    }</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">string</span> <span class="function">getName</span>() {</span>
+<span class="code-line">        <span class="keyword">return</span> name;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">virtual void</span> <span class="function">display</span>() {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Name: "</span> <span class="operator">&lt;&lt;</span> name</span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> <span class="string">", Age: "</span> <span class="operator">&lt;&lt;</span> age</span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> <span class="string">", ID: "</span> <span class="operator">&lt;&lt;</span> id <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">};</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Derived Class - Student</span></span>
+<span class="code-line"><span class="keyword">class</span> <span class="class-name">Student</span> : <span class="keyword">public</span> <span class="class-name">Person</span> {</span>
+<span class="code-line"><span class="keyword">private</span>:</span>
+<span class="code-line">    <span class="keyword">string</span> grade;</span>
+<span class="code-line">    <span class="keyword">double</span> gpa;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">public</span>:</span>
+<span class="code-line">    <span class="function">Student</span>() : <span class="function">Person</span>(), <span class="function">grade</span>(<span class="string">""</span>), <span class="function">gpa</span>(<span class="number">0.0</span>) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Student default constructor"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="function">Student</span>(<span class="keyword">string</span> n, <span class="keyword">int</span> a, <span class="keyword">string</span> i,</span>
+<span class="code-line">            <span class="keyword">string</span> g, <span class="keyword">double</span> gp)</span>
+<span class="code-line">        : <span class="function">Person</span>(n, a, i), <span class="function">grade</span>(g), <span class="function">gpa</span>(gp) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Student parameterized constructor"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">study</span>() {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> name <span class="operator">&lt;&lt;</span> <span class="string">" is studying."</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">display</span>() <span class="keyword">override</span> {</span>
+<span class="code-line">        Person::<span class="function">display</span>();</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Grade: "</span> <span class="operator">&lt;&lt;</span> grade</span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> <span class="string">", GPA: "</span> <span class="operator">&lt;&lt;</span> gpa <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">};</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Derived Class - Teacher</span></span>
+<span class="code-line"><span class="keyword">class</span> <span class="class-name">Teacher</span> : <span class="keyword">public</span> <span class="class-name">Person</span> {</span>
+<span class="code-line"><span class="keyword">private</span>:</span>
+<span class="code-line">    <span class="keyword">string</span> subject;</span>
+<span class="code-line">    <span class="keyword">double</span> salary;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">public</span>:</span>
+<span class="code-line">    <span class="function">Teacher</span>() : <span class="function">Person</span>(), <span class="function">subject</span>(<span class="string">""</span>), <span class="function">salary</span>(<span class="number">0.0</span>) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Teacher default constructor"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="function">Teacher</span>(<span class="keyword">string</span> n, <span class="keyword">int</span> a, <span class="keyword">string</span> i,</span>
+<span class="code-line">             <span class="keyword">string</span> s, <span class="keyword">double</span> sal)</span>
+<span class="code-line">        : <span class="function">Person</span>(n, a, i), <span class="function">subject</span>(s), <span class="function">salary</span>(sal) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Teacher parameterized constructor"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">teach</span>() {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> name <span class="operator">&lt;&lt;</span> <span class="string">" is teaching "</span></span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> subject <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">display</span>() <span class="keyword">override</span> {</span>
+<span class="code-line">        Person::<span class="function">display</span>();</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Subject: "</span> <span class="operator">&lt;&lt;</span> subject</span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> <span class="string">", Salary: $"</span> <span class="operator">&lt;&lt;</span> salary <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">};</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Example Usage</span></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="class-name">Student</span> s1(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="string">"S001"</span>, <span class="string">"A"</span>, <span class="number">3.8</span>);</span>
+<span class="code-line">    <span class="class-name">Teacher</span> t1(<span class="string">"Dr. Smith"</span>, <span class="number">45</span>, <span class="string">"T001"</span>, <span class="string">"Math"</span>, <span class="number">50000</span>);</span>
+<span class="code-line">    </span>
+<span class="code-line">    s1.<span class="function">display</span>();</span>
+<span class="code-line">    s1.<span class="function">study</span>();</span>
+<span class="code-line">    </span>
+<span class="code-line">    t1.<span class="function">display</span>();</span>
+<span class="code-line">    t1.<span class="function">teach</span>();</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+
+                            <strong>Key Concepts:</strong>
+                            <ul>
+                                <li><strong>Single Inheritance:</strong> Student and Teacher classes inherit from Person base class</li>
+                                <li><strong>Protected Members:</strong> Base class members accessible to derived classes</li>
+                                <li><strong>Virtual Functions:</strong> display() method can be overridden in derived classes</li>
+                                <li><strong>Constructor Chaining:</strong> Derived class constructors call base class constructor</li>
+                                <li><strong>Code Reusability:</strong> Common attributes (name, age, id) defined once in base class</li>
+                            </ul>
+                        </div>
+
+                        <div id="lang-2-si" class="lang-content">
+                            <h3>පිළිතුර (සිංහල):</h3>
+                            
+                            <strong>ප්‍රධාන සංකල්ප:</strong>
+                            <ul>
+                                <li><strong>තනි උරුමය (Single Inheritance):</strong> ශිෂ්‍ය සහ ගුරු පන්ති පුද්ගල මූලික පන්තියෙන් උරුම වේ</li>
+                                <li><strong>ආරක්ෂිත සාමාජිකයන් (Protected Members):</strong> මූලික පන්ති සාමාජිකයන් ව්‍යුත්පන්න පන්ති වෙත ප්‍රවේශ විය හැකිය</li>
+                                <li><strong>අතථ්‍ය ශ්‍රිත (Virtual Functions):</strong> display() ක්‍රමය ව්‍යුත්පන්න පන්තිවල අභිබවා යා හැක</li>
+                                <li><strong>ඉදිකිරීම්කරු දාම (Constructor Chaining):</strong> ව්‍යුත්පන්න පන්ති ඉදිකිරීම්කරුවන් මූලික පන්ති ඉදිකිරීම්කරු කැඳවයි</li>
+                                <li><strong>කේත නැවත භාවිතය:</strong> පොදු ගුණාංග (නම, වයස, හැඳුනුම්පත) මූලික පන්තියේ වරක් අර්ථ දක්වා ඇත</li>
+                            </ul>
+
+                            <strong>උරුමය වල වාසි:</strong>
+                            <ul>
+                                <li>කේත නැවත භාවිතය සහ නඩත්තු කිරීමේ හැකියාව වැඩි කරයි</li>
+                                <li>පන්ති අතර ස්වාභාවික සබඳතා නිරූපණය කරයි</li>
+                                <li>ක්‍රමානුකූල වර්ගීකරණයක් සපයයි</li>
+                                <li>"IS-A" සම්බන්ධතාවය නියෝජනය කරයි (ශිෂ්‍යයෙක් යනු පුද්ගලයෙකි)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">3</div>
+                    <div class="question-title">Encapsulation and Data Hiding</div>
+                </div>
+                <div class="topic-badge">Encapsulation</div>
+                <div class="topic-badge">Access Specifiers</div>
+                
+                <div class="question-text">
+                    <strong>Question:</strong> Explain the concept of encapsulation in C++ with a practical example. Create a class <span class="inline-code">Employee</span> that demonstrates data hiding using private members and public getter/setter methods. Discuss the importance of encapsulation in software design.
+                </div>
+
+                <div class="answer-section">
+                    <button class="answer-toggle" onclick="toggleAnswer(3)">Show Answer</button>
+                    <button class="answer-toggle" style="background:linear-gradient(135deg, #f093fb 0%, #f5576c 100%)" onclick="toggleAllLanguages(3)">Toggle Languages</button>
+                    
+                    <div id="answer-3" class="answer-content">
+                        <div class="language-tab active" onclick="switchLanguage(3, 'en')">English</div>
+                        <div class="language-tab" onclick="switchLanguage(3, 'si')">සිංහල</div>
+                        
+                        <div id="lang-3-en" class="lang-content active">
+                            <h3>Answer (English):</h3>
+                            
+                            <pre><span class="code-line"><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span></span>
+<span class="code-line"><span class="keyword">#include</span> <span class="string">&lt;string&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">class</span> <span class="class-name">Employee</span> {</span>
+<span class="code-line"><span class="keyword">private</span>:</span>
+<span class="code-line">    <span class="comment">// Private data members (Hidden from outside)</span></span>
+<span class="code-line">    <span class="keyword">string</span> name;</span>
+<span class="code-line">    <span class="keyword">int</span> empID;</span>
+<span class="code-line">    <span class="keyword">double</span> salary;</span>
+<span class="code-line">    <span class="keyword">string</span> department;</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Private helper method</span></span>
+<span class="code-line">    <span class="keyword">bool</span> <span class="function">isValidSalary</span>(<span class="keyword">double</span> sal) {</span>
+<span class="code-line">        <span class="keyword">return</span> sal <span class="operator">&gt;=</span> <span class="number">0</span> <span class="operator">&amp;&amp;</span> sal <span class="operator">&lt;=</span> <span class="number">1000000</span>;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">public</span>:</span>
+<span class="code-line">    <span class="comment">// Constructor</span></span>
+<span class="code-line">    <span class="function">Employee</span>(<span class="keyword">string</span> n, <span class="keyword">int</span> id, <span class="keyword">double</span> sal, <span class="keyword">string</span> dept) {</span>
+<span class="code-line">        name = n;</span>
+<span class="code-line">        empID = id;</span>
+<span class="code-line">        <span class="function">setSalary</span>(sal);  <span class="comment">// Using setter for validation</span></span>
+<span class="code-line">        department = dept;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Getter methods (Read access)</span></span>
+<span class="code-line">    <span class="keyword">string</span> <span class="function">getName</span>() <span class="keyword">const</span> {</span>
+<span class="code-line">        <span class="keyword">return</span> name;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">int</span> <span class="function">getEmpID</span>() <span class="keyword">const</span> {</span>
+<span class="code-line">        <span class="keyword">return</span> empID;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">double</span> <span class="function">getSalary</span>() <span class="keyword">const</span> {</span>
+<span class="code-line">        <span class="keyword">return</span> salary;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">string</span> <span class="function">getDepartment</span>() <span class="keyword">const</span> {</span>
+<span class="code-line">        <span class="keyword">return</span> department;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Setter methods (Write access with validation)</span></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">setName</span>(<span class="keyword">string</span> n) {</span>
+<span class="code-line">        <span class="keyword">if</span> (!n.<span class="function">empty</span>()) {</span>
+<span class="code-line">            name = n;</span>
+<span class="code-line">        } <span class="keyword">else</span> {</span>
+<span class="code-line">            cout <span class="operator">&lt;&lt;</span> <span class="string">"Invalid name!"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        }</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">setSalary</span>(<span class="keyword">double</span> sal) {</span>
+<span class="code-line">        <span class="keyword">if</span> (<span class="function">isValidSalary</span>(sal)) {</span>
+<span class="code-line">            salary = sal;</span>
+<span class="code-line">        } <span class="keyword">else</span> {</span>
+<span class="code-line">            cout <span class="operator">&lt;&lt;</span> <span class="string">"Invalid salary! Setting to 0."</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">            salary = <span class="number">0</span>;</span>
+<span class="code-line">        }</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">setDepartment</span>(<span class="keyword">string</span> dept) {</span>
+<span class="code-line">        department = dept;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Method to give raise</span></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">giveRaise</span>(<span class="keyword">double</span> percentage) {</span>
+<span class="code-line">        <span class="keyword">double</span> increment = salary <span class="operator">*</span> (percentage <span class="operator">/</span> <span class="number">100</span>);</span>
+<span class="code-line">        <span class="function">setSalary</span>(salary <span class="operator">+</span> increment);</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Salary increased by "</span> <span class="operator">&lt;&lt;</span> percentage</span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> <span class="string">"%"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Display method</span></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">displayInfo</span>() <span class="keyword">const</span> {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Employee ID: "</span> <span class="operator">&lt;&lt;</span> empID <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Name: "</span> <span class="operator">&lt;&lt;</span> name <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Department: "</span> <span class="operator">&lt;&lt;</span> department <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Salary: $"</span> <span class="operator">&lt;&lt;</span> salary <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">};</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Example Usage</span></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="class-name">Employee</span> emp1(<span class="string">"John Doe"</span>, <span class="number">101</span>, <span class="number">50000</span>, <span class="string">"IT"</span>);</span>
+<span class="code-line">    </span>
+<span class="code-line">    emp1.<span class="function">displayInfo</span>();</span>
+<span class="code-line">    emp1.<span class="function">giveRaise</span>(<span class="number">10</span>);</span>
+<span class="code-line">    emp1.<span class="function">displayInfo</span>();</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="comment">// Cannot access: emp1.salary = 100000; // ERROR!</span></span>
+<span class="code-line">    <span class="comment">// Must use: emp1.setSalary(100000); // Correct!</span></span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+
+                            <strong>Importance of Encapsulation:</strong>
+                            <ul>
+                                <li><strong>Data Protection:</strong> Private members cannot be accessed directly, preventing unauthorized modifications</li>
+                                <li><strong>Validation:</strong> Setter methods can validate data before storing, ensuring data integrity</li>
+                                <li><strong>Flexibility:</strong> Internal implementation can change without affecting external code</li>
+                                <li><strong>Maintainability:</strong> Changes to private members don't break existing code using the class</li>
+                                <li><strong>Security:</strong> Sensitive information like salary remains hidden and controlled</li>
+                                <li><strong>Modularity:</strong> Creates clear interfaces between different parts of the program</li>
+                            </ul>
+
+                            <strong>Access Specifiers in C++:</strong>
+                            <ul>
+                                <li><strong>private:</strong> Members accessible only within the class</li>
+                                <li><strong>public:</strong> Members accessible from anywhere</li>
+                                <li><strong>protected:</strong> Members accessible within class and derived classes</li>
+                            </ul>
+                        </div>
+
+                        <div id="lang-3-si" class="lang-content">
+                            <h3>පිළිතුර (සිංහල):</h3>
+                            
+                            <strong>කැප්සියුලේෂන් හි වැදගත්කම:</strong>
+                            <ul>
+                                <li><strong>දත්ත ආරක්ෂාව:</strong> පුද්ගලික සාමාජිකයන්ට සෘජුවම ප්‍රවේශ විය නොහැක, අනවසර වෙනස්කම් වළක්වයි</li>
+                                <li><strong>වලංගු කිරීම:</strong> සකසන්නා ක්‍රම ගබඩා කිරීමට පෙර දත්ත වලංගු කළ හැක, දත්ත අඛණ්ඩතාව සහතික කරයි</li>
+                                <li><strong>නම්‍යශීලිභාවය:</strong> බාහිර කේතයට බලපෑමකින් තොරව අභ්‍යන්තර ක්‍රියාත්මක කිරීම වෙනස් කළ හැක</li>
+                                <li><strong>නඩත්තු හැකියාව:</strong> පුද්ගලික සාමාජිකයන්ගේ වෙනස්කම් පන්තිය භාවිතා කරන පවතින කේතය බිඳ දමන්නේ නැත</li>
+                                <li><strong>ආරක්ෂාව:</strong> වැටුප වැනි සංවේදී තොරතුරු සැඟවී සහ පාලනය වේ</li>
+                                <li><strong>මොඩියුලර්බව:</strong> වැඩසටහනේ විවිධ කොටස් අතර පැහැදිලි අතුරු මුහුණත් නිර්මාණය කරයි</li>
+                            </ul>
+
+                            <strong>C++ හි ප්‍රවේශ විශේෂක:</strong>
+                            <ul>
+                                <li><strong>private (පුද්ගලික):</strong> පන්තිය තුළ පමණක් ප්‍රවේශ විය හැකි සාමාජිකයන්</li>
+                                <li><strong>public (පොදු):</strong> ඕනෑම තැනකින් ප්‍රවේශ විය හැකි සාමාජිකයන්</li>
+                                <li><strong>protected (ආරක්ෂිත):</strong> පන්තිය සහ ව්‍යුත්පන්න පන්ති තුළ ප්‍රවේශ විය හැකි සාමාජිකයන්</li>
+                            </ul>
+
+                            <strong>ප්‍රධාන ප්‍රතිලාභ:</strong>
+                            <ul>
+                                <li>දත්ත සැඟවීම හරහා ආරක්ෂාව වැඩි දියුණු කරයි</li>
+                                <li>දත්ත අඛණ්ඩතාව පවත්වා ගැනීම පහසු කරයි</li>
+                                <li>කේත නඩත්තු කිරීම සරල කරයි</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">4</div>
+                    <div class="question-title">Polymorphism - Compile-time and Runtime</div>
+                </div>
+                <div class="topic-badge">Polymorphism</div>
+                <div class="topic-badge">Virtual Functions</div>
+                <div class="topic-badge">Function Overloading</div>
+                
+                <div class="question-text">
+                    <strong>Question:</strong> Demonstrate both compile-time polymorphism (function overloading and operator overloading) and runtime polymorphism (virtual functions) in C++. Create a <span class="inline-code">Shape</span> base class with derived classes <span class="inline-code">Circle</span> and <span class="inline-code">Rectangle</span> to illustrate polymorphism.
+                </div>
+
+                <div class="answer-section">
+                    <button class="answer-toggle" onclick="toggleAnswer(4)">Show Answer</button>
+                    <button class="answer-toggle" style="background:linear-gradient(135deg, #f093fb 0%, #f5576c 100%)" onclick="toggleAllLanguages(4)">Toggle Languages</button>
+                    
+                    <div id="answer-4" class="answer-content">
+                        <div class="language-tab active" onclick="switchLanguage(4, 'en')">English</div>
+                        <div class="language-tab" onclick="switchLanguage(4, 'si')">සිංහල</div>
+                        
+                        <div id="lang-4-en" class="lang-content active">
+                            <h3>Answer (English):</h3>
+                            
+                            <pre><span class="code-line"><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span></span>
+<span class="code-line"><span class="keyword">#include</span> <span class="string">&lt;cmath&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Base Class - Demonstrating Runtime Polymorphism</span></span>
+<span class="code-line"><span class="keyword">class</span> <span class="class-name">Shape</span> {</span>
+<span class="code-line"><span class="keyword">protected</span>:</span>
+<span class="code-line">    <span class="keyword">string</span> color;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">public</span>:</span>
+<span class="code-line">    <span class="function">Shape</span>(<span class="keyword">string</span> c = <span class="string">"White"</span>) : <span class="function">color</span>(c) {}</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Pure virtual function (makes class abstract)</span></span>
+<span class="code-line">    <span class="keyword">virtual double</span> <span class="function">calculateArea</span>() = <span class="number">0</span>;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">virtual void</span> <span class="function">display</span>() {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Shape Color: "</span> <span class="operator">&lt;&lt;</span> color <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">virtual</span> <span class="operator">~</span><span class="function">Shape</span>() {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Shape destructor"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">};</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Derived Class - Circle</span></span>
+<span class="code-line"><span class="keyword">class</span> <span class="class-name">Circle</span> : <span class="keyword">public</span> <span class="class-name">Shape</span> {</span>
+<span class="code-line"><span class="keyword">private</span>:</span>
+<span class="code-line">    <span class="keyword">double</span> radius;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">public</span>:</span>
+<span class="code-line">    <span class="function">Circle</span>(<span class="keyword">double</span> r, <span class="keyword">string</span> c = <span class="string">"Red"</span>)</span>
+<span class="code-line">        : <span class="function">Shape</span>(c), <span class="function">radius</span>(r) {}</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Overriding virtual function</span></span>
+<span class="code-line">    <span class="keyword">double</span> <span class="function">calculateArea</span>() <span class="keyword">override</span> {</span>
+<span class="code-line">        <span class="keyword">return</span> <span class="number">3.14159</span> <span class="operator">*</span> radius <span class="operator">*</span> radius;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">display</span>() <span class="keyword">override</span> {</span>
+<span class="code-line">        Shape::<span class="function">display</span>();</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Circle - Radius: "</span> <span class="operator">&lt;&lt;</span> radius</span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> <span class="string">", Area: "</span> <span class="operator">&lt;&lt;</span> <span class="function">calculateArea</span>() <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Function Overloading - Compile-time Polymorphism</span></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">resize</span>(<span class="keyword">double</span> factor) {</span>
+<span class="code-line">        radius <span class="operator">*=</span> factor;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Circle resized by factor: "</span></span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> factor <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">resize</span>(<span class="keyword">double</span> newRadius, <span class="keyword">bool</span> absolute) {</span>
+<span class="code-line">        <span class="keyword">if</span> (absolute) {</span>
+<span class="code-line">            radius = newRadius;</span>
+<span class="code-line">            cout <span class="operator">&lt;&lt;</span> <span class="string">"Circle radius set to: "</span></span>
+<span class="code-line">                 <span class="operator">&lt;&lt;</span> newRadius <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        }</span>
+<span class="code-line">    }</span>
+<span class="code-line">};</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Derived Class - Rectangle</span></span>
+<span class="code-line"><span class="keyword">class</span> <span class="class-name">Rectangle</span> : <span class="keyword">public</span> <span class="class-name">Shape</span> {</span>
+<span class="code-line"><span class="keyword">private</span>:</span>
+<span class="code-line">    <span class="keyword">double</span> length;</span>
+<span class="code-line">    <span class="keyword">double</span> width;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">public</span>:</span>
+<span class="code-line">    <span class="function">Rectangle</span>(<span class="keyword">double</span> l, <span class="keyword">double</span> w, <span class="keyword">string</span> c = <span class="string">"Blue"</span>)</span>
+<span class="code-line">        : <span class="function">Shape</span>(c), <span class="function">length</span>(l), <span class="function">width</span>(w) {}</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Overriding virtual function</span></span>
+<span class="code-line">    <span class="keyword">double</span> <span class="function">calculateArea</span>() <span class="keyword">override</span> {</span>
+<span class="code-line">        <span class="keyword">return</span> length <span class="operator">*</span> width;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">display</span>() <span class="keyword">override</span> {</span>
+<span class="code-line">        Shape::<span class="function">display</span>();</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Rectangle - Length: "</span> <span class="operator">&lt;&lt;</span> length</span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> <span class="string">", Width: "</span> <span class="operator">&lt;&lt;</span> width</span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> <span class="string">", Area: "</span> <span class="operator">&lt;&lt;</span> <span class="function">calculateArea</span>() <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Operator Overloading - Compile-time Polymorphism</span></span>
+<span class="code-line">    <span class="class-name">Rectangle</span> <span class="keyword">operator</span><span class="operator">+</span>(<span class="keyword">const</span> <span class="class-name">Rectangle</span>& r) {</span>
+<span class="code-line">        <span class="keyword">return</span> <span class="function">Rectangle</span>(length <span class="operator">+</span> r.length,</span>
+<span class="code-line">                          width <span class="operator">+</span> r.width, color);</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">bool</span> <span class="keyword">operator</span><span class="operator">==</span>(<span class="keyword">const</span> <span class="class-name">Rectangle</span>& r) {</span>
+<span class="code-line">        <span class="keyword">return</span> (length <span class="operator">==</span> r.length <span class="operator">&amp;&amp;</span> width <span class="operator">==</span> r.width);</span>
+<span class="code-line">    }</span>
+<span class="code-line">};</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Demonstration of Function Overloading</span></span>
+<span class="code-line"><span class="keyword">class</span> <span class="class-name">Calculator</span> {</span>
+<span class="code-line"><span class="keyword">public</span>:</span>
+<span class="code-line">    <span class="keyword">int</span> <span class="function">add</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b) {</span>
+<span class="code-line">        <span class="keyword">return</span> a <span class="operator">+</span> b;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">double</span> <span class="function">add</span>(<span class="keyword">double</span> a, <span class="keyword">double</span> b) {</span>
+<span class="code-line">        <span class="keyword">return</span> a <span class="operator">+</span> b;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">int</span> <span class="function">add</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c) {</span>
+<span class="code-line">        <span class="keyword">return</span> a <span class="operator">+</span> b <span class="operator">+</span> c;</span>
+<span class="code-line">    }</span>
+<span class="code-line">};</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Main function demonstrating polymorphism</span></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="comment">// Runtime Polymorphism</span></span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"=== Runtime Polymorphism ==="</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    <span class="class-name">Shape</span>* shapes[<span class="number">2</span>];</span>
+<span class="code-line">    shapes[<span class="number">0</span>] = <span class="keyword">new</span> <span class="function">Circle</span>(<span class="number">5.0</span>, <span class="string">"Red"</span>);</span>
+<span class="code-line">    shapes[<span class="number">1</span>] = <span class="keyword">new</span> <span class="function">Rectangle</span>(<span class="number">4.0</span>, <span class="number">6.0</span>, <span class="string">"Blue"</span>);</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i <span class="operator">&lt;</span> <span class="number">2</span>; i<span class="operator">++</span>) {</span>
+<span class="code-line">        shapes[i]<span class="operator">-&gt;</span><span class="function">display</span>();</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Compile-time Polymorphism - Function Overloading</span></span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"=== Function Overloading ==="</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    <span class="class-name">Calculator</span> calc;</span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"Add(2, 3): "</span> <span class="operator">&lt;&lt;</span> calc.<span class="function">add</span>(<span class="number">2</span>, <span class="number">3</span>) <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"Add(2.5, 3.7): "</span> <span class="operator">&lt;&lt;</span> calc.<span class="function">add</span>(<span class="number">2.5</span>, <span class="number">3.7</span>) <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"Add(1, 2, 3): "</span> <span class="operator">&lt;&lt;</span> calc.<span class="function">add</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>) <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Cleanup</span></span>
+<span class="code-line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i <span class="operator">&lt;</span> <span class="number">2</span>; i<span class="operator">++</span>) {</span>
+<span class="code-line">        <span class="keyword">delete</span> shapes[i];</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+
+                            <strong>Types of Polymorphism:</strong>
+                            
+                            <h3>1. Compile-time Polymorphism (Static Binding):</h3>
+                            <ul>
+                                <li><strong>Function Overloading:</strong> Multiple functions with same name but different parameters</li>
+                                <li><strong>Operator Overloading:</strong> Redefining operators (+, ==, etc.) for custom classes</li>
+                                <li>Resolved at compile time</li>
+                                <li>Faster execution as no runtime overhead</li>
+                            </ul>
+
+                            <h3>2. Runtime Polymorphism (Dynamic Binding):</h3>
+                            <ul>
+                                <li><strong>Virtual Functions:</strong> Functions declared with 'virtual' keyword in base class</li>
+                                <li><strong>Function Overriding:</strong> Derived class provides specific implementation</li>
+                                <li>Resolved at runtime using vtable (virtual table)</li>
+                                <li>Enables dynamic method dispatch</li>
+                                <li>Base class pointer can call derived class methods</li>
+                            </ul>
+
+                            <strong>Key Benefits:</strong>
+                            <ul>
+                                <li>Code reusability and flexibility</li>
+                                <li>Loose coupling between objects</li>
+                                <li>Easier to extend and maintain code</li>
+                                <li>Implements "one interface, multiple implementations" principle</li>
+                            </ul>
+                        </div>
+
+                        <div id="lang-4-si" class="lang-content">
+                            <h3>පිළිතුර (සිංහල):</h3>
+                            
+                            <strong>බහුරූපීකරණ වර්ග:</strong>
+                            
+                            <h3>1. සම්පාදන-කාල බහුරූපීකරණය (ස්ථිතික බන්ධනය):</h3>
+                            <ul>
+                                <li><strong>ශ්‍රිත අධික පැටවීම:</strong> එකම නමින් නමුත් විවිධ පරාමිති සහිත බහු ශ්‍රිත</li>
+                                <li><strong>ක්‍රියාකරු අධික පැටවීම:</strong> අභිරුචි පන්ති සඳහා ක්‍රියාකරුවන් (+, ==, ආදිය) නැවත අර්ථ දැක්වීම</li>
+                                <li>සම්පාදන කාලයේදී විසඳනු ලැබේ</li>
+                                <li>ධාවන කාල ඉහළ පැටවීමක් නොමැති බැවින් වේගවත් ක්‍රියාත්මක වීම</li>
+                            </ul>
+
+                            <h3>2. ධාවන-කාල බහුරූපීකරණය (ගතික බන්ධනය):</h3>
+                            <ul>
+                                <li><strong>අතථ්‍ය ශ්‍රිත:</strong> මූලික පන්තියේ 'virtual' මූල පදය සමඟ ප්‍රකාශිත ශ්‍රිත</li>
+                                <li><strong>ශ්‍රිත අභිබවා යාම:</strong> ව්‍යුත්පන්න පන්තිය නිශ්චිත ක්‍රියාත්මක කිරීමක් සපයයි</li>
+                                <li>vtable (අතථ්‍ය වගුව) භාවිතයෙන් ධාවන කාලයේදී විසඳනු ලැබේ</li>
+                                <li>ගතික ක්‍රමය යැවීම සක්‍රීය කරයි</li>
+                                <li>මූලික පන්ති දර්ශකයට ව්‍යුත්පන්න පන්ති ක්‍රම කැඳවිය හැක</li>
+                            </ul>
+
+                            <strong>ප්‍රධාන ප්‍රතිලාභ:</strong>
+                            <ul>
+                                <li>කේත නැවත භාවිතය සහ නම්‍යශීලිභාවය</li>
+                                <li>වස්තු අතර ලිහිල් සම්බන්ධතාව</li>
+                                <li>කේතය දිගු කිරීම සහ නඩත්තු කිරීම පහසුය</li>
+                                <li>"එක් අතුරු මුහුණතක්, බහු ක්‍රියාත්මක කිරීම්" මූලධර්මය ක්‍රියාත්මක කරයි</li>
+                            </ul>
+
+                            <strong>වැදගත් කරුණු:</strong>
+                            <ul>
+                                <li>බහුරූපීකරණය OOP හි ප්‍රධාන සංකල්පයකි</li>
+                                <li>එය කේත නම්‍යශීලිභාවය සහ පුළුල් කිරීමේ හැකියාව වැඩි දියුණු කරයි</li>
+                                <li>අතථ්‍ය විනාශකයක් භාවිතය විනාශකරුවන් නිවැරදිව කැඳවීම සහතික කරයි</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">5</div>
+                    <div class="question-title">Abstraction and Abstract Classes</div>
+                </div>
+                <div class="topic-badge">Abstraction</div>
+                <div class="topic-badge">Abstract Classes</div>
+                <div class="topic-badge">Pure Virtual Functions</div>
+                
+                <div class="question-text">
+                    <strong>Question:</strong> Explain abstraction in C++ and demonstrate it using abstract classes and pure virtual functions. Create an abstract class <span class="inline-code">Vehicle</span> with pure virtual functions and implement concrete classes <span class="inline-code">Car</span> and <span class="inline-code">Motorcycle</span>. Include a UML diagram showing the abstraction hierarchy.
+                </div>
+
+                <div class="answer-section">
+                    <button class="answer-toggle" onclick="toggleAnswer(5)">Show Answer</button>
+                    <button class="answer-toggle" style="background:linear-gradient(135deg, #f093fb 0%, #f5576c 100%)" onclick="toggleAllLanguages(5)">Toggle Languages</button>
+                    
+                    <div id="answer-5" class="answer-content">
+                        <div class="language-tab active" onclick="switchLanguage(5, 'en')">English</div>
+                        <div class="language-tab" onclick="switchLanguage(5, 'si')">සිංහල</div>
+                        
+                        <div id="lang-5-en" class="lang-content active">
+                            <h3>Answer (English):</h3>
+                            
+                            <strong>UML Diagram:</strong>
+                            <div class="uml-diagram">
+                                <div class="uml-class">
+                                    <div class="uml-class-name">
+                                        <span class="uml-abstract">&lt;&lt;abstract&gt;&gt;</span><br>
+                                        Vehicle
+                                    </div>
+                                    <div class="uml-attributes">
+                                        <div class="uml-item">- brand: string</div>
+                                        <div class="uml-item">- model: string</div>
+                                        <div class="uml-item">- year: int</div>
+                                    </div>
+                                    <div class="uml-methods">
+                                        <div class="uml-item">+ Vehicle(string, string, int)</div>
+                                        <div class="uml-item uml-abstract">+ startEngine() = 0</div>
+                                        <div class="uml-item uml-abstract">+ stopEngine() = 0</div>
+                                        <div class="uml-item uml-abstract">+ displayInfo() = 0</div>
+                                        <div class="uml-item">+ getBrand(): string</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="uml-inheritance">△</div>
+                                <div style="text-align: center; color: #e74c3c; font-weight: bold; margin: 10px 0;">Must implement pure virtual functions</div>
+                                
+                                <div class="uml-children">
+                                    <div class="uml-class" style="max-width: 380px;">
+                                        <div class="uml-class-name">Car</div>
+                                        <div class="uml-attributes">
+                                            <div class="uml-item">- numberOfDoors: int</div>
+                                            <div class="uml-item">- hasTrunk: bool</div>
+                                        </div>
+                                        <div class="uml-methods">
+                                            <div class="uml-item">+ Car(...)</div>
+                                            <div class="uml-item">+ startEngine(): void</div>
+                                            <div class="uml-item">+ stopEngine(): void</div>
+                                            <div class="uml-item">+ displayInfo(): void</div>
+                                            <div class="uml-item">+ openTrunk(): void</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="uml-class" style="max-width: 380px;">
+                                        <div class="uml-class-name">Motorcycle</div>
+                                        <div class="uml-attributes">
+                                            <div class="uml-item">- hasCarrier: bool</div>
+                                            <div class="uml-item">- engineCC: int</div>
+                                        </div>
+                                        <div class="uml-methods">
+                                            <div class="uml-item">+ Motorcycle(...)</div>
+                                            <div class="uml-item">+ startEngine(): void</div>
+                                            <div class="uml-item">+ stopEngine(): void</div>
+                                            <div class="uml-item">+ displayInfo(): void</div>
+                                            <div class="uml-item">+ wheelie(): void</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <pre><span class="code-line"><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span></span>
+<span class="code-line"><span class="keyword">#include</span> <span class="string">&lt;string&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Abstract Base Class</span></span>
+<span class="code-line"><span class="keyword">class</span> <span class="class-name">Vehicle</span> {</span>
+<span class="code-line"><span class="keyword">protected</span>:</span>
+<span class="code-line">    <span class="keyword">string</span> brand;</span>
+<span class="code-line">    <span class="keyword">string</span> model;</span>
+<span class="code-line">    <span class="keyword">int</span> year;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">public</span>:</span>
+<span class="code-line">    <span class="comment">// Constructor</span></span>
+<span class="code-line">    <span class="function">Vehicle</span>(<span class="keyword">string</span> b, <span class="keyword">string</span> m, <span class="keyword">int</span> y)</span>
+<span class="code-line">        : <span class="function">brand</span>(b), <span class="function">model</span>(m), <span class="function">year</span>(y) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Vehicle constructor called"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Pure virtual functions (makes class abstract)</span></span>
+<span class="code-line">    <span class="keyword">virtual void</span> <span class="function">startEngine</span>() = <span class="number">0</span>;</span>
+<span class="code-line">    <span class="keyword">virtual void</span> <span class="function">stopEngine</span>() = <span class="number">0</span>;</span>
+<span class="code-line">    <span class="keyword">virtual void</span> <span class="function">displayInfo</span>() = <span class="number">0</span>;</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Concrete method</span></span>
+<span class="code-line">    <span class="keyword">string</span> <span class="function">getBrand</span>() <span class="keyword">const</span> {</span>
+<span class="code-line">        <span class="keyword">return</span> brand;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Virtual destructor</span></span>
+<span class="code-line">    <span class="keyword">virtual</span> <span class="operator">~</span><span class="function">Vehicle</span>() {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Vehicle destructor called"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">};</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Concrete Derived Class - Car</span></span>
+<span class="code-line"><span class="keyword">class</span> <span class="class-name">Car</span> : <span class="keyword">public</span> <span class="class-name">Vehicle</span> {</span>
+<span class="code-line"><span class="keyword">private</span>:</span>
+<span class="code-line">    <span class="keyword">int</span> numberOfDoors;</span>
+<span class="code-line">    <span class="keyword">bool</span> hasTrunk;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">public</span>:</span>
+<span class="code-line">    <span class="function">Car</span>(<span class="keyword">string</span> b, <span class="keyword">string</span> m, <span class="keyword">int</span> y,</span>
+<span class="code-line">        <span class="keyword">int</span> doors, <span class="keyword">bool</span> trunk)</span>
+<span class="code-line">        : <span class="function">Vehicle</span>(b, m, y),</span>
+<span class="code-line">          <span class="function">numberOfDoors</span>(doors),</span>
+<span class="code-line">          <span class="function">hasTrunk</span>(trunk) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Car constructor called"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Implementing pure virtual functions</span></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">startEngine</span>() <span class="keyword">override</span> {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Car engine started with key ignition"</span></span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Vroom vroom! 🚗"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">stopEngine</span>() <span class="keyword">override</span> {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Car engine stopped"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">displayInfo</span>() <span class="keyword">override</span> {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"\n=== Car Information ==="</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Brand: "</span> <span class="operator">&lt;&lt;</span> brand <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Model: "</span> <span class="operator">&lt;&lt;</span> model <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Year: "</span> <span class="operator">&lt;&lt;</span> year <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Doors: "</span> <span class="operator">&lt;&lt;</span> numberOfDoors <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Has Trunk: "</span></span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> (hasTrunk ? <span class="string">"Yes"</span> : <span class="string">"No"</span>) <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Car-specific method</span></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">openTrunk</span>() {</span>
+<span class="code-line">        <span class="keyword">if</span> (hasTrunk) {</span>
+<span class="code-line">            cout <span class="operator">&lt;&lt;</span> <span class="string">"Trunk opened"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        } <span class="keyword">else</span> {</span>
+<span class="code-line">            cout <span class="operator">&lt;&lt;</span> <span class="string">"This car has no trunk"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        }</span>
+<span class="code-line">    }</span>
+<span class="code-line">};</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Concrete Derived Class - Motorcycle</span></span>
+<span class="code-line"><span class="keyword">class</span> <span class="class-name">Motorcycle</span> : <span class="keyword">public</span> <span class="class-name">Vehicle</span> {</span>
+<span class="code-line"><span class="keyword">private</span>:</span>
+<span class="code-line">    <span class="keyword">bool</span> hasCarrier;</span>
+<span class="code-line">    <span class="keyword">int</span> engineCC;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">public</span>:</span>
+<span class="code-line">    <span class="function">Motorcycle</span>(<span class="keyword">string</span> b, <span class="keyword">string</span> m, <span class="keyword">int</span> y,</span>
+<span class="code-line">               <span class="keyword">bool</span> carrier, <span class="keyword">int</span> cc)</span>
+<span class="code-line">        : <span class="function">Vehicle</span>(b, m, y),</span>
+<span class="code-line">          <span class="function">hasCarrier</span>(carrier),</span>
+<span class="code-line">          <span class="function">engineCC</span>(cc) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Motorcycle constructor called"</span></span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Implementing pure virtual functions</span></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">startEngine</span>() <span class="keyword">override</span> {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Motorcycle engine started "</span></span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> <span class="string">"with kick/button"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Brrap brrap! 🏍️"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">stopEngine</span>() <span class="keyword">override</span> {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Motorcycle engine stopped"</span></span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">displayInfo</span>() <span class="keyword">override</span> {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"\n=== Motorcycle Information ==="</span></span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Brand: "</span> <span class="operator">&lt;&lt;</span> brand <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Model: "</span> <span class="operator">&lt;&lt;</span> model <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Year: "</span> <span class="operator">&lt;&lt;</span> year <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Engine CC: "</span> <span class="operator">&lt;&lt;</span> engineCC <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Has Carrier: "</span></span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> (hasCarrier ? <span class="string">"Yes"</span> : <span class="string">"No"</span>)</span>
+<span class="code-line">             <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Motorcycle-specific method</span></span>
+<span class="code-line">    <span class="keyword">void</span> <span class="function">wheelie</span>() {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"Performing a wheelie! 🤘"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">};</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Main function demonstrating abstraction</span></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="comment">// Cannot create object of abstract class</span></span>
+<span class="code-line">    <span class="comment">// Vehicle v("Generic", "Model", 2024); // ERROR!</span></span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Create concrete objects</span></span>
+<span class="code-line">    <span class="class-name">Car</span> myCar(<span class="string">"Toyota"</span>, <span class="string">"Camry"</span>, <span class="number">2023</span>, <span class="number">4</span>, <span class="keyword">true</span>);</span>
+<span class="code-line">    <span class="class-name">Motorcycle</span> myBike(<span class="string">"Yamaha"</span>, <span class="string">"R15"</span>, <span class="number">2024</span>,</span>
+<span class="code-line">                         <span class="keyword">true</span>, <span class="number">155</span>);</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Array of base class pointers (polymorphism)</span></span>
+<span class="code-line">    <span class="class-name">Vehicle</span>* vehicles[<span class="number">2</span>];</span>
+<span class="code-line">    vehicles[<span class="number">0</span>] = <span class="operator">&amp;</span>myCar;</span>
+<span class="code-line">    vehicles[<span class="number">1</span>] = <span class="operator">&amp;</span>myBike;</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Process vehicles polymorphically</span></span>
+<span class="code-line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i <span class="operator">&lt;</span> <span class="number">2</span>; i<span class="operator">++</span>) {</span>
+<span class="code-line">        vehicles[i]<span class="operator">-&gt;</span><span class="function">displayInfo</span>();</span>
+<span class="code-line">        vehicles[i]<span class="operator">-&gt;</span><span class="function">startEngine</span>();</span>
+<span class="code-line">        vehicles[i]<span class="operator">-&gt;</span><span class="function">stopEngine</span>();</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="comment">// Call specific methods</span></span>
+<span class="code-line">    myCar.<span class="function">openTrunk</span>();</span>
+<span class="code-line">    myBike.<span class="function">wheelie</span>();</span>
+<span class="code-line"></span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+
+                            <strong>Concept of Abstraction:</strong>
+                            <p>Abstraction is the process of hiding implementation details and showing only essential features of an object. It focuses on WHAT an object does rather than HOW it does it.</p>
+
+                            <h3>Key Points about Abstract Classes:</h3>
+                            <ul>
+                                <li><strong>Pure Virtual Function:</strong> Declared by assigning = 0, has no implementation in base class</li>
+                                <li><strong>Abstract Class:</strong> A class with at least one pure virtual function</li>
+                                <li><strong>Cannot Instantiate:</strong> Objects of abstract classes cannot be created directly</li>
+                                <li><strong>Must Override:</strong> Derived classes must implement all pure virtual functions</li>
+                                <li><strong>Interface Definition:</strong> Abstract classes define a contract that derived classes must follow</li>
+                            </ul>
+
+                            <h3>Benefits of Abstraction:</h3>
+                            <ul>
+                                <li><strong>Reduces Complexity:</strong> Users only see relevant features</li>
+                                <li><strong>Increases Security:</strong> Implementation details are hidden</li>
+                                <li><strong>Code Reusability:</strong> Common interface for different implementations</li>
+                                <li><strong>Flexibility:</strong> Easy to add new implementations without changing existing code</li>
+                                <li><strong>Maintainability:</strong> Changes in implementation don't affect users of the class</li>
+                            </ul>
+
+                            <h3>Real-world Analogy:</h3>
+                            <p>Think of a TV remote control - you know WHAT buttons to press to change channels, but you don't need to know HOW the signal is transmitted or processed internally. That's abstraction!</p>
+                        </div>
+
+                        <div id="lang-5-si" class="lang-content">
+                            <h3>පිළිතුර (සිංහල):</h3>
+                            
+                            <strong>වියුක්තකරණ සංකල්පය:</strong>
+                            <p>වියුක්තකරණය යනු ක්‍රියාත්මක කිරීමේ තොරතුරු සැඟවීමේ සහ වස්තුවක අත්‍යවශ්‍ය ලක්ෂණ පමණක් පෙන්වීමේ ක්‍රියාවලියයි. එය වස්තුවක් කරන දේ කෙරෙහි අවධානය යොමු කරයි, එය කරන ආකාරය කෙරෙහි නොව.</p>
+
+                            <h3>වියුක්ත පන්ති පිළිබඳ ප්‍රධාන කරුණු:</h3>
+                            <ul>
+                                <li><strong>පිරිසිදු අතථ්‍ය ශ්‍රිතය:</strong> = 0 පැවරීමෙන් ප්‍රකාශිතය, මූලික පන්තියේ ක්‍රියාත්මක කිරීමක් නැත</li>
+                                <li><strong>වියුක්ත පන්තිය:</strong> අවම වශයෙන් එක් පිරිසිදු අතථ්‍ය ශ්‍රිතයක් ඇති පන්තියක්</li>
+                                <li><strong>ස්ථාපනය කළ නොහැක:</strong> වියුක්ත පන්තිවල වස්තු සෘජුවම නිර්මාණය කළ නොහැක</li>
+                                <li><strong>අභිබවා යා යුතුය:</strong> ව්‍යුත්පන්න පන්ති සියලුම පිරිසිදු අතථ්‍ය ශ්‍රිත ක්‍රියාත්මක කළ යුතුය</li>
+                                <li><strong>අතුරු මුහුණත් අර්ථ දැක්වීම:</strong> වියුක්ත පන්ති ව්‍යුත්පන්න පන්ති අනුගමනය කළ යුතු ගිවිසුමක් අර්ථ දක්වයි</li>
+                            </ul>
+
+                            <h3>වියුක්තකරණයේ ප්‍රතිලාභ:</h3>
+                            <ul>
+                                <li><strong>සංකීර්ණත්වය අඩු කරයි:</strong> පරිශීලකයන් අදාළ ලක්ෂණ පමණක් දකියි</li>
+                                <li><strong>ආරක්ෂාව වැඩි කරයි:</strong> ක්‍රියාත්මක කිරීමේ තොරතුරු සැඟවී ඇත</li>
+                                <li><strong>කේත නැවත භාවිතය:</strong> විවිධ ක්‍රියාත්මක කිරීම් සඳහා පොදු අතුරු මුහුණත</li>
+                                <li><strong>නම්‍යශීලිභාවය:</strong> පවතින කේතය වෙනස් නොකර නව ක්‍රියාත්මක කිරීම් එකතු කිරීම පහසුය</li>
+                                <li><strong>නඩත්තු හැකියාව:</strong> ක්‍රියාත්මක කිරීමේ වෙනස්කම් පන්තියේ පරිශීලකයන්ට බලපාන්නේ නැත</li>
+                            </ul>
+
+                            <h3>සැබෑ ලෝක උපමාව:</h3>
+                            <p>රූපවාහිනී දුරස්ථ පාලකයක් ගැන සිතන්න - නාලිකා වෙනස් කිරීමට කුමන බොත්තම් එබිය යුතු ද යන්න ඔබ දන්නවා, නමුත් සංඥාව අභ්‍යන්තරව සම්ප්‍රේෂණය කරන්නේ හෝ සකසන්නේ කෙසේ ද යන්න ඔබ දැන සිටීම අවශ්‍ය නැත. එය වියුක්තකරණයයි!</p>
+
+                            <strong>සාරාංශය:</strong>
+                            <ul>
+                                <li>වියුක්තකරණය අත්‍යවශ්‍ය තොරතුරු පමණක් හෙළි කරයි</li>
+                                <li>වියුක්ත පන්ති ක්‍රියාත්මක කිරීම් සඳහා සැකිල්ලක් සපයයි</li>
+                                <li>එය කේත සංවිධානය සහ නඩත්තු කිරීම වැඩි දියුණු කරයි</li>
+                                <li>පිරිසිදු අතථ්‍ය ශ්‍රිත සියල්ල ක්‍රියාත්මක කළ යුතුය</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>© 2024 C++ OOP Model Exam Paper | Comprehensive Object-Oriented Programming Assessment</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Topics Covered: Constructors, Destructors, Inheritance, Encapsulation, Polymorphism, Abstraction, UML Diagrams</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(questionNum) {
+            const answer = document.getElementById(`answer-${questionNum}`);
+            answer.classList.toggle('active');
+        }
+
+        function switchLanguage(questionNum, lang) {
+            const tabs = document.querySelectorAll(`#answer-${questionNum} .language-tab`);
+            const contents = document.querySelectorAll(`#answer-${questionNum} .lang-content`);
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`lang-${questionNum}-${lang}`).classList.add('active');
+        }
+
+        function toggleAllLanguages(questionNum) {
+            const contents = document.querySelectorAll(`#answer-${questionNum} .lang-content`);
+            contents.forEach(content => {
+                content.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
