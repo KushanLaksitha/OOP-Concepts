@@ -12,6 +12,7 @@
     --accent-green: #27ae60;
     --accent-orange: #f39c12;
     --accent-red: #e74c3c;
+    --accent-purple: #9b59b6;
     --dark-bg: #1a1a2e;
     --card-bg: #16213e;
     --text-light: #e8e8e8;
@@ -97,6 +98,17 @@ body {
     right: 10px;
 }
 
+.code-label-purple {
+    background: var(--accent-purple);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
 .comparison-table table {
     color: var(--text-light);
     background-color: rgba(255,255,255,0.05);
@@ -143,6 +155,15 @@ body {
     justify-content: space-between;
     margin-top: 40px;
 }
+
+.info-box {
+    background: rgba(155, 89, 182, 0.1);
+    border-left: 4px solid var(--accent-purple);
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
     .hero-title {
@@ -172,18 +193,15 @@ body {
         overflow-x: auto;
     }
     
-    .code-label {
+    .code-label-green,
+    .code-label-orange,
+    .code-label-purple {
         font-size: 0.7rem;
         padding: 4px 10px;
         position: static;
         display: block;
         margin-bottom: 10px;
         text-align: center;
-    }
-    
-    .syntax-box {
-        font-size: 0.85rem;
-        padding: 10px;
     }
     
     .navigation-buttons {
@@ -194,21 +212,6 @@ body {
     .navigation-buttons .btn-custom {
         width: 100%;
         text-align: center;
-    }
-    
-    .diagram-box {
-        display: block;
-        margin: 10px auto;
-        min-width: auto;
-        width: 90%;
-    }
-    
-    .visual-diagram {
-        padding: 15px;
-    }
-    
-    .feature-box {
-        margin: 10px 0;
     }
     
     .comparison-table {
@@ -272,11 +275,6 @@ body {
     .btn-custom {
         padding: 10px 20px;
         font-size: 0.9rem;
-    }
-    
-    .key-point {
-        font-size: 0.85rem;
-        padding: 8px 12px;
     }
 }
 </style>
@@ -360,10 +358,11 @@ body {
             </div>
         </div>
     </nav>
+
     <div class="hero-section">
         <div class="container">
             <h1 class="hero-title"><i class="fas fa-exchange-alt"></i> Overloading vs Overriding</h1>
-            <p class="hero-subtitle">Compile-time සහ Run-time Polymorphism අතර වෙනස</p>
+            <p class="hero-subtitle">Function, Operator සහ Method Overloading/Overriding</p>
         </div>
     </div>
 
@@ -380,7 +379,7 @@ body {
                     <p class="lead">Function Overloading යනු එකම class එකක් තුළ, එකම නම සහිත functions කිහිපයක්, ඒවායේ parameters (arguments) ගණනින් හෝ වර්ගයෙන් වෙනස් වන පරිදි නිර්වචනය කිරීමයි. Compiler එක විසින් call කරන අවස්ථාවේදී ලබාදෙන arguments වලට ගැලපෙන function එක තෝරා ගනී.</p>
                     
                     <div class="code-example">
-                        <span class="code-label-green">C++ Overloading</span>
+                        <span class="code-label-green">C++ Function Overloading</span>
                         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -407,17 +406,109 @@ int main() {
     Calculator calc;
     
     cout << calc.add(5, 3) << endl;        // Calls the first function
-    cout << calc.add(5.5, 3.2) << endl;  // Calls the second function
+    cout << calc.add(5.5, 3.2) << endl;    // Calls the second function
     cout << calc.add(5, 3, 2) << endl;     // Calls the third function
     
     return 0;
 }</code></pre>
                     </div>
-                     <div class="alert alert-success mt-3">
+                    <div class="alert alert-success mt-3">
                         <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
                         Adding two integers: 8<br>
                         Adding two doubles: 8.7<br>
                         Adding three integers: 10
+                    </div>
+                </div>
+
+                <!-- Operator Overloading -->
+                <div class="content-card">
+                    <div class="text-center">
+                        <i class="fas fa-calculator concept-icon" style="color: var(--accent-purple);"></i>
+                    </div>
+                    <h2 class="text-center mb-4">Operator Overloading (Compile-time)</h2>
+                    <p class="lead">Operator Overloading යනු සාමාන්‍ය operators (+, -, *, /, ==, << ආදිය) user-defined data types (classes/objects) සමඟ භාවිතා කිරීම සඳහා නැවත අර්ථ දැක්වීමයි. මෙමඟින් operators වලට custom behavior එකක් ලබා දෙන්න පුළුවන්.</p>
+                    
+                    <div class="info-box">
+                        <h5><i class="fas fa-lightbulb"></i> Operator Overloading Syntax:</h5>
+                        <code>return_type operator symbol(parameters) { /* implementation */ }</code>
+                    </div>
+
+                    <div class="code-example">
+                        <span class="code-label-purple">C++ Operator Overloading</span>
+                        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Complex {
+private:
+    float real;
+    float imag;
+    
+public:
+    Complex(float r = 0, float i = 0) : real(r), imag(i) {}
+    
+    // + operator overloading
+    Complex operator + (const Complex& obj) {
+        Complex temp;
+        temp.real = real + obj.real;
+        temp.imag = imag + obj.imag;
+        return temp;
+    }
+    
+    // == operator overloading
+    bool operator == (const Complex& obj) {
+        return (real == obj.real && imag == obj.imag);
+    }
+    
+    // << operator overloading (friend function)
+    friend ostream& operator << (ostream& out, const Complex& obj) {
+        out << obj.real << " + " << obj.imag << "i";
+        return out;
+    }
+};
+
+int main() {
+    Complex c1(3.5, 2.5);
+    Complex c2(1.5, 4.5);
+    
+    Complex c3 = c1 + c2;  // Using overloaded + operator
+    
+    cout << "c1 = " << c1 << endl;
+    cout << "c2 = " << c2 << endl;
+    cout << "c1 + c2 = " << c3 << endl;
+    
+    if (c1 == c2) {
+        cout << "c1 and c2 are equal" << endl;
+    } else {
+        cout << "c1 and c2 are not equal" << endl;
+    }
+    
+    return 0;
+}</code></pre>
+                    </div>
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
+                        c1 = 3.5 + 2.5i<br>
+                        c2 = 1.5 + 4.5i<br>
+                        c1 + c2 = 5 + 7i<br>
+                        c1 and c2 are not equal
+                    </div>
+
+                    <div class="info-box mt-4">
+                        <h5><i class="fas fa-list"></i> Commonly Overloaded Operators:</h5>
+                        <ul>
+                            <li><strong>Arithmetic:</strong> +, -, *, /, %, ++, --</li>
+                            <li><strong>Comparison:</strong> ==, !=, <, >, <=, >=</li>
+                            <li><strong>Assignment:</strong> =, +=, -=, *=, /=</li>
+                            <li><strong>Stream:</strong> << (output), >> (input)</li>
+                            <li><strong>Subscript:</strong> [] (array indexing)</li>
+                        </ul>
+                    </div>
+
+                    <div class="alert alert-warning mt-3">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>සැලකිය යුතු කරුණු:</strong><br>
+                        • සියලු operators overload කළ නොහැක (::, .*, ., ?:, sizeof)<br>
+                        • Operator precedence සහ associativity වෙනස් කළ නොහැක<br>
+                        • අවම වශයෙන් එක් parameter එකක් user-defined type විය යුතුය
                     </div>
                 </div>
 
@@ -430,7 +521,7 @@ int main() {
                     <p class="lead">Method Overriding යනු derived class එකක් තුළ, base class එකේ දැනටමත් පවතින function එකක් (එකම නම, එකම parameters සහිත) නැවත අලුතින් නිර්වචනය කිරීමයි (re-implementation). මෙය Inheritance සමඟ භාවිතා වන අතර, `virtual` keyword එක හරහා Run-time Polymorphism ලබා ගැනීමට උපකාරී වේ.</p>
                     
                     <div class="code-example">
-                        <span class="code-label-orange">C++ Overriding</span>
+                        <span class="code-label-orange">C++ Method Overriding</span>
                         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -460,7 +551,7 @@ int main() {
     return 0;
 }</code></pre>
                     </div>
-                     <div class="alert alert-warning mt-3">
+                    <div class="alert alert-warning mt-3">
                         <i class="fas fa-info-circle"></i> <strong>Output:</strong><br>
                         This is the Derived class show() function.
                     </div>
@@ -475,39 +566,46 @@ int main() {
                                 <tr>
                                     <th>Feature</th>
                                     <th>Function Overloading</th>
+                                    <th>Operator Overloading</th>
                                     <th>Method Overriding</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><strong>අරමුණ (Purpose)</strong></td>
-                                    <td>එකම නම සහිත functions වලට විවිධ කාර්යයන් ලබා දීම.</td>
-                                    <td>Base class function එකට derived class එකේදී විශේෂිත implementation එකක් ලබා දීම.</td>
+                                    <td><strong>අරමුණ</strong></td>
+                                    <td>එකම නම සහිත functions වලට විවිධ කාර්යයන් ලබා දීම</td>
+                                    <td>Operators වලට custom behavior ලබා දීම</td>
+                                    <td>Base class function එකට derived class එකේදී විශේෂිත implementation එකක් ලබා දීම</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Class Scope</strong></td>
-                                    <td>එකම class එකක් තුළ සිදු වේ.</td>
-                                    <td>Base සහ Derived classes දෙකක් අතර සිදු වේ.</td>
+                                    <td>එකම class එකක් තුළ</td>
+                                    <td>එකම class එකක් තුළ</td>
+                                    <td>Base සහ Derived classes දෙකක් අතර</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Function Signature</strong></td>
-                                    <td>Parameters වෙනස් විය යුතුය (Must be different).</td>
-                                    <td>Parameters සහ නම සමාන විය යුතුය (Must be the same).</td>
+                                    <td><strong>Signature</strong></td>
+                                    <td>Parameters වෙනස් විය යුතුය</td>
+                                    <td>Operator symbol භාවිතා කරයි</td>
+                                    <td>Parameters සහ නම සමාන විය යුතුය</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Inheritance</strong></td>
-                                    <td>අවශ්‍ය නොවේ (<i class="fas fa-times-circle"></i>).</td>
-                                    <td>අනිවාර්යයෙන්ම අවශ්‍ය වේ (<i class="fas fa-check-circle"></i>).</td>
+                                    <td>අවශ්‍ය නොවේ (<i class="fas fa-times-circle"></i>)</td>
+                                    <td>අවශ්‍ය නොවේ (<i class="fas fa-times-circle"></i>)</td>
+                                    <td>අනිවාර්යයෙන්ම අවශ්‍ය වේ (<i class="fas fa-check-circle"></i>)</td>
                                 </tr>
-                                 <tr>
-                                    <td><strong>Polymorphism Type</strong></td>
+                                <tr>
+                                    <td><strong>Polymorphism</strong></td>
+                                    <td>Compile-time (Static)</td>
                                     <td>Compile-time (Static)</td>
                                     <td>Run-time (Dynamic)</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Mechanism</strong></td>
-                                    <td>Compiler විසින් arguments අනුව function තෝරා ගනී.</td>
-                                    <td>`virtual` keyword එක මගින් object type එක අනුව run-time හිදී function තෝරා ගනී.</td>
+                                    <td>Compiler විසින් arguments අනුව තෝරා ගනී</td>
+                                    <td>Compiler විසින් operand types අනුව තෝරා ගනී</td>
+                                    <td>`virtual` keyword එක මගින් run-time හිදී තෝරා ගනී</td>
                                 </tr>
                             </tbody>
                         </table>
