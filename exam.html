@@ -262,7 +262,10 @@
     <div id="q1" class="content active">
       <div class="card">
         <h3><span class="badge">1(a)</span> CuriousAdder Constructor</h3>
-        <div class="explain">This constructor increments <code>i</code> twice per loop iteration</div>
+        <div class="explain">
+          <strong>💡 Key Concept:</strong> <strong>Constructor</strong> - A special member function that initializes objects when created. It has the same name as the class and no return type.<br><br>
+          <strong>⚠️ Important:</strong> This code demonstrates operator precedence and side effects. The <code>++i</code> (pre-increment) increments <code>i</code> before using it, and the loop's <code>i++</code> increments again, causing <code>i</code> to jump by 2 each iteration (0→1→2, 2→3→4, 4→5→6).
+        </div>
         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -284,6 +287,13 @@ int main() {
 
       <div class="card">
         <h3><span class="badge">1(b)</span> MadPrinter Class</h3>
+        <div class="explain">
+          <strong>💡 Key Concepts:</strong><br>
+          • <strong>do-while loop:</strong> Executes at least once before checking condition<br>
+          • <strong>while loop:</strong> Checks condition before executing<br>
+          • <strong>Member initialization list:</strong> <code>: i(j)</code> initializes member variable efficiently<br><br>
+          <strong>⚠️ Important:</strong> Post-increment <code>i++</code> returns the current value then increments, so it prints the value before incrementing.
+        </div>
         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -320,7 +330,14 @@ int main() {
 
       <div class="card">
         <h3><span class="badge">1(c)</span> Dereference Operator (*)</h3>
-        <div class="explain">The dereference operator <code>*</code> applied to a pointer yields the object the pointer points to</div>
+        <div class="explain">
+          <strong>💡 Definition:</strong> The <strong>dereference operator (*)</strong> accesses the value stored at the memory address held by a pointer.<br><br>
+          <strong>📌 Key Points:</strong><br>
+          • <code>&</code> (address-of) gets the memory address of a variable<br>
+          • <code>*</code> (dereference) gets the value at that address<br>
+          • Pointers store memory addresses, not actual values<br>
+          • Dereferencing allows reading/modifying the pointed-to value
+        </div>
         <pre><code>int x = 10;
 int *p = &x;
 cout &lt;&lt; *p; // prints 10</code></pre>
@@ -328,6 +345,13 @@ cout &lt;&lt; *p; // prints 10</code></pre>
 
       <div class="card">
         <h3><span class="badge">1(d)</span> FindArea Class</h3>
+        <div class="explain">
+          <strong>💡 OOP Principles:</strong><br>
+          • <strong>Encapsulation:</strong> Data members (<code>a</code>, <code>b</code>) are private, hidden from external access<br>
+          • <strong>Constructor:</strong> Initializes object with values when created<br>
+          • <strong>Member function:</strong> <code>area()</code> operates on the object's data<br><br>
+          <strong>⚠️ Note:</strong> This demonstrates creating objects on the stack (automatic storage) rather than using pointers/heap allocation.
+        </div>
         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -348,6 +372,14 @@ int main() {
 
       <div class="card">
         <h3><span class="badge">1(e)</span> Recursive Function</h3>
+        <div class="explain">
+          <strong>💡 Recursion Definition:</strong> A function that calls itself to solve a problem by breaking it into smaller subproblems.<br><br>
+          <strong>📌 Essential Elements:</strong><br>
+          • <strong>Base case:</strong> <code>if (i &lt;= 10)</code> - stops recursion<br>
+          • <strong>Recursive case:</strong> <code>printNumbers(i + 1)</code> - calls itself with modified parameter<br>
+          • <strong>Progress:</strong> Each call moves closer to base case<br><br>
+          <strong>⚠️ Warning:</strong> Without a proper base case, recursion causes stack overflow!
+        </div>
         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -367,6 +399,15 @@ int main() {
 
       <div class="card">
         <h3><span class="badge">1(f)</span> Enum for Days</h3>
+        <div class="explain">
+          <strong>💡 Enumeration (enum) Definition:</strong> A user-defined type consisting of named constants. Makes code more readable and type-safe.<br><br>
+          <strong>📌 Important Points:</strong><br>
+          • Values start at 0 by default (SUNDAY=0, MONDAY=1, etc.)<br>
+          • Can assign custom values: <code>enum Day { SUNDAY=1, MONDAY, ... }</code><br>
+          • Stored as integers internally<br>
+          • Improves code clarity vs using "magic numbers"<br>
+          • C++11 introduced <code>enum class</code> for stronger type safety
+        </div>
         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -386,6 +427,15 @@ int main() {
     <div id="q2" class="content">
       <div class="card">
         <h3><span class="badge">2(a)</span> Abstract Person Class with Inheritance</h3>
+        <div class="explain">
+          <strong>💡 Key OOP Concepts:</strong><br>
+          • <strong>Abstract Class:</strong> Contains at least one pure virtual function (<code>= 0</code>), cannot be instantiated<br>
+          • <strong>Pure Virtual Function:</strong> <code>virtual void getInfo() = 0;</code> must be overridden in derived classes<br>
+          • <strong>Inheritance:</strong> Student and Teacher inherit from Person (IS-A relationship)<br>
+          • <strong>Protected members:</strong> Accessible in derived classes but not outside<br>
+          • <strong>Polymorphism:</strong> Different classes implement getInfo() differently<br><br>
+          <strong>⚠️ Important:</strong> Virtual destructor is essential when using polymorphism to ensure proper cleanup of derived objects.
+        </div>
         <pre><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
@@ -421,6 +471,13 @@ public:
 
       <div class="card">
         <h3><span class="badge">2(b)</span> Main Function Demo</h3>
+        <div class="explain">
+          <strong>💡 Demonstrates:</strong><br>
+          • Creating objects of derived classes<br>
+          • Calling overridden virtual functions<br>
+          • Each class provides its own implementation of getInfo()<br><br>
+          <strong>📌 Runtime Polymorphism:</strong> If using pointers (<code>Person* p = new Student(...)</code>), the correct function is called based on actual object type, not pointer type.
+        </div>
         <pre><code>int main() {
     Student s("Akalanka", 21, "A");
     Teacher t("Nishantha", 50, "OOF");
@@ -437,6 +494,14 @@ public:
 
       <div class="card">
         <h3><span class="badge">2(c)</span> Struct Book</h3>
+        <div class="explain">
+          <strong>💡 Struct vs Class:</strong><br>
+          • <strong>struct:</strong> Members are public by default<br>
+          • <strong>class:</strong> Members are private by default<br>
+          • Both can have constructors, methods, inheritance<br>
+          • Convention: Use struct for simple data containers, class for objects with behavior<br><br>
+          <strong>📌 Best Practice:</strong> Structs typically represent Plain Old Data (POD) types without complex logic.
+        </div>
         <pre><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
@@ -462,6 +527,17 @@ int main() {
 
       <div class="card">
         <h3><span class="badge">2(d)</span> Pointers and References</h3>
+        <div class="explain">
+          <strong>💡 Critical Concepts:</strong><br>
+          • <strong>Pointer (<code>*</code>):</strong> Variable storing memory address, can be reassigned, can be null<br>
+          • <strong>Reference (<code>&</code>):</strong> Alias for existing variable, cannot be reassigned, must be initialized<br>
+          • <strong>Address-of (<code>&</code>):</strong> Gets memory address of a variable<br>
+          • <strong>Dereference (<code>*</code>):</strong> Accesses value at address<br><br>
+          <strong>⚠️ Key Difference:</strong><br>
+          • <code>number01</code> is a copy (changes don't affect original)<br>
+          • <code>number02</code> is a pointer (can point to different addresses)<br>
+          • <code>number03</code> is a reference (always refers to same variable)
+        </div>
         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -485,6 +561,17 @@ int main() {
 
       <div class="card">
         <h3><span class="badge">2(e)</span> While Loop Conversion</h3>
+        <div class="explain">
+          <strong>💡 Loop Conversion Guide:</strong><br>
+          <strong>For loop structure:</strong> <code>for(init; condition; increment) { body }</code><br>
+          <strong>While loop equivalent:</strong><br>
+          1. <code>init</code> before loop<br>
+          2. <code>while(condition) { body; increment; }</code><br><br>
+          <strong>📌 Loop Types:</strong><br>
+          • <strong>for:</strong> Best when iteration count is known<br>
+          • <strong>while:</strong> Best when condition-based<br>
+          • <strong>do-while:</strong> Executes at least once
+        </div>
         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -502,7 +589,14 @@ int main() {
     <div id="q3" class="content">
       <div class="card">
         <h3><span class="badge">3(a)</span> Multiple Inheritance Ambiguity</h3>
-        <div class="explain">C++ handles ambiguity using virtual inheritance or qualifying base class members</div>
+        <div class="explain">
+          <strong>💡 Multiple Inheritance:</strong> A class inherits from multiple base classes.<br><br>
+          <strong>⚠️ Diamond Problem:</strong> When two parent classes inherit from the same grandparent, causing ambiguity.<br><br>
+          <strong>📌 Solutions:</strong><br>
+          1. <strong>Scope Resolution:</strong> <code>B::hello()</code> explicitly specifies which base class<br>
+          2. <strong>Virtual Inheritance:</strong> <code>class B : virtual public A</code> creates single shared base object<br><br>
+          <strong>Best Practice:</strong> Prefer composition over multiple inheritance when possible to avoid complexity.
+        </div>
         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -531,6 +625,17 @@ int main() {
 
       <div class="card">
         <h3><span class="badge">3(b)</span> Calculator with Overloaded add</h3>
+        <div class="explain">
+          <strong>💡 Function Overloading (Compile-time Polymorphism):</strong><br>
+          Multiple functions with same name but different parameters.<br><br>
+          <strong>📌 Overloading Rules:</strong><br>
+          • Different number of parameters<br>
+          • Different parameter types<br>
+          • Different parameter order<br>
+          • <strong>NOT</strong> different return types alone<br><br>
+          <strong>⚠️ Important:</strong> Compiler determines which function to call based on arguments at compile-time (static binding).<br><br>
+          <strong>Use Cases:</strong> Provides intuitive interface - same operation on different data types.
+        </div>
         <pre><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
@@ -556,7 +661,18 @@ int main() {
 
       <div class="card">
         <h3><span class="badge">3(c)</span> Copy Constructor</h3>
-        <div class="explain">A copy constructor initializes an object using another object of the same class</div>
+        <div class="explain">
+          <strong>💡 Copy Constructor Definition:</strong> Special constructor that creates a new object as a copy of an existing object.<br><br>
+          <strong>📌 Signature:</strong> <code>ClassName(const ClassName& other)</code><br><br>
+          <strong>When Called:</strong><br>
+          • Object initialization: <code>Example e2 = e1;</code><br>
+          • Pass by value to functions<br>
+          • Return by value from functions<br><br>
+          <strong>⚠️ Deep vs Shallow Copy:</strong><br>
+          • <strong>Shallow:</strong> Default copy - copies member values (dangerous with pointers!)<br>
+          • <strong>Deep:</strong> Custom copy - allocates new memory for pointer members<br><br>
+          <strong>Rule of Three:</strong> If you define copy constructor, also define destructor and assignment operator.
+        </div>
         <pre><code>class Example {
     int value;
 public:
@@ -567,7 +683,21 @@ public:
 
       <div class="card">
         <h3><span class="badge">3(d)</span> Destructor</h3>
-        <div class="explain">A destructor cleans up resources when an object goes out of scope</div>
+        <div class="explain">
+          <strong>💡 Destructor Definition:</strong> Special member function called when object is destroyed. Name: <code>~ClassName()</code><br><br>
+          <strong>📌 Key Characteristics:</strong><br>
+          • Same name as class with <code>~</code> prefix<br>
+          • No parameters, no return type<br>
+          • Only one destructor per class<br>
+          • Cannot be overloaded<br>
+          • Called automatically when object goes out of scope<br><br>
+          <strong>⚠️ Essential Uses:</strong><br>
+          • Release dynamically allocated memory<br>
+          • Close file handles<br>
+          • Release system resources<br>
+          • Clean up network connections<br><br>
+          <strong>Virtual Destructor:</strong> Use <code>virtual ~ClassName()</code> when class has virtual functions to ensure proper cleanup of derived objects.
+        </div>
         <pre><code>class Demo {
 public:
     Demo() { /* allocate resources */ }
@@ -577,6 +707,17 @@ public:
 
       <div class="card">
         <h3><span class="badge">3(e)</span> getDist Implementation</h3>
+        <div class="explain">
+          <strong>💡 Member Function Definition Outside Class:</strong><br>
+          • Declared inside class: <code>int getDist();</code><br>
+          • Defined outside with scope resolution: <code>int Distance::getDist() { }</code><br><br>
+          <strong>📌 Benefits:</strong><br>
+          • Separates interface (header) from implementation (source)<br>
+          • Improves code organization<br>
+          • Reduces compilation dependencies<br>
+          • Common pattern: declarations in .h, definitions in .cpp<br><br>
+          <strong>⚠️ Scope Resolution Operator (<code>::</code>):</strong> Specifies that the function belongs to the Distance class.
+        </div>
         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -605,6 +746,18 @@ int main() {
     <div id="q4" class="content">
       <div class="card">
         <h3><span class="badge">4(c)</span> Temp Class with Access Specifiers</h3>
+        <div class="explain">
+          <strong>💡 Access Specifiers in C++:</strong><br><br>
+          <strong>1. private:</strong> Accessible only within the class<br>
+          <strong>2. public:</strong> Accessible from anywhere<br>
+          <strong>3. protected:</strong> Accessible in class and derived classes<br><br>
+          <strong>📌 Encapsulation Best Practice:</strong><br>
+          • Keep data members private<br>
+          • Provide public getter/setter methods<br>
+          • Protects data from invalid modifications<br>
+          • Allows changing internal implementation without affecting users<br><br>
+          <strong>⚠️ const Member Function:</strong> <code>getTemp() const</code> promises not to modify object state.
+        </div>
         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -630,6 +783,21 @@ int main() {
 
       <div class="card">
         <h3><span class="badge">4(d)</span> Friend Function getCat</h3>
+        <div class="explain">
+          <strong>💡 Friend Function Definition:</strong> A non-member function that has access to private/protected members of a class.<br><br>
+          <strong>📌 Declaration:</strong> <code>friend ReturnType functionName(params);</code><br><br>
+          <strong>Key Characteristics:</strong><br>
+          • Not a member of the class<br>
+          • Can access private/protected members<br>
+          • Declared inside class with <code>friend</code> keyword<br>
+          • Defined outside without <code>friend</code> keyword<br>
+          • Not inherited by derived classes<br><br>
+          <strong>⚠️ Use Cases:</strong><br>
+          • Operator overloading (<code>friend ostream& operator<<</code>)<br>
+          • Factory functions<br>
+          • Granting access to specific external functions<br><br>
+          <strong>Caution:</strong> Breaks encapsulation - use sparingly!
+        </div>
         <pre><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
@@ -659,6 +827,20 @@ int main() {
 
       <div class="card">
         <h3><span class="badge">4(e)</span> Operator Overloading</h3>
+        <div class="explain">
+          <strong>💡 Operator Overloading:</strong> Giving new meaning to existing operators for user-defined types.<br><br>
+          <strong>📌 Syntax:</strong> <code>ReturnType operator@(parameters)</code><br>
+          where @ is the operator being overloaded<br><br>
+          <strong>Commonly Overloaded:</strong><br>
+          • Arithmetic: +, -, *, /<br>
+          • Comparison: ==, !=, &lt;, &gt;, &lt;=, &gt;=<br>
+          • Assignment: =<br>
+          • Stream: &lt;&lt;, &gt;&gt;<br>
+          • Subscript: []<br>
+          • Function call: ()<br><br>
+          <strong>⚠️ Cannot Overload:</strong> <code>::, ., .*, ?:, sizeof, typeid</code><br><br>
+          <strong>Best Practice:</strong> Overload operators intuitively - behavior should match user expectations.
+        </div>
         <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -690,6 +872,20 @@ int main() {
     <div id="q5" class="content">
       <div class="card">
         <h3><span class="badge">5(a)</span> Car Class with Static Members</h3>
+        <div class="explain">
+          <strong>💡 Static Members:</strong> Belong to the class itself, not individual objects. Shared across all instances.<br><br>
+          <strong>📌 Static Data Members:</strong><br>
+          • Declared with <code>static</code> keyword<br>
+          • Must be defined outside class: <code>int Car::totalCars = 0;</code><br>
+          • Shared by all objects of the class<br>
+          • Accessed via class name: <code>Car::totalCars</code><br>
+          • Exists even before any objects created<br><br>
+          <strong>Static Member Functions:</strong><br>
+          • Can only access static members<br>
+          • No <code>this</code> pointer<br>
+          • Called using class name: <code>Car::displayTotalCarNo()</code><br><br>
+          <strong>⚠️ Use Cases:</strong> Counters, factory methods, utility functions, constants shared across instances.
+        </div>
         <pre><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 using namespace std;
@@ -732,12 +928,35 @@ int main() {
       </div>
 
       <div class="card">
-        <h3><span class="badge">5(e)</span> Const Keyword</h3>
-        <div class="explain"><code>const</code> on member functions means the method does not modify the object</div>
-        <pre><code>int getArea() const {
-    return length * width;
-}</code></pre>
-        <div class="explain"><strong>Observer Pattern:</strong> A behavioral design pattern where an object (subject) maintains a list of dependents (observers) and notifies them automatically about state changes. Useful for event handling, GUIs, and MVC architectures.</div>
+        <h3><span class="badge">5(e)</span> Const Keyword & Observer Pattern</h3>
+        <div class="explain">
+          <strong>💡 const Keyword Usage:</strong><br><br>
+          <strong>1. const Variables:</strong> <code>const int x = 5;</code> - cannot be modified<br>
+          <strong>2. const Pointers:</strong><br>
+          • <code>const int* p</code> - pointer to constant data<br>
+          • <code>int* const p</code> - constant pointer<br>
+          • <code>const int* const p</code> - constant pointer to constant data<br>
+          <strong>3. const Member Functions:</strong> <code>int getValue() const;</code><br>
+          • Promises not to modify object state<br>
+          • Can be called on const objects<br>
+          • Can only call other const member functions<br><br>
+          <strong>📌 Benefits:</strong> Compile-time safety, optimization opportunities, clearer intent
+        </div>
+        <div class="explain" style="margin-top: 15px;">
+          <strong>🎯 Observer Pattern (Behavioral Design Pattern):</strong><br><br>
+          <strong>Definition:</strong> Defines one-to-many dependency - when subject changes state, all observers are notified automatically.<br><br>
+          <strong>Components:</strong><br>
+          • <strong>Subject:</strong> Maintains list of observers, provides attach/detach methods<br>
+          • <strong>Observer:</strong> Interface with update() method<br>
+          • <strong>ConcreteSubject:</strong> Stores state, notifies observers on changes<br>
+          • <strong>ConcreteObserver:</strong> Implements update() to respond to changes<br><br>
+          <strong>Real-World Examples:</strong><br>
+          • GUI event handling (button clicks notify listeners)<br>
+          • MVC architecture (model notifies views)<br>
+          • Pub-Sub systems<br>
+          • Social media notifications<br><br>
+          <strong>⚠️ Benefits:</strong> Loose coupling, dynamic relationships, broadcast communication
+        </div>
       </div>
     </div>
 
