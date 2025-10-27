@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Practical Exercises - Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); /* Purple/Lavender Gradient */
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .question-block {
+            margin-bottom: 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .question-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .question-header {
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .question-header:hover {
+            background: linear-gradient(135deg, #5c4fd3 0%, #877efb 100%);
+        }
+        
+        .question-title {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .toggle-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+        
+        .question-header.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .answer-section {
+            display: none;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        
+        .answer-section.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 4px solid #6c5ce7;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+        }
+        
+        .explanation {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #a29bfe;
+        }
+        
+        .explanation h4 {
+            color: #6c5ce7;
+            margin-bottom: 10px;
+        }
+        
+        .expand-all-btn {
+            background: white;
+            color: #6c5ce7;
+            border: 2px solid white;
+            padding: 10px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .expand-all-btn:hover {
+            background: #6c5ce7;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        /* Syntax Highlighting Colors (Dracula theme inspired) */
+        .keyword {
+            color: #ff79c6; /* Pink */
+        }
+        
+        .function {
+            color: #50fa7b; /* Green */
+        }
+        
+        .string {
+            color: #f1fa8c; /* Yellow */
+        }
+        
+        .comment {
+            color: #6272a4; /* Gray-blue */
+            font-style: italic;
+        }
+        
+        .number {
+            color: #bd93f9; /* Purple */
+        }
+        
+        .type {
+            color: #8be9fd; /* Cyan */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 C++ Practical Exercises Solutions</h1>
+            <p class="subtitle">Solutions for the provided 6 OOP and Data Questions</p>
+            <button class="expand-all-btn" onclick="toggleAll()">Expand All Answers</button>
+        </header>
+        
+        <div class="content">
+            <!-- Question 1 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(1)">
+                    <span class="question-title">01. Class <code>Numbers</code>: Find Max and Min in a Fixed Array</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-1">
+                    <pre><code><span class="comment">// 01. Class Numbers: Find Max/Min</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">include</span> &lt;algorithm&gt; <span class="comment">// For min_element and max_element (used for concise implementation)</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Numbers {
+<span class="keyword">private</span>:
+    <span class="keyword">static const int</span> SIZE = <span class="number">10</span>;
+    <span class="keyword">int</span> arr[SIZE];
+
+<span class="keyword">public</span>:
+    <span class="comment">// Function to initialize the array (setter)</span>
+    <span class="keyword">void</span> <span class="function">setArray</span>(<span class="keyword">const int</span> values[SIZE]) {
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; SIZE; i++) {
+            arr[i] = values[i];
+        }
+    }
+
+    <span class="comment">// Returns the largest number in the array</span>
+    <span class="keyword">int</span> <span class="function">findMax</span>() <span class="keyword">const</span> {
+        <span class="keyword">int</span> maxVal = arr[<span class="number">0</span>];
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; SIZE; i++) {
+            <span class="keyword">if</span> (arr[i] &gt; maxVal) {
+                maxVal = arr[i];
+            }
+        }
+        <span class="keyword">return</span> maxVal;
+    }
+
+    <span class="comment">// Returns the smallest number in the array</span>
+    <span class="keyword">int</span> <span class="function">findMin</span>() <span class="keyword">const</span> {
+        <span class="keyword">int</span> minVal = arr[<span class="number">0</span>];
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; SIZE; i++) {
+            <span class="keyword">if</span> (arr[i] &lt; minVal) {
+                minVal = arr[i];
+            }
+        }
+        <span class="keyword">return</span> minVal;
+    }
+
+    <span class="comment">// Prints both the maximum and minimum values</span>
+    <span class="keyword">void</span> <span class="function">display</span>() <span class="keyword">const</span> {
+        cout &lt;&lt; <span class="string">"Maximum Value: "</span> &lt;&lt; findMax() &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"Minimum Value: "</span> &lt;&lt; findMin() &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="comment">// Create an object of Numbers.</span>
+    Numbers myNumbers;
+    
+    <span class="comment">// Initialize the array with the given values.</span>
+    <span class="keyword">int</span> initialValues[<span class="number">10</span>] = {<span class="number">25</span>, <span class="number">7</span>, <span class="number">19</span>, <span class="number">42</span>, <span class="number">13</span>, <span class="number">5</span>, <span class="number">60</span>, <span class="number">17</span>, <span class="number">9</span>, <span class="number">30</span>};
+    myNumbers.setArray(initialValues);
+    
+    <span class="comment">// Call the display() function.</span>
+    myNumbers.display();
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The <code>Numbers</code> class encapsulates the fixed-size array. The <code>findMax()</code> and <code>findMin()</code> methods iterate through the array to find the extreme values in a single pass (O(n)). The <code>display()</code> function calls these two methods to produce the required output, correctly demonstrating encapsulation and member function usage.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(2)">
+                    <span class="question-title">02. Sum of Positive and Negative Numbers in an Array</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-2">
+                    <pre><code><span class="comment">// 02. Sum of Positive and Negative Numbers</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="comment">// Function that accepts an integer array and its size</span>
+<span class="keyword">void</span> <span class="function">calculateSumTypes</span>(<span class="keyword">const int</span> arr[], <span class="keyword">int</span> size) {
+    <span class="keyword">int</span> sumPositive = <span class="number">0</span>;
+    <span class="keyword">int</span> sumNegative = <span class="number">0</span>;
+    
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) {
+        <span class="keyword">if</span> (arr[i] &gt; <span class="number">0</span>) {
+            sumPositive += arr[i];
+        } <span class="keyword">else if</span> (arr[i] &lt; <span class="number">0</span>) {
+            sumNegative += arr[i];
+        }
+        <span class="comment">// Note: The '0' element is ignored as required by the logic (positive/negative)</span>
+    }
+    
+    cout &lt;&lt; <span class="string">"Sum of positive numbers: "</span> &lt;&lt; sumPositive &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Sum of negative numbers: "</span> &lt;&lt; sumNegative &lt;&lt; endl;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="comment">// Create the specified integer array.</span>
+    <span class="keyword">int</span> numbers[] = {<span class="number">10</span>, -<span class="number">3</span>, <span class="number">25</span>, -<span class="number">8</span>, <span class="number">15</span>, -<span class="number">1</span>, <span class="number">0</span>, -<span class="number">7</span>, <span class="number">12</span>, <span class="number">9</span>};
+    <span class="keyword">int</span> size = <span class="keyword">sizeof</span>(numbers) / <span class="keyword">sizeof</span>(numbers[<span class="number">0</span>]);
+    
+    <span class="comment">// Pass it to the function.</span>
+    calculateSumTypes(numbers, size);
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The <code>calculateSumTypes()</code> function iterates through the input array once. It uses simple conditional logic (<code>if/else if</code>) to determine if each element is positive or negative, adding it to the respective running sum. This approach correctly segregates and sums the numbers as required in a single pass (O(n)).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(3)">
+                    <span class="question-title">03. Abstract Base Class <code>Shape</code> and Derived Class <code>Circle</code> (Pure Virtual Function)</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-3">
+                    <pre><code><span class="comment">// 03. Abstract Class and Circle Derived Class</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">include</span> &lt;cmath&gt; <span class="comment">// For PI constant (M_PI) or define a constant</span>
+<span class="keyword">include</span> &lt;iomanip&gt; <span class="comment">// For setprecision</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="comment">// Base Class (Abstract) - Provided in the question</span>
+<span class="keyword">class</span> Shape {
+<span class="keyword">public</span>:
+    <span class="comment">// Pure virtual function: makes Shape an abstract class</span>
+    <span class="keyword">virtual double</span> <span class="function">calculateArea</span>() = <span class="number">0</span>;
+    
+    <span class="keyword">virtual void</span> <span class="function">display</span>() {
+        cout &lt;&lt; <span class="string">"This is a shape"</span> &lt;&lt; endl;
+    }
+    <span class="keyword">virtual</span> ~Shape() {} <span class="comment">// Virtual destructor for safety</span>
+};
+
+<span class="comment">// Concrete Derived Class</span>
+<span class="keyword">class</span> Circle : <span class="keyword">public</span> Shape {
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> radius;
+    <span class="keyword">const double</span> PI = <span class="number">3.14159265358979323846</span>; <span class="comment">// Define a high precision PI</span>
+
+<span class="keyword">public</span>:
+    <span class="comment">// Constructor that takes radius as a parameter</span>
+    Circle(<span class="keyword">double</span> r) : radius(r) {}
+    
+    <span class="comment">// Implementation of the pure virtual function</span>
+    <span class="keyword">double</span> <span class="function">calculateArea</span>() <span class="keyword">override</span> {
+        <span class="keyword">return</span> PI * radius * radius;
+    }
+
+    <span class="comment">// Override display() function to print details</span>
+    <span class="keyword">void</span> <span class="function">display</span>() <span class="keyword">override</span> {
+        cout &lt;&lt; <span class="function">fixed</span> &lt;&lt; <span class="function">setprecision</span>(<span class="number">2</span>);
+        cout &lt;&lt; <span class="string">"Radius: "</span> &lt;&lt; radius &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"Area: "</span> &lt;&lt; calculateArea() &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="comment">// Create an object of the Circle class with radius = 7.</span>
+    Circle myCircle(<span class="number">7.0</span>);
+    
+    <span class="comment">// Call the display() function to show the details.</span>
+    myCircle.display();
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The <code>Shape</code> class is an Abstract Base Class due to the presence of the pure virtual function <code>calculateArea() = 0;</code>. The derived <code>Circle</code> class is a **concrete** class because it fully implements all inherited pure virtual functions. It includes a constructor for initialization and overrides the <code>display()</code> and <code>calculateArea()</code> functions to provide circle-specific logic and output.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(4)">
+                    <span class="question-title">04. Abstract Base Class <code>Vehicle</code> and Derived Class <code>Car</code> (Function Overriding)</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-4">
+                    <pre><code><span class="comment">// 04. Vehicle Base Class and Car Derived Class</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="comment">// Base Class - Provided in the question</span>
+<span class="keyword">class</span> Vehicle {
+<span class="keyword">public</span>:
+    <span class="comment">// virtual ensures start() can be overridden</span>
+    <span class="keyword">virtual void</span> <span class="function">start</span>() {
+        cout &lt;&lt; <span class="string">"Vehicle starts"</span> &lt;&lt; endl;
+    }
+    <span class="comment">// Pure virtual function</span>
+    <span class="keyword">virtual void</span> <span class="function">fuelType</span>() = <span class="number">0</span>; 
+    <span class="keyword">virtual</span> ~Vehicle() {}
+};
+
+<span class="comment">// Concrete Derived Class</span>
+<span class="keyword">class</span> Car : <span class="keyword">public</span> Vehicle {
+<span class="keyword">public</span>:
+    <span class="comment">// Override start() to print "Car is starting with a key ignition."</span>
+    <span class="keyword">void</span> <span class="function">start</span>() <span class="keyword">override</span> {
+        cout &lt;&lt; <span class="string">"Car is starting with a key ignition."</span> &lt;&lt; endl;
+    }
+    
+    <span class="comment">// Implement fuelType() to print "Fuel type: Petrol"</span>
+    <span class="keyword">void</span> <span class="function">fuelType</span>() <span class="keyword">override</span> {
+        cout &lt;&lt; <span class="string">"Fuel type: Petrol"</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="comment">// Create a Car object</span>
+    Car myCar;
+    
+    <span class="comment">// Call both methods.</span>
+    myCar.start();
+    myCar.fuelType();
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The <code>Car</code> class inherits from the abstract <code>Vehicle</code> class. It must implement the pure virtual function <code>fuelType()</code> to become a concrete class. It also overrides the base class's non-pure virtual function <code>start()</code>. When <code>myCar.start()</code> and <code>myCar.fuelType()</code> are called, the Car-specific implementations are executed, as intended by polymorphism and overriding.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(5)">
+                    <span class="question-title">05. Count Uppercase and Lowercase Letters in a String</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-5">
+                    <pre><code><span class="comment">// 05. Count Uppercase and Lowercase Letters</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">include</span> &lt;string&gt;
+<span class="keyword">include</span> &lt;cctype&gt; <span class="comment">// For isupper, islower</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">void</span> <span class="function">countCases</span>(<span class="keyword">const string</span>&amp; str) {
+    <span class="keyword">int</span> uppercaseCount = <span class="number">0</span>;
+    <span class="keyword">int</span> lowercaseCount = <span class="number">0</span>;
+
+    <span class="comment">// Iterate through each character of the string</span>
+    <span class="keyword">for</span> (<span class="keyword">char</span> ch : str) {
+        <span class="comment">// Check if the character is uppercase</span>
+        <span class="keyword">if</span> (<span class="function">isupper</span>(ch)) {
+            uppercaseCount++;
+        } 
+        <span class="comment">// Check if the character is lowercase</span>
+        <span class="keyword">else if</span> (<span class="function">islower</span>(ch)) {
+            lowercaseCount++;
+        }
+        <span class="comment">// Digits, spaces, and special characters are ignored by design</span>
+    }
+
+    cout &lt;&lt; <span class="string">"Number of uppercase letters: "</span> &lt;&lt; uppercaseCount &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Number of lowercase letters: "</span> &lt;&lt; lowercaseCount &lt;&lt; endl;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">string</span> inputString;
+    
+    <span class="comment">// Take a string input from the user.</span>
+    cout &lt;&lt; <span class="string">"Enter a string: "</span>;
+    <span class="comment">// Use getline to read the entire line, including spaces</span>
+    <span class="function">getline</span>(cin, inputString);
+    
+    <span class="comment">// Count and print both counts.</span>
+    countCases(inputString);
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+<span class="comment">/* 
+Example Execution:
+Enter a string: Welcome To OOP in C++
+Expected Output:
+Number of uppercase letters: 4
+Number of lowercase letters: 12
+*/</span></code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The program uses the `&lt;cctype&gt;` library functions <code>isupper()</code> and <code>islower()</code>. It iterates through the input string using a range-based for loop. Only characters identified as letters (upper or lower case) are counted, effectively ignoring digits, spaces, and other symbols as requested.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(6)">
+                    <span class="question-title">06. Class <code>Student</code>: Calculate Average Marks</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-6">
+                    <pre><code><span class="comment">// 06. Student Class: Calculate Average Marks</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">include</span> &lt;string&gt;
+<span class="keyword">include</span> &lt;numeric&gt; <span class="comment">// For std::accumulate (for concise sum)</span>
+<span class="keyword">include</span> &lt;iomanip&gt; <span class="comment">// For setprecision</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Student {
+<span class="keyword">private</span>:
+    <span class="keyword">string</span> name;
+    <span class="keyword">int</span> marks[<span class="number">5</span>];
+    <span class="keyword">static const int</span> NUM_SUBJECTS = <span class="number">5</span>;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Constructor to initialize the student's name and marks.</span>
+    Student(<span class="keyword">string</span> n, <span class="keyword">const int</span> m[NUM_SUBJECTS]) : name(n) {
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; NUM_SUBJECTS; i++) {
+            marks[i] = m[i];
+        }
+    }
+
+    <span class="comment">// Function that returns the average of marks.</span>
+    <span class="keyword">double</span> <span class="function">calculateAverage</span>() <span class="keyword">const</span> {
+        <span class="keyword">int</span> sum = <span class="number">0</span>;
+        <span class="keyword">for</span> (<span class="keyword">int</span> mark : marks) {
+            sum += mark;
+        }
+        <span class="keyword">return</span> (<span class="keyword">double</span>)sum / NUM_SUBJECTS;
+    }
+
+    <span class="comment">// Function that shows the name and average marks.</span>
+    <span class="keyword">void</span> <span class="function">display</span>() <span class="keyword">const</span> {
+        cout &lt;&lt; <span class="function">fixed</span> &lt;&lt; <span class="function">setprecision</span>(<span class="number">1</span>);
+        cout &lt;&lt; <span class="string">"Student Name: "</span> &lt;&lt; name &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"Average Marks: "</span> &lt;&lt; calculateAverage() &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="comment">// Create a Student object named "Nimal" with marks {80, 75, 90, 85, 88}.</span>
+    <span class="keyword">int</span> nimalMarks[<span class="number">5</span>] = {<span class="number">80</span>, <span class="number">75</span>, <span class="number">90</span>, <span class="number">85</span>, <span class="number">88</span>};
+    Student nimal(<span class="string">"Nimal"</span>, nimalMarks);
+    
+    <span class="comment">// Display the name and average marks.</span>
+    nimal.display();
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The <code>Student</code> class uses a constructor to initialize both the name and the array of marks. The <code>calculateAverage()</code> method sums all the marks and divides by the fixed number of subjects (5). A type cast to <code>double</code> is used during the division to ensure floating-point precision is maintained, correctly matching the required output format (83.6).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <!-- Script for Accordion Functionality -->
+            <script>
+                function toggleAnswer(id) {
+                    const answerSection = document.getElementById(`answer-${id}`);
+                    const questionHeader = answerSection.previousElementSibling;
+                    
+                    // Toggle visibility of the answer section
+                    answerSection.classList.toggle('active');
+                    questionHeader.classList.toggle('active');
+                }
+
+                function toggleAll() {
+                    const allAnswerSections = document.querySelectorAll('.answer-section');
+                    const allQuestionHeaders = document.querySelectorAll('.question-header');
+                    const expandButton = document.querySelector('.expand-all-btn');
+                    
+                    let allExpanded = Array.from(allAnswerSections).every(section => section.classList.contains('active'));
+                    
+                    allAnswerSections.forEach(section => {
+                        if (allExpanded) {
+                            section.classList.remove('active');
+                        } else {
+                            section.classList.add('active');
+                        }
+                    });
+
+                    allQuestionHeaders.forEach(header => {
+                        if (allExpanded) {
+                            header.classList.remove('active');
+                        } else {
+                            header.classList.add('active');
+                        }
+                    });
+
+                    // Update button text
+                    expandButton.textContent = allExpanded ? 'Expand All Answers' : 'Collapse All Answers';
+                }
+            </script>
+        </footer>
+    </div>
+</body>
+</html>
