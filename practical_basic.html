@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ ප්‍රායෝගික පුහුණු පත්‍රය</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .task-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .task-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .task-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-right: 15px;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.4);
+        }
+
+        .task-title {
+            font-size: 1.4em;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .question {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .question h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .question p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .code-section {
+            margin-bottom: 15px;
+        }
+
+        .code-section h3 {
+            color: #764ba2;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .code-container {
+            background: #282c34;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-container pre {
+            margin: 0;
+            color: #abb2bf;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .code-line {
+            display: block;
+            padding: 2px 0;
+        }
+
+        .keyword { color: #c678dd; }
+        .function { color: #61afef; }
+        .string { color: #98c379; }
+        .comment { color: #5c6370; font-style: italic; }
+        .number { color: #d19a66; }
+        .operator { color: #56b6c2; }
+
+        .description {
+            background: #fff8e1;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .description h3 {
+            color: #f57c00;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .description p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .task-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 C++ ප්‍රායෝගික පුහුණු පත්‍රය</h1>
+            <p>සරල සිට මධ්‍යම මට්ටම දක්වා - 10 කාර්යයන්</p>
+        </div>
+
+        <!-- Task 1 -->
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-number">1</div>
+                <div class="task-title">Hello World වැඩසටහන</div>
+                <span class="difficulty easy">සරල</span>
+            </div>
+            <div class="question">
+                <h3>ප්‍රශ්නය:</h3>
+                <p>තිරයට "Hello, World!" මුද්‍රණය කරන සරල C++ වැඩසටහනක් ලියන්න.</p>
+            </div>
+            <div class="code-section">
+                <h3>පිළිතුරු කේතය:</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="code-line"><span class="keyword">#include</span> <span class="operator">&lt;</span>iostream<span class="operator">&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"Hello, World!"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+                </div>
+            </div>
+            <div class="description">
+                <h3>විස්තරය:</h3>
+                <p>මෙම වැඩසටහන C++ හි මූලික ව්‍යුහය පෙන්වයි. iostream පුස්තකාලය ඇතුළත් කර, cout භාවිතයෙන් තිරයට පණිවිඩයක් මුද්‍රණය කරයි. main() ශ්‍රිතය වැඩසටහනේ ආරම්භක ස්ථානයයි.</p>
+            </div>
+        </div>
+
+        <!-- Task 2 -->
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-number">2</div>
+                <div class="task-title">සංඛ්‍යා දෙකක එකතුව</div>
+                <span class="difficulty easy">සරල</span>
+            </div>
+            <div class="question">
+                <h3>ප්‍රශ්නය:</h3>
+                <p>පරිශීලකයාගෙන් සංඛ්‍යා දෙකක් ගෙන එම සංඛ්‍යා දෙකේ එකතුව ප්‍රදර්ශනය කරන වැඩසටහනක් ලියන්න.</p>
+            </div>
+            <div class="code-section">
+                <h3>පිළිතුරු කේතය:</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="code-line"><span class="keyword">#include</span> <span class="operator">&lt;</span>iostream<span class="operator">&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="keyword">int</span> num1, num2, sum;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"පළමු සංඛ්‍යාව ඇතුළත් කරන්න: "</span>;</span>
+<span class="code-line">    cin <span class="operator">&gt;&gt;</span> num1;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"දෙවන සංඛ්‍යාව ඇතුළත් කරන්න: "</span>;</span>
+<span class="code-line">    cin <span class="operator">&gt;&gt;</span> num2;</span>
+<span class="code-line">    </span>
+<span class="code-line">    sum <span class="operator">=</span> num1 <span class="operator">+</span> num2;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"එකතුව = "</span> <span class="operator">&lt;&lt;</span> sum <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+                </div>
+            </div>
+            <div class="description">
+                <h3>විස්තරය:</h3>
+                <p>මෙහිදී cin භාවිතයෙන් පරිශීලක ආදානය ලබාගනී. integer විචල්‍ය තුනක් ප්‍රකාශ කර, ඒවායේ එකතුව ගණනය කර ප්‍රතිඵලය ප්‍රදර්ශනය කරයි. මූලික අංක ගණිතමය ක්‍රියාකාරකම් පෙන්වයි.</p>
+            </div>
+        </div>
+
+        <!-- Task 3 -->
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-number">3</div>
+                <div class="task-title">ඔත්තේ හෝ අඔත්තේ පරීක්ෂාව</div>
+                <span class="difficulty easy">සරල</span>
+            </div>
+            <div class="question">
+                <h3>ප්‍රශ්නය:</h3>
+                <p>සංඛ්‍යාවක් ඔත්තේ හෝ අඔත්තේ දැයි පරීක්ෂා කර ප්‍රතිඵලය ප්‍රදර්ශනය කරන වැඩසටහනක් ලියන්න.</p>
+            </div>
+            <div class="code-section">
+                <h3>පිළිතුරු කේතය:</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="code-line"><span class="keyword">#include</span> <span class="operator">&lt;</span>iostream<span class="operator">&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="keyword">int</span> number;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"සංඛ්‍යාවක් ඇතුළත් කරන්න: "</span>;</span>
+<span class="code-line">    cin <span class="operator">&gt;&gt;</span> number;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">if</span> (number <span class="operator">%</span> <span class="number">2</span> <span class="operator">==</span> <span class="number">0</span>) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> number <span class="operator">&lt;&lt;</span> <span class="string">" ඔත්තේ සංඛ්‍යාවකි."</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    } <span class="keyword">else</span> {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> number <span class="operator">&lt;&lt;</span> <span class="string">" අඔත්තේ සංඛ්‍යාවකි."</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+                </div>
+            </div>
+            <div class="description">
+                <h3>විස්තරය:</h3>
+                <p>if-else කොන්දේසි ප්‍රකාශනය භාවිතා කරයි. modulus ක්‍රියාකරු (%) භාවිතයෙන් සංඛ්‍යාව 2 න් බෙදූ විට ඉතිරිය පරීක්ෂා කරයි. ඉතිරිය 0 නම් ඔත්තේ, නැතිනම් අඔත්තේ.</p>
+            </div>
+        </div>
+
+        <!-- Task 4 -->
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-number">4</div>
+                <div class="task-title">වර්ගඵලය ගණනය කිරීම</div>
+                <span class="difficulty easy">සරල</span>
+            </div>
+            <div class="question">
+                <h3>ප්‍රශ්නය:</h3>
+                <p>සංඛ්‍යාවක වර්ගඵලය (square) ගණනය කර ප්‍රදර්ශනය කරන ශ්‍රිතයක් (function) භාවිතා කරන වැඩසටහනක් ලියන්න.</p>
+            </div>
+            <div class="code-section">
+                <h3>පිළිතුරු කේතය:</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="code-line"><span class="keyword">#include</span> <span class="operator">&lt;</span>iostream<span class="operator">&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">square</span>(<span class="keyword">int</span> num) {</span>
+<span class="code-line">    <span class="keyword">return</span> num <span class="operator">*</span> num;</span>
+<span class="code-line">}</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="keyword">int</span> number;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"සංඛ්‍යාවක් ඇතුළත් කරන්න: "</span>;</span>
+<span class="code-line">    cin <span class="operator">&gt;&gt;</span> number;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">int</span> result <span class="operator">=</span> <span class="function">square</span>(number);</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"වර්ගඵලය = "</span> <span class="operator">&lt;&lt;</span> result <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+                </div>
+            </div>
+            <div class="description">
+                <h3>විස්තරය:</h3>
+                <p>square() නමින් වෙනම ශ්‍රිතයක් නිර්වචනය කරයි. මෙම ශ්‍රිතය පරාමිතියක් ලබාගෙන එහි වර්ගඵලය ආපසු යවයි. මෙය කේත නැවත භාවිතා කිරීමේ මූලික සංකල්පය පෙන්වයි.</p>
+            </div>
+        </div>
+
+        <!-- Task 5 -->
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-number">5</div>
+                <div class="task-title">සංඛ්‍යා 1-10 මුද්‍රණය (For Loop)</div>
+                <span class="difficulty easy">සරල</span>
+            </div>
+            <div class="question">
+                <h3>ප්‍රශ්නය:</h3>
+                <p>for loop එකක් භාවිතයෙන් 1 සිට 10 දක්වා සංඛ්‍යා මුද්‍රණය කරන වැඩසටහනක් ලියන්න.</p>
+            </div>
+            <div class="code-section">
+                <h3>පිළිතුරු කේතය:</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="code-line"><span class="keyword">#include</span> <span class="operator">&lt;</span>iostream<span class="operator">&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"1 සිට 10 දක්වා සංඛ්‍යා:"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">for</span> (<span class="keyword">int</span> i <span class="operator">=</span> <span class="number">1</span>; i <span class="operator">&lt;=</span> <span class="number">10</span>; i<span class="operator">++</span>) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> i <span class="operator">&lt;&lt;</span> <span class="string">" "</span>;</span>
+<span class="code-line">    }</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+                </div>
+            </div>
+            <div class="description">
+                <h3>විස්තරය:</h3>
+                <p>for loop හි මූලික ව්‍යුහය පෙන්වයි. loop එක i=1 සිට ආරම්භ වී i<=10 කොන්දේසිය සත්‍ය වන තුරු ක්‍රියාත්මක වේ. සෑම පුනරාවර්තනයකින්ම i එකකින් වැඩි වේ.</p>
+            </div>
+        </div>
+
+        <!-- Task 6 -->
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-number">6</div>
+                <div class="task-title">ක්‍රමාංක සැකසීම (Array)</div>
+                <span class="difficulty easy">සරල</span>
+            </div>
+            <div class="question">
+                <h3>ප්‍රශ්නය:</h3>
+                <p>සංඛ්‍යා 5ක් array එකක ගබඩා කර, ඒවායේ එකතුව හා සාමාන්‍යය ගණනය කරන වැඩසටහනක් ලියන්න.</p>
+            </div>
+            <div class="code-section">
+                <h3>පිළිතුරු කේතය:</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="code-line"><span class="keyword">#include</span> <span class="operator">&lt;</span>iostream<span class="operator">&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="keyword">int</span> numbers[<span class="number">5</span>];</span>
+<span class="code-line">    <span class="keyword">int</span> sum <span class="operator">=</span> <span class="number">0</span>;</span>
+<span class="code-line">    <span class="keyword">double</span> average;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"සංඛ්‍යා 5ක් ඇතුළත් කරන්න:"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">for</span> (<span class="keyword">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> <span class="number">5</span>; i<span class="operator">++</span>) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"සංඛ්‍යාව "</span> <span class="operator">&lt;&lt;</span> (i<span class="operator">+</span><span class="number">1</span>) <span class="operator">&lt;&lt;</span> <span class="string">": "</span>;</span>
+<span class="code-line">        cin <span class="operator">&gt;&gt;</span> numbers[i];</span>
+<span class="code-line">        sum <span class="operator">+=</span> numbers[i];</span>
+<span class="code-line">    }</span>
+<span class="code-line">    </span>
+<span class="code-line">    average <span class="operator">=</span> (<span class="keyword">double</span>)sum <span class="operator">/</span> <span class="number">5</span>;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"එකතුව = "</span> <span class="operator">&lt;&lt;</span> sum <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"සාමාන්‍යය = "</span> <span class="operator">&lt;&lt;</span> average <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+                </div>
+            </div>
+            <div class="description">
+                <h3>විස්තරය:</h3>
+                <p>Array භාවිතය පෙන්වයි. සංඛ්‍යා 5ක් ගබඩා කරන array එකක් නිර්මාණය කර, loop එකක් යොදා ආදාන ලබාගනී. එකතුව හා සාමාන්‍යය ගණනය කිරීමේ ක්‍රියාවලිය ද පෙන්වයි.</p>
+            </div>
+        </div>
+
+        <!-- Task 7 -->
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-number">7</div>
+                <div class="task-title">ගුණිතය වගුව</div>
+                <span class="difficulty medium">මධ්‍යම</span>
+            </div>
+            <div class="question">
+                <h3>ප්‍රශ්නය:</h3>
+                <p>පරිශීලකයාගෙන් සංඛ්‍යාවක් ලබාගෙන එම සංඛ්‍යාවේ ගුණිතය වගුව (1-10) ප්‍රදර්ශනය කරන වැඩසටහනක් ලියන්න.</p>
+            </div>
+            <div class="code-section">
+                <h3>පිළිතුරු කේතය:</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="code-line"><span class="keyword">#include</span> <span class="operator">&lt;</span>iostream<span class="operator">&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="keyword">int</span> number;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"සංඛ්‍යාවක් ඇතුළත් කරන්න: "</span>;</span>
+<span class="code-line">    cin <span class="operator">&gt;&gt;</span> number;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"\n"</span> <span class="operator">&lt;&lt;</span> number <span class="operator">&lt;&lt;</span> <span class="string">" හි ගුණිතය වගුව:"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"-------------------"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">for</span> (<span class="keyword">int</span> i <span class="operator">=</span> <span class="number">1</span>; i <span class="operator">&lt;=</span> <span class="number">10</span>; i<span class="operator">++</span>) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> number <span class="operator">&lt;&lt;</span> <span class="string">" x "</span> <span class="operator">&lt;&lt;</span> i <span class="operator">&lt;&lt;</span> <span class="string">" = "</span> <span class="operator">&lt;&lt;</span> (number <span class="operator">*</span> i) <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+                </div>
+            </div>
+            <div class="description">
+                <h3>විස්තරය:</h3>
+                <p>ගුණිතය වගුව නිර්මාණය කරයි. for loop භාවිතයෙන් 1 සිට 10 දක්වා පුනරාවර්තනය වන අතර, සෑම පිළියකදීම පරිශීලකයා ඇතුළත් කළ සංඛ්‍යාව i සමඟ ගුණ කරයි. එය loop හා අංක ගණිතමය ක්‍රියාකාරකම් ඒකාබද්ධ කරයි.</p>
+            </div>
+        </div>
+
+        <!-- Task 8 -->
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-number">8</div>
+                <div class="task-title">අක්ෂර පෙරළීම (String Reverse)</div>
+                <span class="difficulty medium">මධ්‍යම</span>
+            </div>
+            <div class="question">
+                <h3>ප්‍රශ්නය:</h3>
+                <p>පරිශීලකයාගෙන් වචන මාලාවක් (string) ලබාගෙන එය ප්‍රතිලෝමව (reverse) ප්‍රදර්ශනය කරන වැඩසටහනක් ලියන්න.</p>
+            </div>
+            <div class="code-section">
+                <h3>පිළිතුරු කේතය:</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="code-line"><span class="keyword">#include</span> <span class="operator">&lt;</span>iostream<span class="operator">&gt;</span></span>
+<span class="code-line"><span class="keyword">#include</span> <span class="operator">&lt;</span>string<span class="operator">&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    string text;</span>
+<span class="code-line">    string reversed <span class="operator">=</span> <span class="string">""</span>;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"වචන මාලාවක් ඇතුළත් කරන්න: "</span>;</span>
+<span class="code-line">    getline(cin, text);</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">for</span> (<span class="keyword">int</span> i <span class="operator">=</span> text.length() <span class="operator">-</span> <span class="number">1</span>; i <span class="operator">&gt;=</span> <span class="number">0</span>; i<span class="operator">--</span>) {</span>
+<span class="code-line">        reversed <span class="operator">+=</span> text[i];</span>
+<span class="code-line">    }</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"ප්‍රතිලෝම වචන මාලාව: "</span> <span class="operator">&lt;&lt;</span> reversed <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+                </div>
+            </div>
+            <div class="description">
+                <h3>විස්තරය:</h3>
+                <p>String සැකසීම පෙන්වයි. getline() භාවිතයෙන් spaces සහිත වාක්‍ය ලබාගනී. loop එක අවසානයේ සිට ආරම්භය දක්වා ක්‍රියාත්මක වන අතර, එක් එක් අක්ෂරය නව string එකට එකතු කරයි.</p>
+            </div>
+        </div>
+
+        <!-- Task 9 -->
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-number">9</div>
+                <div class="task-title">ෆැක්ටෝරියල් ගණනය (Factorial)</div>
+                <span class="difficulty medium">මධ්‍යම</span>
+            </div>
+            <div class="question">
+                <h3>ප්‍රශ්නය:</h3>
+                <p>පරිශීලකයාගෙන් ධන සංඛ්‍යාවක් ලබාගෙන එහි ෆැක්ටෝරියල් අගය ගණනය කර ප්‍රදර්ශනය කරන වැඩසටහනක් ලියන්න. (උදා: 5! = 5 × 4 × 3 × 2 × 1 = 120)</p>
+            </div>
+            <div class="code-section">
+                <h3>පිළිතුරු කේතය:</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="code-line"><span class="keyword">#include</span> <span class="operator">&lt;</span>iostream<span class="operator">&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">long long</span> <span class="function">factorial</span>(<span class="keyword">int</span> n) {</span>
+<span class="code-line">    <span class="keyword">long long</span> result <span class="operator">=</span> <span class="number">1</span>;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">for</span> (<span class="keyword">int</span> i <span class="operator">=</span> <span class="number">2</span>; i <span class="operator">&lt;=</span> n; i<span class="operator">++</span>) {</span>
+<span class="code-line">        result <span class="operator">*=</span> i;</span>
+<span class="code-line">    }</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">return</span> result;</span>
+<span class="code-line">}</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="keyword">int</span> number;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"ධන සංඛ්‍යාවක් ඇතුළත් කරන්න: "</span>;</span>
+<span class="code-line">    cin <span class="operator">&gt;&gt;</span> number;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">if</span> (number <span class="operator">&lt;</span> <span class="number">0</span>) {</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> <span class="string">"කරුණාකර ධන සංඛ්‍යාවක් ඇතුළත් කරන්න."</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    } <span class="keyword">else</span> {</span>
+<span class="code-line">        <span class="keyword">long long</span> result <span class="operator">=</span> <span class="function">factorial</span>(number);</span>
+<span class="code-line">        cout <span class="operator">&lt;&lt;</span> number <span class="operator">&lt;&lt;</span> <span class="string">"! = "</span> <span class="operator">&lt;&lt;</span> result <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+                </div>
+            </div>
+            <div class="description">
+                <h3>විස්තරය:</h3>
+                <p>ෆැක්ටෝරියල් ගණනය කිරීම සඳහා වෙනම ශ්‍රිතයක් නිර්මාණය කරයි. long long දත්ත වර්ගය භාවිතා කරන්නේ විශාල සංඛ්‍යා ගබඩා කිරීමටයි. ඍණ සංඛ්‍යා සඳහා වලංගුභාවය පරීක්ෂා කරයි.</p>
+            </div>
+        </div>
+
+        <!-- Task 10 -->
+        <div class="task-card">
+            <div class="task-header">
+                <div class="task-number">10</div>
+                <div class="task-title">සරල කැල්කියුලේටරය</div>
+                <span class="difficulty medium">මධ්‍යම</span>
+            </div>
+            <div class="question">
+                <h3>ප්‍රශ්නය:</h3>
+                <p>සංඛ්‍යා දෙකක් සහ ක්‍රියාකරුවෙකු (+, -, *, /) ලබාගෙන ප්‍රතිඵලය ප්‍රදර්ශනය කරන සරල කැල්කියුලේටර් වැඩසටහනක් switch-case භාවිතයෙන් ලියන්න.</p>
+            </div>
+            <div class="code-section">
+                <h3>පිළිතුරු කේතය:</h3>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    <pre><span class="code-line"><span class="keyword">#include</span> <span class="operator">&lt;</span>iostream<span class="operator">&gt;</span></span>
+<span class="code-line"><span class="keyword">using namespace</span> std;</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="keyword">int</span> <span class="function">main</span>() {</span>
+<span class="code-line">    <span class="keyword">double</span> num1, num2, result;</span>
+<span class="code-line">    <span class="keyword">char</span> operation;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"සරල කැල්කියුලේටරය"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"==================="</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"පළමු සංඛ්‍යාව: "</span>;</span>
+<span class="code-line">    cin <span class="operator">&gt;&gt;</span> num1;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"ක්‍රියාව (+, -, *, /): "</span>;</span>
+<span class="code-line">    cin <span class="operator">&gt;&gt;</span> operation;</span>
+<span class="code-line">    </span>
+<span class="code-line">    cout <span class="operator">&lt;&lt;</span> <span class="string">"දෙවන සංඛ්‍යාව: "</span>;</span>
+<span class="code-line">    cin <span class="operator">&gt;&gt;</span> num2;</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">switch</span> (operation) {</span>
+<span class="code-line">        <span class="keyword">case</span> <span class="string">'+'</span>:</span>
+<span class="code-line">            result <span class="operator">=</span> num1 <span class="operator">+</span> num2;</span>
+<span class="code-line">            cout <span class="operator">&lt;&lt;</span> <span class="string">"\nප්‍රතිඵලය: "</span> <span class="operator">&lt;&lt;</span> num1 <span class="operator">&lt;&lt;</span> <span class="string">" + "</span> <span class="operator">&lt;&lt;</span> num2 <span class="operator">&lt;&lt;</span> <span class="string">" = "</span> <span class="operator">&lt;&lt;</span> result <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">            <span class="keyword">break</span>;</span>
+<span class="code-line">        </span>
+<span class="code-line">        <span class="keyword">case</span> <span class="string">'-'</span>:</span>
+<span class="code-line">            result <span class="operator">=</span> num1 <span class="operator">-</span> num2;</span>
+<span class="code-line">            cout <span class="operator">&lt;&lt;</span> <span class="string">"\nප්‍රතිඵලය: "</span> <span class="operator">&lt;&lt;</span> num1 <span class="operator">&lt;&lt;</span> <span class="string">" - "</span> <span class="operator">&lt;&lt;</span> num2 <span class="operator">&lt;&lt;</span> <span class="string">" = "</span> <span class="operator">&lt;&lt;</span> result <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">            <span class="keyword">break</span>;</span>
+<span class="code-line">        </span>
+<span class="code-line">        <span class="keyword">case</span> <span class="string">'*'</span>:</span>
+<span class="code-line">            result <span class="operator">=</span> num1 <span class="operator">*</span> num2;</span>
+<span class="code-line">            cout <span class="operator">&lt;&lt;</span> <span class="string">"\nප්‍රතිඵලය: "</span> <span class="operator">&lt;&lt;</span> num1 <span class="operator">&lt;&lt;</span> <span class="string">" * "</span> <span class="operator">&lt;&lt;</span> num2 <span class="operator">&lt;&lt;</span> <span class="string">" = "</span> <span class="operator">&lt;&lt;</span> result <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">            <span class="keyword">break</span>;</span>
+<span class="code-line">        </span>
+<span class="code-line">        <span class="keyword">case</span> <span class="string">'/'</span>:</span>
+<span class="code-line">            <span class="keyword">if</span> (num2 <span class="operator">!=</span> <span class="number">0</span>) {</span>
+<span class="code-line">                result <span class="operator">=</span> num1 <span class="operator">/</span> num2;</span>
+<span class="code-line">                cout <span class="operator">&lt;&lt;</span> <span class="string">"\nප්‍රතිඵලය: "</span> <span class="operator">&lt;&lt;</span> num1 <span class="operator">&lt;&lt;</span> <span class="string">" / "</span> <span class="operator">&lt;&lt;</span> num2 <span class="operator">&lt;&lt;</span> <span class="string">" = "</span> <span class="operator">&lt;&lt;</span> result <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">            } <span class="keyword">else</span> {</span>
+<span class="code-line">                cout <span class="operator">&lt;&lt;</span> <span class="string">"\nදෝෂය: ශුන්‍යයෙන් බෙදිය නොහැක!"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">            }</span>
+<span class="code-line">            <span class="keyword">break</span>;</span>
+<span class="code-line">        </span>
+<span class="code-line">        <span class="keyword">default</span>:</span>
+<span class="code-line">            cout <span class="operator">&lt;&lt;</span> <span class="string">"\nදෝෂය: වලංගු නොවන ක්‍රියාව!"</span> <span class="operator">&lt;&lt;</span> endl;</span>
+<span class="code-line">    }</span>
+<span class="code-line">    </span>
+<span class="code-line">    <span class="keyword">return</span> <span class="number">0</span>;</span>
+<span class="code-line">}</span></pre>
+                </div>
+            </div>
+            <div class="description">
+                <h3>විස්තරය:</h3>
+                <p>switch-case ප්‍රකාශනය භාවිතා කර කැල්කියුලේටරයක් නිර්මාණය කරයි. char විචල්‍යයක් භාවිතයෙන් ක්‍රියාකරුව ගබඩා කරයි. ශුන්‍යයෙන් බෙදීම වැළැක්වීම සඳහා දෝෂ පරීක්ෂාව ඇතුළත් කර ඇත. මෙය බහු කොන්දේසි සැකසීම පෙන්වයි.</p>
+            </div>
+        </div>
+
+        <div class="header" style="margin-top: 50px;">
+            <p>🎉 සියලු කාර්යයන් සම්පූර්ණයි! සුභ පැතුම්! 🎉</p>
+        </div>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const codeContainer = button.parentElement;
+            const codeText = codeContainer.querySelector('pre').innerText;
+            
+            navigator.clipboard.writeText(codeText).then(() => {
+                button.textContent = 'Copied!';
+                button.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.style.background = '#667eea';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
+        // Animate cards on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.task-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

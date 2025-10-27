@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Practical Tasks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .task-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 5px solid #11998e;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .task-number {
+            background: #11998e;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .difficulty {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .task-title {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .task-description {
+            color: #34495e;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .toggle-btn {
+            background: #11998e;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .toggle-btn:hover {
+            background: #0d7a6f;
+            transform: scale(1.05);
+        }
+
+        .answer-section {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #11998e;
+        }
+
+        .answer-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+            white-space: pre;
+        }
+
+        .output-block {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            border: 2px solid #11998e;
+            white-space: pre;
+        }
+
+        .description {
+            color: #555;
+            line-height: 1.8;
+            margin-top: 15px;
+        }
+
+        .description h4 {
+            color: #11998e;
+            margin: 15px 0 10px 0;
+        }
+
+        .description ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .description li {
+            margin-bottom: 8px;
+        }
+
+        .keyword {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #98c379;
+        }
+
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .number {
+            color: #d19a66;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⭐ C++ Practical Tasks</h1>
+            <p>Simple to Medium Level - Patterns, Sorting & More</p>
+        </div>
+
+        <div class="content">
+            <!-- Task 1 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-number">Task 1</span>
+                    <span class="difficulty easy">Easy</span>
+                </div>
+                <div class="task-title">Print a Right-Angled Triangle Pattern</div>
+                <div class="task-description">
+                    Write a program to print a right-angled triangle pattern using stars (*). The user should input the number of rows.
+                </div>
+                <button class="toggle-btn" onclick="toggleAnswer(1)">Show Solution</button>
+                <div class="answer-section" id="answer1">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> main() 
+{
+    <span class="keyword">int</span> rows;
+    
+    cout &lt;&lt; <span class="string">"Enter number of rows: "</span>;
+    cin &gt;&gt; rows;
+    
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= rows; i++)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= i; j++)
+        {
+            cout &lt;&lt; <span class="string">"* "</span>;
+        }
+        cout &lt;&lt; endl;
+    }
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</div>
+                    <div class="output-block">Output (for rows = 5):
+* 
+* * 
+* * * 
+* * * * 
+* * * * *</div>
+                    <div class="description">
+                        <h4>📖 Explanation:</h4>
+                        <ul>
+                            <li><strong>Outer loop (i):</strong> Controls the number of rows to print</li>
+                            <li><strong>Inner loop (j):</strong> Prints stars in each row (from 1 to i)</li>
+                            <li><strong>Pattern logic:</strong> Row 1 has 1 star, row 2 has 2 stars, and so on</li>
+                            <li><strong>endl:</strong> Moves to the next line after each row</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 2 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-number">Task 2</span>
+                    <span class="difficulty easy">Easy</span>
+                </div>
+                <div class="task-title">Print an Inverted Triangle Pattern</div>
+                <div class="task-description">
+                    Create a program that prints an inverted right-angled triangle using stars.
+                </div>
+                <button class="toggle-btn" onclick="toggleAnswer(2)">Show Solution</button>
+                <div class="answer-section" id="answer2">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> main() 
+{
+    <span class="keyword">int</span> rows;
+    
+    cout &lt;&lt; <span class="string">"Enter number of rows: "</span>;
+    cin &gt;&gt; rows;
+    
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = rows; i &gt;= <span class="number">1</span>; i--)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= i; j++)
+        {
+            cout &lt;&lt; <span class="string">"* "</span>;
+        }
+        cout &lt;&lt; endl;
+    }
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</div>
+                    <div class="output-block">Output (for rows = 5):
+* * * * * 
+* * * * 
+* * * 
+* * 
+*</div>
+                    <div class="description">
+                        <h4>📖 Explanation:</h4>
+                        <ul>
+                            <li><strong>Outer loop:</strong> Starts from 'rows' and decreases to 1</li>
+                            <li><strong>Inner loop:</strong> Prints stars equal to current value of i</li>
+                            <li><strong>Inverted pattern:</strong> First row has maximum stars, last row has 1 star</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 3 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-number">Task 3</span>
+                    <span class="difficulty easy">Easy</span>
+                </div>
+                <div class="task-title">Print a Pyramid Pattern</div>
+                <div class="task-description">
+                    Write a program to print a centered pyramid pattern using stars.
+                </div>
+                <button class="toggle-btn" onclick="toggleAnswer(3)">Show Solution</button>
+                <div class="answer-section" id="answer3">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> main() 
+{
+    <span class="keyword">int</span> rows;
+    
+    cout &lt;&lt; <span class="string">"Enter number of rows: "</span>;
+    cin &gt;&gt; rows;
+    
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= rows; i++)
+    {
+        <span class="comment">// Print spaces</span>
+        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= rows - i; j++)
+        {
+            cout &lt;&lt; <span class="string">"  "</span>;
+        }
+        
+        <span class="comment">// Print stars</span>
+        <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">1</span>; k &lt;= <span class="number">2</span> * i - <span class="number">1</span>; k++)
+        {
+            cout &lt;&lt; <span class="string">"* "</span>;
+        }
+        
+        cout &lt;&lt; endl;
+    }
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</div>
+                    <div class="output-block">Output (for rows = 5):
+        * 
+      * * * 
+    * * * * * 
+  * * * * * * * 
+* * * * * * * * *</div>
+                    <div class="description">
+                        <h4>📖 Explanation:</h4>
+                        <ul>
+                            <li><strong>First inner loop:</strong> Prints spaces for centering (rows - i spaces)</li>
+                            <li><strong>Second inner loop:</strong> Prints stars (2*i - 1 stars in each row)</li>
+                            <li><strong>Pattern logic:</strong> Row 1: 1 star, Row 2: 3 stars, Row 3: 5 stars...</li>
+                            <li><strong>Centering:</strong> More spaces at the top, fewer at the bottom</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 4 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-number">Task 4</span>
+                    <span class="difficulty easy">Easy</span>
+                </div>
+                <div class="task-title">Print a Diamond Pattern</div>
+                <div class="task-description">
+                    Create a program to print a diamond shape using stars.
+                </div>
+                <button class="toggle-btn" onclick="toggleAnswer(4)">Show Solution</button>
+                <div class="answer-section" id="answer4">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> main() 
+{
+    <span class="keyword">int</span> rows;
+    
+    cout &lt;&lt; <span class="string">"Enter number of rows: "</span>;
+    cin &gt;&gt; rows;
+    
+    <span class="comment">// Upper half of diamond</span>
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= rows; i++)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= rows - i; j++)
+        {
+            cout &lt;&lt; <span class="string">" "</span>;
+        }
+        <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">1</span>; k &lt;= <span class="number">2</span> * i - <span class="number">1</span>; k++)
+        {
+            cout &lt;&lt; <span class="string">"*"</span>;
+        }
+        cout &lt;&lt; endl;
+    }
+    
+    <span class="comment">// Lower half of diamond</span>
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = rows - <span class="number">1</span>; i &gt;= <span class="number">1</span>; i--)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= rows - i; j++)
+        {
+            cout &lt;&lt; <span class="string">" "</span>;
+        }
+        <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">1</span>; k &lt;= <span class="number">2</span> * i - <span class="number">1</span>; k++)
+        {
+            cout &lt;&lt; <span class="string">"*"</span>;
+        }
+        cout &lt;&lt; endl;
+    }
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</div>
+                    <div class="output-block">Output (for rows = 5):
+    *
+   ***
+  *****
+ *******
+*********
+ *******
+  *****
+   ***
+    *</div>
+                    <div class="description">
+                        <h4>📖 Explanation:</h4>
+                        <ul>
+                            <li><strong>Two parts:</strong> Upper half (pyramid) + Lower half (inverted pyramid)</li>
+                            <li><strong>Upper half:</strong> Same logic as pyramid pattern</li>
+                            <li><strong>Lower half:</strong> Starts from (rows-1) and decreases to 1</li>
+                            <li><strong>Complete diamond:</strong> Combines both halves to form diamond shape</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 5 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-number">Task 5</span>
+                    <span class="difficulty easy">Easy</span>
+                </div>
+                <div class="task-title">Print Number Pattern (Floyd's Triangle)</div>
+                <div class="task-description">
+                    Write a program to print Floyd's Triangle - consecutive numbers in triangular form.
+                </div>
+                <button class="toggle-btn" onclick="toggleAnswer(5)">Show Solution</button>
+                <div class="answer-section" id="answer5">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> main() 
+{
+    <span class="keyword">int</span> rows;
+    <span class="keyword">int</span> number = <span class="number">1</span>;
+    
+    cout &lt;&lt; <span class="string">"Enter number of rows: "</span>;
+    cin &gt;&gt; rows;
+    
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= rows; i++)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= i; j++)
+        {
+            cout &lt;&lt; number &lt;&lt; <span class="string">" "</span>;
+            number++;
+        }
+        cout &lt;&lt; endl;
+    }
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</div>
+                    <div class="output-block">Output (for rows = 5):
+1 
+2 3 
+4 5 6 
+7 8 9 10 
+11 12 13 14 15</div>
+                    <div class="description">
+                        <h4>📖 Explanation:</h4>
+                        <ul>
+                            <li><strong>Variable 'number':</strong> Keeps track of current number to print</li>
+                            <li><strong>Continuous counting:</strong> Numbers continue from previous row</li>
+                            <li><strong>Triangle shape:</strong> Row i contains i numbers</li>
+                            <li><strong>Increment:</strong> number++ after each print</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 6 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-number">Task 6</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="task-title">Bubble Sort Algorithm</div>
+                <div class="task-description">
+                    Implement bubble sort to sort an array of integers in ascending order.
+                </div>
+                <button class="toggle-btn" onclick="toggleAnswer(6)">Show Solution</button>
+                <div class="answer-section" id="answer6">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">void</span> bubbleSort(<span class="keyword">int</span> arr[], <span class="keyword">int</span> n)
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n - <span class="number">1</span>; i++)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n - i - <span class="number">1</span>; j++)
+        {
+            <span class="keyword">if</span>(arr[j] &gt; arr[j + <span class="number">1</span>])
+            {
+                <span class="comment">// Swap elements</span>
+                <span class="keyword">int</span> temp = arr[j];
+                arr[j] = arr[j + <span class="number">1</span>];
+                arr[j + <span class="number">1</span>] = temp;
+            }
+        }
+    }
+}
+
+<span class="keyword">void</span> printArray(<span class="keyword">int</span> arr[], <span class="keyword">int</span> n)
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    {
+        cout &lt;&lt; arr[i] &lt;&lt; <span class="string">" "</span>;
+    }
+    cout &lt;&lt; endl;
+}
+
+<span class="keyword">int</span> main() 
+{
+    <span class="keyword">int</span> arr[] = {<span class="number">64</span>, <span class="number">34</span>, <span class="number">25</span>, <span class="number">12</span>, <span class="number">22</span>, <span class="number">11</span>, <span class="number">90</span>};
+    <span class="keyword">int</span> n = <span class="number">7</span>;
+    
+    cout &lt;&lt; <span class="string">"Original array: "</span>;
+    printArray(arr, n);
+    
+    bubbleSort(arr, n);
+    
+    cout &lt;&lt; <span class="string">"Sorted array: "</span>;
+    printArray(arr, n);
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</div>
+                    <div class="output-block">Output:
+Original array: 64 34 25 12 22 11 90 
+Sorted array: 11 12 22 25 34 64 90</div>
+                    <div class="description">
+                        <h4>📖 Explanation:</h4>
+                        <ul>
+                            <li><strong>Bubble Sort:</strong> Compares adjacent elements and swaps if they're in wrong order</li>
+                            <li><strong>Outer loop:</strong> Runs n-1 times (n = array size)</li>
+                            <li><strong>Inner loop:</strong> Compares and swaps adjacent elements</li>
+                            <li><strong>Time Complexity:</strong> O(n²) - Good for small arrays</li>
+                            <li><strong>How it works:</strong> Largest element "bubbles up" to the end in each pass</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 7 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-number">Task 7</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="task-title">Selection Sort Algorithm</div>
+                <div class="task-description">
+                    Implement selection sort to arrange an array in ascending order.
+                </div>
+                <button class="toggle-btn" onclick="toggleAnswer(7)">Show Solution</button>
+                <div class="answer-section" id="answer7">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">void</span> selectionSort(<span class="keyword">int</span> arr[], <span class="keyword">int</span> n)
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n - <span class="number">1</span>; i++)
+    {
+        <span class="keyword">int</span> minIndex = i;
+        
+        <span class="comment">// Find minimum element</span>
+        <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; n; j++)
+        {
+            <span class="keyword">if</span>(arr[j] &lt; arr[minIndex])
+            {
+                minIndex = j;
+            }
+        }
+        
+        <span class="comment">// Swap minimum with first element</span>
+        <span class="keyword">int</span> temp = arr[i];
+        arr[i] = arr[minIndex];
+        arr[minIndex] = temp;
+    }
+}
+
+<span class="keyword">void</span> printArray(<span class="keyword">int</span> arr[], <span class="keyword">int</span> n)
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    {
+        cout &lt;&lt; arr[i] &lt;&lt; <span class="string">" "</span>;
+    }
+    cout &lt;&lt; endl;
+}
+
+<span class="keyword">int</span> main() 
+{
+    <span class="keyword">int</span> arr[] = {<span class="number">64</span>, <span class="number">25</span>, <span class="number">12</span>, <span class="number">22</span>, <span class="number">11</span>};
+    <span class="keyword">int</span> n = <span class="number">5</span>;
+    
+    cout &lt;&lt; <span class="string">"Original array: "</span>;
+    printArray(arr, n);
+    
+    selectionSort(arr, n);
+    
+    cout &lt;&lt; <span class="string">"Sorted array: "</span>;
+    printArray(arr, n);
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</div>
+                    <div class="output-block">Output:
+Original array: 64 25 12 22 11 
+Sorted array: 11 12 22 25 64</div>
+                    <div class="description">
+                        <h4>📖 Explanation:</h4>
+                        <ul>
+                            <li><strong>Selection Sort:</strong> Finds the minimum element and places it at the beginning</li>
+                            <li><strong>Find minimum:</strong> Inner loop searches for smallest element in unsorted part</li>
+                            <li><strong>Swap:</strong> Minimum element is swapped with first unsorted element</li>
+                            <li><strong>Time Complexity:</strong> O(n²) but fewer swaps than bubble sort</li>
+                            <li><strong>Process:</strong> Builds sorted array from left to right</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 8 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-number">Task 8</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="task-title">Linear Search</div>
+                <div class="task-description">
+                    Write a program to search for an element in an array using linear search.
+                </div>
+                <button class="toggle-btn" onclick="toggleAnswer(8)">Show Solution</button>
+                <div class="answer-section" id="answer8">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> linearSearch(<span class="keyword">int</span> arr[], <span class="keyword">int</span> n, <span class="keyword">int</span> key)
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    {
+        <span class="keyword">if</span>(arr[i] == key)
+        {
+            <span class="keyword">return</span> i;  <span class="comment">// Return index</span>
+        }
+    }
+    <span class="keyword">return</span> -<span class="number">1</span>;  <span class="comment">// Not found</span>
+}
+
+<span class="keyword">int</span> main() 
+{
+    <span class="keyword">int</span> arr[] = {<span class="number">10</span>, <span class="number">23</span>, <span class="number">45</span>, <span class="number">70</span>, <span class="number">11</span>, <span class="number">15</span>};
+    <span class="keyword">int</span> n = <span class="number">6</span>;
+    <span class="keyword">int</span> key;
+    
+    cout &lt;&lt; <span class="string">"Array: "</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    {
+        cout &lt;&lt; arr[i] &lt;&lt; <span class="string">" "</span>;
+    }
+    cout &lt;&lt; endl;
+    
+    cout &lt;&lt; <span class="string">"Enter element to search: "</span>;
+    cin &gt;&gt; key;
+    
+    <span class="keyword">int</span> result = linearSearch(arr, n, key);
+    
+    <span class="keyword">if</span>(result == -<span class="number">1</span>)
+    {
+        cout &lt;&lt; <span class="string">"Element not found!"</span> &lt;&lt; endl;
+    }
+    <span class="keyword">else</span>
+    {
+        cout &lt;&lt; <span class="string">"Element found at index: "</span>;
+        cout &lt;&lt; result &lt;&lt; endl;
+    }
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</div>
+                    <div class="output-block">Output:
+Array: 10 23 45 70 11 15 
+Enter element to search: 70
+Element found at index: 3</div>
+                    <div class="description">
+                        <h4>📖 Explanation:</h4>
+                        <ul>
+                            <li><strong>Linear Search:</strong> Checks each element one by one from start to end</li>
+                            <li><strong>Return value:</strong> Returns index if found, -1 if not found</li>
+                            <li><strong>Time Complexity:</strong> O(n) - Worst case checks all elements</li>
+                            <li><strong>Simple approach:</strong> Works on both sorted and unsorted arrays</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 9 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-number">Task 9</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="task-title">Binary Search</div>
+                <div class="task-description">
+                    Implement binary search to find an element in a sorted array.
+                </div>
+                <button class="toggle-btn" onclick="toggleAnswer(9)">Show Solution</button>
+                <div class="answer-section" id="answer9">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> binarySearch(<span class="keyword">int</span> arr[], <span class="keyword">int</span> n, <span class="keyword">int</span> key)
+{
+    <span class="keyword">int</span> left = <span class="number">0</span>;
+    <span class="keyword">int</span> right = n - <span class="number">1</span>;
+    
+    <span class="keyword">while</span>(left &lt;= right)
+    {
+        <span class="keyword">int</span> mid = left + (right - left) / <span class="number">2</span>;
+        
+        <span class="comment">// Check if key is at mid</span>
+        <span class="keyword">if</span>(arr[mid] == key)
+        {
+            <span class="keyword">return</span> mid;
+        }
+        
+        <span class="comment">// If key is greater, ignore left half</span>
+        <span class="keyword">if</span>(arr[mid] &lt; key)
+        {
+            left = mid + <span class="number">1</span>;
+        }
+        <span class="comment">// If key is smaller, ignore right half</span>
+        <span class="keyword">else</span>
+        {
+            right = mid - <span class="number">1</span>;
+        }
+    }
+    
+    <span class="keyword">return</span> -<span class="number">1</span>;  <span class="comment">// Not found</span>
+}
+
+<span class="keyword">int</span> main() 
+{
+    <span class="keyword">int</span> arr[] = {<span class="number">2</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">16</span>, <span class="number">23</span>, <span class="number">38</span>, <span class="number">45</span>, <span class="number">56</span>, <span class="number">67</span>, <span class="number">78</span>};
+    <span class="keyword">int</span> n = <span class="number">11</span>;
+    <span class="keyword">int</span> key;
+    
+    cout &lt;&lt; <span class="string">"Sorted Array: "</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    {
+        cout &lt;&lt; arr[i] &lt;&lt; <span class="string">" "</span>;
+    }
+    cout &lt;&lt; endl;
+    
+    cout &lt;&lt; <span class="string">"Enter element to search: "</span>;
+    cin &gt;&gt; key;
+    
+    <span class="keyword">int</span> result = binarySearch(arr, n, key);
+    
+    <span class="keyword">if</span>(result == -<span class="number">1</span>)
+    {
+        cout &lt;&lt; <span class="string">"Element not found!"</span> &lt;&lt; endl;
+    }
+    <span class="keyword">else</span>
+    {
+        cout &lt;&lt; <span class="string">"Element found at index: "</span>;
+        cout &lt;&lt; result &lt;&lt; endl;
+    }
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</div>
+                    <div class="output-block">Output:
+Sorted Array: 2 5 8 12 16 23 38 45 56 67 78 
+Enter element to search: 23
+Element found at index: 5</div>
+                    <div class="description">
+                        <h4>📖 Explanation:</h4>
+                        <ul>
+                            <li><strong>Binary Search:</strong> Divides search space in half each time</li>
+                            <li><strong>Requirement:</strong> Array MUST be sorted</li>
+                            <li><strong>Middle element:</strong> Compares key with middle element</li>
+                            <li><strong>Time Complexity:</strong> O(log n) - Much faster than linear search</li>
+                            <li><strong>Process:</strong> Eliminates half of remaining elements in each step</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 10 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-number">Task 10</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="task-title">Find Largest and Smallest Element in Array</div>
+                <div class="task-description">
+                    Write a program to find both the largest and smallest elements in an array.
+                </div>
+                <button class="toggle-btn" onclick="toggleAnswer(10)">Show Solution</button>
+                <div class="answer-section" id="answer10">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">void</span> findLargestSmallest(<span class="keyword">int</span> arr[], <span class="keyword">int</span> n)
+{
+    <span class="keyword">int</span> largest = arr[<span class="number">0</span>];
+    <span class="keyword">int</span> smallest = arr[<span class="number">0</span>];
+    
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++)
+    {
+        <span class="keyword">if</span>(arr[i] &gt; largest)
+        {
+            largest = arr[i];
+        }
+        
+        <span class="keyword">if</span>(arr[i] &lt; smallest)
+        {
+            smallest = arr[i];
+        }
+    }
+    
+    cout &lt;&lt; <span class="string">"Largest element: "</span>;
+    cout &lt;&lt; largest &lt;&lt; endl;
+    
+    cout &lt;&lt; <span class="string">"Smallest element: "</span>;
+    cout &lt;&lt; smallest &lt;&lt; endl;
+}
+
+<span class="keyword">int</span> main() 
+{
+    <span class="keyword">int</span> arr[] = {<span class="number">34</span>, <span class="number">78</span>, <span class="number">12</span>, <span class="number">89</span>, <span class="number">5</span>, <span class="number">67</span>, <span class="number">23</span>};
+    <span class="keyword">int</span> n = <span class="number">7</span>;
+    
+    cout &lt;&lt; <span class="string">"Array elements: "</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    {
+        cout &lt;&lt; arr[i] &lt;&lt; <span class="string">" "</span>;
+    }
+    cout &lt;&lt; endl &lt;&lt; endl;
+    
+    findLargestSmallest(arr, n);
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</div>
+                    <div class="output-block">Output:
+Array elements: 34 78 12 89 5 67 23 
+
+Largest element: 89
+Smallest element: 5</div>
+                    <div class="description">
+                        <h4>📖 Explanation:</h4>
+                        <ul>
+                            <li><strong>Initialize:</strong> Set both largest and smallest to first element</li>
+                            <li><strong>Compare:</strong> Loop through array comparing each element</li>
+                            <li><strong>Update:</strong> Update largest/smallest when better value found</li>
+                            <li><strong>Time Complexity:</strong> O(n) - Single pass through array</li>
+                            <li><strong>Efficient:</strong> Finds both values in one loop</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 11 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-number">Task 11</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="task-title">Reverse an Array</div>
+                <div class="task-description">
+                    Create a program to reverse the elements of an array.
+                </div>
+                <button class="toggle-btn" onclick="toggleAnswer(11)">Show Solution</button>
+                <div class="answer-section" id="answer11">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">void</span> reverseArray(<span class="keyword">int</span> arr[], <span class="keyword">int</span> n)
+{
+    <span class="keyword">int</span> start = <span class="number">0</span>;
+    <span class="keyword">int</span> end = n - <span class="number">1</span>;
+    
+    <span class="keyword">while</span>(start &lt; end)
+    {
+        <span class="comment">// Swap elements</span>
+        <span class="keyword">int</span> temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        
+        start++;
+        end--;
+    }
+}
+
+<span class="keyword">void</span> printArray(<span class="keyword">int</span> arr[], <span class="keyword">int</span> n)
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    {
+        cout &lt;&lt; arr[i] &lt;&lt; <span class="string">" "</span>;
+    }
+    cout &lt;&lt; endl;
+}
+
+<span class="keyword">int</span> main() 
+{
+    <span class="keyword">int</span> arr[] = {<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>};
+    <span class="keyword">int</span> n = <span class="number">7</span>;
+    
+    cout &lt;&lt; <span class="string">"Original array: "</span>;
+    printArray(arr, n);
+    
+    reverseArray(arr, n);
+    
+    cout &lt;&lt; <span class="string">"Reversed array: "</span>;
+    printArray(arr, n);
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</div>
+                    <div class="output-block">Output:
+Original array: 1 2 3 4 5 6 7 
+Reversed array: 7 6 5 4 3 2 1</div>
+                    <div class="description">
+                        <h4>📖 Explanation:</h4>
+                        <ul>
+                            <li><strong>Two pointers:</strong> Start from both ends of array</li>
+                            <li><strong>Swap:</strong> Exchange elements at start and end positions</li>
+                            <li><strong>Move pointers:</strong> Increment start, decrement end</li>
+                            <li><strong>Stop:</strong> When start >= end, array is reversed</li>
+                            <li><strong>Time Complexity:</strong> O(n/2) = O(n)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 12 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <span class="task-number">Task 12</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="task-title">Calculate Sum and Average of Array</div>
+                <div class="task-description">
+                    Write a program to calculate the sum and average of all elements in an array.
+                </div>
+                <button class="toggle-btn" onclick="toggleAnswer(12)">Show Solution</button>
+                <div class="answer-section" id="answer12">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> main() 
+{
+    <span class="keyword">int</span> n;
+    
+    cout &lt;&lt; <span class="string">"Enter number of elements: "</span>;
+    cin &gt;&gt; n;
+    
+    <span class="keyword">int</span> arr[n];
+    <span class="keyword">int</span> sum = <span class="number">0</span>;
+    
+    cout &lt;&lt; <span class="string">"Enter "</span> &lt;&lt; n &lt;&lt; <span class="string">" elements:"</span> &lt;&lt; endl;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)
+    {
+        cin &gt;&gt; arr[i];
+        sum = sum + arr[i];
+    }
+    
+    <span class="keyword">double</span> average = (<span class="keyword">double</span>)sum / n;
+    
+    cout &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Sum of elements: "</span>;
+    cout &lt;&lt; sum &lt;&lt; endl;
+    
+    cout &lt;&lt; <span class="string">"Average of elements: "</span>;
+    cout &lt;&lt; average &lt;&lt; endl;
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</div>
+                    <div class="output-block">Output:
+Enter number of elements: 5
+Enter 5 elements:
+10
+20
+30
+40
+50
+
+Sum of elements: 150
+Average of elements: 30</div>
+                    <div class="description">
+                        <h4>📖 Explanation:</h4>
+                        <ul>
+                            <li><strong>Dynamic array:</strong> Size determined by user input</li>
+                            <li><strong>Accumulator:</strong> Sum variable accumulates total</li>
+                            <li><strong>Type casting:</strong> Convert sum to double for accurate average</li>
+                            <li><strong>Average formula:</strong> Total sum divided by number of elements</li>
+                            <li><strong>Single loop:</strong> Efficient calculation in one pass</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>🌟 Practice these tasks to improve your C++ programming skills!</p>
+            <p>Master patterns, sorting, and searching algorithms step by step</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(num) {
+            const answer = document.getElementById('answer' + num);
+            const button = event.target;
+            
+            if (answer.classList.contains('show')) {
+                answer.classList.remove('show');
+                button.textContent = 'Show Solution';
+                button.style.background = '#11998e';
+            } else {
+                answer.classList.add('show');
+                button.textContent = 'Hide Solution';
+                button.style.background = '#0d7a6f';
+            }
+        }
+    </script>
+</body>
+</html>
