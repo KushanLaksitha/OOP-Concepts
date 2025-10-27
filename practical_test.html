@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP in C++ - Practice Sheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .difficulty {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .question-title {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .toggle-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .toggle-btn:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        .answer-section {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+        }
+
+        .answer-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+            white-space: pre;
+        }
+
+        .description {
+            color: #555;
+            line-height: 1.8;
+            margin-top: 15px;
+        }
+
+        .description h4 {
+            color: #667eea;
+            margin: 15px 0 10px 0;
+        }
+
+        .description ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .description li {
+            margin-bottom: 8px;
+        }
+
+        .keyword {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #98c379;
+        }
+
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 2px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 OOP in C++ Practice Sheet</h1>
+            <p>10 Questions from Easy to Medium Level</p>
+        </div>
+
+        <div class="content">
+            <!-- Question 1 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">Question 1</span>
+                    <span class="difficulty easy">Easy</span>
+                </div>
+                <div class="question-title">Create a Simple Class for a Student</div>
+                <p>Write a C++ program to create a Student class with name and age as data members. Create a method to display student information.</p>
+                <button class="toggle-btn" onclick="toggleAnswer(1)">Show Answer</button>
+                <div class="answer-section" id="answer1">
+                    <div class="code-block"><span class="comment">// Student class implementation</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">#include</span> &lt;string&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Student 
+{
+<span class="keyword">private</span>:
+    string name;
+    <span class="keyword">int</span> age;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Constructor</span>
+    Student(string n, <span class="keyword">int</span> a) 
+    {
+        name = n;
+        age = a;
+    }
+
+    <span class="comment">// Method to display information</span>
+    <span class="keyword">void</span> display() 
+    {
+        cout &lt;&lt; <span class="string">"Name: "</span> &lt;&lt; name &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"Age: "</span> &lt;&lt; age &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> main() 
+{
+    Student s1(<span class="string">"John"</span>, 20);
+    s1.display();
+    <span class="keyword">return</span> 0;
+}</div>
+                    <div class="description">
+                        <h4>📖 Description:</h4>
+                        <ul>
+                            <li><strong>Class:</strong> A blueprint for creating objects. Here, Student is our class.</li>
+                            <li><strong>Private members:</strong> name and age can only be accessed inside the class.</li>
+                            <li><strong>Constructor:</strong> Special method that runs when an object is created.</li>
+                            <li><strong>Public method:</strong> display() can be called from outside the class.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">Question 2</span>
+                    <span class="difficulty easy">Easy</span>
+                </div>
+                <div class="question-title">Implement Getter and Setter Methods</div>
+                <p>Create a Rectangle class with private length and width. Use getter and setter methods to access and modify these values.</p>
+                <button class="toggle-btn" onclick="toggleAnswer(2)">Show Answer</button>
+                <div class="answer-section" id="answer2">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Rectangle 
+{
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> length;
+    <span class="keyword">double</span> width;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Setter methods</span>
+    <span class="keyword">void</span> setLength(<span class="keyword">double</span> l) 
+    {
+        <span class="keyword">if</span>(l > 0)
+        {
+            length = l;
+        }
+    }
+
+    <span class="keyword">void</span> setWidth(<span class="keyword">double</span> w) 
+    {
+        <span class="keyword">if</span>(w > 0)
+        {
+            width = w;
+        }
+    }
+
+    <span class="comment">// Getter methods</span>
+    <span class="keyword">double</span> getLength() 
+    {
+        <span class="keyword">return</span> length;
+    }
+
+    <span class="keyword">double</span> getWidth() 
+    {
+        <span class="keyword">return</span> width;
+    }
+
+    <span class="comment">// Calculate area</span>
+    <span class="keyword">double</span> getArea() 
+    {
+        <span class="keyword">return</span> length * width;
+    }
+};
+
+<span class="keyword">int</span> main() 
+{
+    Rectangle r;
+    r.setLength(5.5);
+    r.setWidth(3.2);
+    cout &lt;&lt; <span class="string">"Area: "</span> &lt;&lt; r.getArea();
+    <span class="keyword">return</span> 0;
+}</div>
+                    <div class="description">
+                        <h4>📖 Description:</h4>
+                        <ul>
+                            <li><strong>Encapsulation:</strong> Hiding data and providing controlled access through methods.</li>
+                            <li><strong>Setter methods:</strong> Used to set values with validation (checking if value is positive).</li>
+                            <li><strong>Getter methods:</strong> Used to retrieve private data safely.</li>
+                            <li><strong>Data protection:</strong> Direct access to length and width is prevented.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">Question 3</span>
+                    <span class="difficulty easy">Easy</span>
+                </div>
+                <div class="question-title">Constructor Overloading</div>
+                <p>Create a Book class with multiple constructors: default constructor, parameterized constructor with title only, and with both title and author.</p>
+                <button class="toggle-btn" onclick="toggleAnswer(3)">Show Answer</button>
+                <div class="answer-section" id="answer3">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">#include</span> &lt;string&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Book 
+{
+<span class="keyword">private</span>:
+    string title;
+    string author;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Default constructor</span>
+    Book() 
+    {
+        title = <span class="string">"Unknown"</span>;
+        author = <span class="string">"Unknown"</span>;
+    }
+
+    <span class="comment">// Constructor with title only</span>
+    Book(string t) 
+    {
+        title = t;
+        author = <span class="string">"Unknown"</span>;
+    }
+
+    <span class="comment">// Constructor with title and author</span>
+    Book(string t, string a) 
+    {
+        title = t;
+        author = a;
+    }
+
+    <span class="keyword">void</span> display() 
+    {
+        cout &lt;&lt; <span class="string">"Title: "</span> &lt;&lt; title &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"Author: "</span> &lt;&lt; author &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> main() 
+{
+    Book b1;
+    Book b2(<span class="string">"C++ Programming"</span>);
+    Book b3(<span class="string">"OOP Concepts"</span>, <span class="string">"John Smith"</span>);
+    
+    b1.display();
+    b2.display();
+    b3.display();
+    <span class="keyword">return</span> 0;
+}</div>
+                    <div class="description">
+                        <h4>📖 Description:</h4>
+                        <ul>
+                            <li><strong>Constructor Overloading:</strong> Creating multiple constructors with different parameters.</li>
+                            <li><strong>Default constructor:</strong> Takes no parameters, sets default values.</li>
+                            <li><strong>Flexibility:</strong> Users can create objects in different ways based on available information.</li>
+                            <li><strong>Same name:</strong> All constructors have the same name as the class.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">Question 4</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="question-title">Single Inheritance</div>
+                <p>Create a base class Vehicle with brand name. Derive a Car class that adds number of doors. Demonstrate inheritance.</p>
+                <button class="toggle-btn" onclick="toggleAnswer(4)">Show Answer</button>
+                <div class="answer-section" id="answer4">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">#include</span> &lt;string&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="comment">// Base class</span>
+<span class="keyword">class</span> Vehicle 
+{
+<span class="keyword">protected</span>:
+    string brand;
+
+<span class="keyword">public</span>:
+    Vehicle(string b) 
+    {
+        brand = b;
+    }
+
+    <span class="keyword">void</span> showBrand() 
+    {
+        cout &lt;&lt; <span class="string">"Brand: "</span> &lt;&lt; brand &lt;&lt; endl;
+    }
+};
+
+<span class="comment">// Derived class</span>
+<span class="keyword">class</span> Car : <span class="keyword">public</span> Vehicle 
+{
+<span class="keyword">private</span>:
+    <span class="keyword">int</span> doors;
+
+<span class="keyword">public</span>:
+    Car(string b, <span class="keyword">int</span> d) : Vehicle(b) 
+    {
+        doors = d;
+    }
+
+    <span class="keyword">void</span> showDetails() 
+    {
+        showBrand();
+        cout &lt;&lt; <span class="string">"Doors: "</span> &lt;&lt; doors &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> main() 
+{
+    Car myCar(<span class="string">"Toyota"</span>, 4);
+    myCar.showDetails();
+    <span class="keyword">return</span> 0;
+}</div>
+                    <div class="description">
+                        <h4>📖 Description:</h4>
+                        <ul>
+                            <li><strong>Inheritance:</strong> Car inherits properties from Vehicle (parent class).</li>
+                            <li><strong>Protected:</strong> brand is accessible in derived class but not outside.</li>
+                            <li><strong>Constructor chaining:</strong> Car constructor calls Vehicle constructor using initialization list.</li>
+                            <li><strong>Code reuse:</strong> Car can use Vehicle's methods without rewriting them.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">Question 5</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="question-title">Function Overloading</div>
+                <p>Create a Calculator class with overloaded add() methods that can add two integers, two doubles, and three integers.</p>
+                <button class="toggle-btn" onclick="toggleAnswer(5)">Show Answer</button>
+                <div class="answer-section" id="answer5">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Calculator 
+{
+<span class="keyword">public</span>:
+    <span class="comment">// Add two integers</span>
+    <span class="keyword">int</span> add(<span class="keyword">int</span> a, <span class="keyword">int</span> b) 
+    {
+        <span class="keyword">return</span> a + b;
+    }
+
+    <span class="comment">// Add two doubles</span>
+    <span class="keyword">double</span> add(<span class="keyword">double</span> a, <span class="keyword">double</span> b) 
+    {
+        <span class="keyword">return</span> a + b;
+    }
+
+    <span class="comment">// Add three integers</span>
+    <span class="keyword">int</span> add(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c) 
+    {
+        <span class="keyword">return</span> a + b + c;
+    }
+};
+
+<span class="keyword">int</span> main() 
+{
+    Calculator calc;
+    
+    cout &lt;&lt; <span class="string">"5 + 3 = "</span> &lt;&lt; calc.add(5, 3) &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"2.5 + 3.7 = "</span> &lt;&lt; calc.add(2.5, 3.7) &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"1 + 2 + 3 = "</span> &lt;&lt; calc.add(1, 2, 3) &lt;&lt; endl;
+    
+    <span class="keyword">return</span> 0;
+}</div>
+                    <div class="description">
+                        <h4>📖 Description:</h4>
+                        <ul>
+                            <li><strong>Function Overloading:</strong> Multiple functions with same name but different parameters.</li>
+                            <li><strong>Compile-time polymorphism:</strong> Compiler decides which function to call based on arguments.</li>
+                            <li><strong>Different signatures:</strong> Functions differ in number or type of parameters.</li>
+                            <li><strong>Convenience:</strong> Same operation name for different data types makes code cleaner.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">Question 6</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="question-title">Static Members</div>
+                <p>Create a Counter class with a static variable to count how many objects have been created. Include a static method to display the count.</p>
+                <button class="toggle-btn" onclick="toggleAnswer(6)">Show Answer</button>
+                <div class="answer-section" id="answer6">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Counter 
+{
+<span class="keyword">private</span>:
+    <span class="keyword">static int</span> count;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Constructor increments count</span>
+    Counter() 
+    {
+        count++;
+    }
+
+    <span class="comment">// Static method to get count</span>
+    <span class="keyword">static int</span> getCount() 
+    {
+        <span class="keyword">return</span> count;
+    }
+};
+
+<span class="comment">// Initialize static variable</span>
+<span class="keyword">int</span> Counter::count = 0;
+
+<span class="keyword">int</span> main() 
+{
+    Counter c1, c2, c3;
+    
+    cout &lt;&lt; <span class="string">"Objects created: "</span>;
+    cout &lt;&lt; Counter::getCount() &lt;&lt; endl;
+    
+    Counter c4;
+    
+    cout &lt;&lt; <span class="string">"Objects created: "</span>;
+    cout &lt;&lt; Counter::getCount() &lt;&lt; endl;
+    
+    <span class="keyword">return</span> 0;
+}</div>
+                    <div class="description">
+                        <h4>📖 Description:</h4>
+                        <ul>
+                            <li><strong>Static variable:</strong> Shared by all objects of the class, only one copy exists.</li>
+                            <li><strong>Static method:</strong> Can be called without creating an object using ClassName::methodName().</li>
+                            <li><strong>Initialization:</strong> Static variables must be initialized outside the class.</li>
+                            <li><strong>Use case:</strong> Perfect for counting instances or sharing data across all objects.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">Question 7</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="question-title">Copy Constructor</div>
+                <p>Create a Point class with x and y coordinates. Implement a copy constructor to create a copy of an existing Point object.</p>
+                <button class="toggle-btn" onclick="toggleAnswer(7)">Show Answer</button>
+                <div class="answer-section" id="answer7">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Point 
+{
+<span class="keyword">private</span>:
+    <span class="keyword">int</span> x, y;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Parameterized constructor</span>
+    Point(<span class="keyword">int</span> a, <span class="keyword">int</span> b) 
+    {
+        x = a;
+        y = b;
+        cout &lt;&lt; <span class="string">"Parameterized constructor called"</span>;
+        cout &lt;&lt; endl;
+    }
+
+    <span class="comment">// Copy constructor</span>
+    Point(<span class="keyword">const</span> Point &amp;p) 
+    {
+        x = p.x;
+        y = p.y;
+        cout &lt;&lt; <span class="string">"Copy constructor called"</span>;
+        cout &lt;&lt; endl;
+    }
+
+    <span class="keyword">void</span> display() 
+    {
+        cout &lt;&lt; <span class="string">"Point("</span> &lt;&lt; x;
+        cout &lt;&lt; <span class="string">", "</span> &lt;&lt; y;
+        cout &lt;&lt; <span class="string">")"</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> main() 
+{
+    Point p1(10, 20);
+    p1.display();
+    
+    <span class="comment">// Copy constructor called</span>
+    Point p2 = p1;
+    p2.display();
+    
+    <span class="keyword">return</span> 0;
+}</div>
+                    <div class="description">
+                        <h4>📖 Description:</h4>
+                        <ul>
+                            <li><strong>Copy Constructor:</strong> Creates a new object as a copy of an existing object.</li>
+                            <li><strong>Reference parameter:</strong> Takes a constant reference to avoid infinite recursion.</li>
+                            <li><strong>Automatic call:</strong> Called when an object is passed by value or initialized with another object.</li>
+                            <li><strong>Deep vs Shallow:</strong> Important for classes with dynamic memory allocation.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">Question 8</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="question-title">Friend Function</div>
+                <p>Create a Box class with private dimensions. Use a friend function to calculate and return the volume of the box.</p>
+                <button class="toggle-btn" onclick="toggleAnswer(8)">Show Answer</button>
+                <div class="answer-section" id="answer8">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Box 
+{
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> length;
+    <span class="keyword">double</span> width;
+    <span class="keyword">double</span> height;
+
+<span class="keyword">public</span>:
+    Box(<span class="keyword">double</span> l, <span class="keyword">double</span> w, <span class="keyword">double</span> h) 
+    {
+        length = l;
+        width = w;
+        height = h;
+    }
+
+    <span class="comment">// Declare friend function</span>
+    <span class="keyword">friend double</span> calculateVolume(Box b);
+};
+
+<span class="comment">// Friend function definition</span>
+<span class="keyword">double</span> calculateVolume(Box b) 
+{
+    <span class="keyword">double</span> volume;
+    volume = b.length * b.width * b.height;
+    <span class="keyword">return</span> volume;
+}
+
+<span class="keyword">int</span> main() 
+{
+    Box myBox(3.0, 4.0, 5.0);
+    
+    cout &lt;&lt; <span class="string">"Volume: "</span>;
+    cout &lt;&lt; calculateVolume(myBox);
+    cout &lt;&lt; endl;
+    
+    <span class="keyword">return</span> 0;
+}</div>
+                    <div class="description">
+                        <h4>📖 Description:</h4>
+                        <ul>
+                            <li><strong>Friend Function:</strong> Not a member of class but can access private members.</li>
+                            <li><strong>Declaration:</strong> Declared inside class with 'friend' keyword.</li>
+                            <li><strong>Special access:</strong> Breaks encapsulation for specific cases where needed.</li>
+                            <li><strong>Use case:</strong> Useful for operations between two different classes or external operations.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">Question 9</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="question-title">Operator Overloading</div>
+                <p>Create a Complex number class with real and imaginary parts. Overload the + operator to add two complex numbers.</p>
+                <button class="toggle-btn" onclick="toggleAnswer(9)">Show Answer</button>
+                <div class="answer-section" id="answer9">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Complex 
+{
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> real;
+    <span class="keyword">double</span> imag;
+
+<span class="keyword">public</span>:
+    Complex(<span class="keyword">double</span> r = 0, <span class="keyword">double</span> i = 0) 
+    {
+        real = r;
+        imag = i;
+    }
+
+    <span class="comment">// Overload + operator</span>
+    Complex <span class="keyword">operator</span> + (<span class="keyword">const</span> Complex &amp;c) 
+    {
+        Complex temp;
+        temp.real = real + c.real;
+        temp.imag = imag + c.imag;
+        <span class="keyword">return</span> temp;
+    }
+
+    <span class="keyword">void</span> display() 
+    {
+        cout &lt;&lt; real;
+        cout &lt;&lt; <span class="string">" + "</span>;
+        cout &lt;&lt; imag;
+        cout &lt;&lt; <span class="string">"i"</span>;
+        cout &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> main() 
+{
+    Complex c1(3.5, 2.5);
+    Complex c2(1.5, 4.5);
+    
+    <span class="comment">// Using overloaded + operator</span>
+    Complex c3 = c1 + c2;
+    
+    cout &lt;&lt; <span class="string">"c1: "</span>;
+    c1.display();
+    
+    cout &lt;&lt; <span class="string">"c2: "</span>;
+    c2.display();
+    
+    cout &lt;&lt; <span class="string">"c1 + c2: "</span>;
+    c3.display();
+    
+    <span class="keyword">return</span> 0;
+}</div>
+                    <div class="description">
+                        <h4>📖 Description:</h4>
+                        <ul>
+                            <li><strong>Operator Overloading:</strong> Giving special meaning to operators for user-defined types.</li>
+                            <li><strong>Syntax:</strong> ReturnType operator Symbol (parameters)</li>
+                            <li><strong>Natural usage:</strong> Allows using + for Complex objects just like built-in types.</li>
+                            <li><strong>Common operators:</strong> +, -, *, /, ==, <<, >> can all be overloaded.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-number">Question 10</span>
+                    <span class="difficulty medium">Medium</span>
+                </div>
+                <div class="question-title">Multilevel Inheritance</div>
+                <p>Create a three-level inheritance: Person → Student → GraduateStudent. Each level should add specific attributes and methods.</p>
+                <button class="toggle-btn" onclick="toggleAnswer(10)">Show Answer</button>
+                <div class="answer-section" id="answer10">
+                    <div class="code-block"><span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">#include</span> &lt;string&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="comment">// Base class</span>
+<span class="keyword">class</span> Person 
+{
+<span class="keyword">protected</span>:
+    string name;
+    <span class="keyword">int</span> age;
+
+<span class="keyword">public</span>:
+    Person(string n, <span class="keyword">int</span> a)
+    {
+        name = n;
+        age = a;
+    }
+    
+    <span class="keyword">void</span> showPerson() 
+    {
+        cout &lt;&lt; <span class="string">"Name: "</span> &lt;&lt; name &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"Age: "</span> &lt;&lt; age &lt;&lt; endl;
+    }
+};
+
+<span class="comment">// Derived from Person</span>
+<span class="keyword">class</span> Student : <span class="keyword">public</span> Person 
+{
+<span class="keyword">protected</span>:
+    <span class="keyword">int</span> studentID;
+    string course;
+
+<span class="keyword">public</span>:
+    Student(string n, <span class="keyword">int</span> a, <span class="keyword">int</span> id, string c) 
+        : Person(n, a)
+    {
+        studentID = id;
+        course = c;
+    }
+    
+    <span class="keyword">void</span> showStudent() 
+    {
+        showPerson();
+        cout &lt;&lt; <span class="string">"Student ID: "</span>;
+        cout &lt;&lt; studentID &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"Course: "</span>;
+        cout &lt;&lt; course &lt;&lt; endl;
+    }
+};
+
+<span class="comment">// Derived from Student</span>
+<span class="keyword">class</span> GraduateStudent : <span class="keyword">public</span> Student 
+{
+<span class="keyword">private</span>:
+    string researchTopic;
+
+<span class="keyword">public</span>:
+    GraduateStudent(string n, <span class="keyword">int</span> a, <span class="keyword">int</span> id, 
+                    string c, string topic)
+        : Student(n, a, id, c)
+    {
+        researchTopic = topic;
+    }
+    
+    <span class="keyword">void</span> showGraduate() 
+    {
+        showStudent();
+        cout &lt;&lt; <span class="string">"Research Topic: "</span>;
+        cout &lt;&lt; researchTopic &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> main() 
+{
+    GraduateStudent gs(<span class="string">"Alice"</span>, 24, 12345, 
+                       <span class="string">"Computer Science"</span>, 
+                       <span class="string">"Machine Learning"</span>);
+    
+    gs.showGraduate();
+    
+    <span class="keyword">return</span> 0;
+}</div>
+                    <div class="description">
+                        <h4>📖 Description:</h4>
+                        <ul>
+                            <li><strong>Multilevel Inheritance:</strong> A class inherits from another derived class (chain of inheritance).</li>
+                            <li><strong>Hierarchy:</strong> Person → Student → GraduateStudent forms a three-level hierarchy.</li>
+                            <li><strong>Constructor chaining:</strong> Each constructor calls its parent class constructor.</li>
+                            <li><strong>Access levels:</strong> GraduateStudent has access to all public/protected members of both parent classes.</li>
+                            <li><strong>Real-world modeling:</strong> Represents is-a relationships naturally (GraduateStudent IS-A Student IS-A Person).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>💡 Practice these questions to strengthen your OOP concepts in C++!</p>
+            <p>Click "Show Answer" buttons to reveal solutions and explanations</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(num) {
+            const answer = document.getElementById('answer' + num);
+            const button = event.target;
+            
+            if (answer.classList.contains('show')) {
+                answer.classList.remove('show');
+                button.textContent = 'Show Answer';
+                button.style.background = '#667eea';
+            } else {
+                answer.classList.add('show');
+                button.textContent = 'Hide Answer';
+                button.style.background = '#764ba2';
+            }
+        }
+    </script>
+</body>
+</html>
