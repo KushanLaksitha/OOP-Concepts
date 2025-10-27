@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Intermediate Practical Questions & Answers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); /* New Green/Teal Gradient */
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .question-block {
+            margin-bottom: 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .question-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .question-header {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .question-header:hover {
+            background: linear-gradient(135deg, #24ae62 0%, #1f9450 100%);
+        }
+        
+        .question-title {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .toggle-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+        
+        .question-header.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .answer-section {
+            display: none;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        
+        .answer-section.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+        }
+        
+        .explanation {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .explanation h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+        
+        .expand-all-btn {
+            background: white;
+            color: #2ecc71;
+            border: 2px solid white;
+            padding: 10px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .expand-all-btn:hover {
+            background: #2ecc71;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        /* Syntax Highlighting Colors (Dracula theme inspired) */
+        .keyword {
+            color: #ff79c6; /* Pink */
+        }
+        
+        .function {
+            color: #50fa7b; /* Green */
+        }
+        
+        .string {
+            color: #f1fa8c; /* Yellow */
+        }
+        
+        .comment {
+            color: #6272a4; /* Gray-blue */
+            font-style: italic;
+        }
+        
+        .number {
+            color: #bd93f9; /* Purple */
+        }
+        
+        .type {
+            color: #8be9fd; /* Cyan */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔢 C++ Intermediate Practical Questions</h1>
+            <p class="subtitle">Mid-Level OOP, Arrays, Pointers, and Essential Logic</p>
+            <button class="expand-all-btn" onclick="toggleAll()">Expand All Answers</button>
+        </header>
+        
+        <div class="content">
+            <!-- Question 1 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(1)">
+                    <span class="question-title">1. Implement a class <code>Rectangle</code> with methods to calculate Area and Perimeter</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-1">
+                    <pre><code><span class="comment">// Basic OOP: Rectangle Class</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Rectangle {
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> length;
+    <span class="keyword">double</span> width;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Constructor</span>
+    Rectangle(<span class="keyword">double</span> l, <span class="keyword">double</span> w) : length(l), width(w) {}
+    
+    <span class="comment">// Calculate Area</span>
+    <span class="keyword">double</span> <span class="function">calculateArea</span>() <span class="keyword">const</span> {
+        <span class="keyword">return</span> length * width;
+    }
+    
+    <span class="comment">// Calculate Perimeter</span>
+    <span class="keyword">double</span> <span class="function">calculatePerimeter</span>() <span class="keyword">const</span> {
+        <span class="keyword">return</span> <span class="number">2</span> * (length + width);
+    }
+    
+    <span class="comment">// Display info</span>
+    <span class="keyword">void</span> <span class="function">displayInfo</span>() <span class="keyword">const</span> {
+        cout &lt;&lt; <span class="string">"Length: "</span> &lt;&lt; length &lt;&lt; <span class="string">", Width: "</span> &lt;&lt; width &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"Area: "</span> &lt;&lt; calculateArea() &lt;&lt; endl;
+        cout &lt;&lt; <span class="string">"Perimeter: "</span> &lt;&lt; calculatePerimeter() &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    Rectangle rect(<span class="number">10.0</span>, <span class="number">5.0</span>);
+    rect.displayInfo();
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>This is a basic C++ class demonstrating encapsulation. Private members (<code>length</code> and <code>width</code>) store the data, and public member functions (<code>calculateArea</code>, <code>calculatePerimeter</code>, <code>displayInfo</code>) provide controlled access and functionality.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(2)">
+                    <span class="question-title">2. Write a program to check if a positive integer entered by the user is a Prime Number</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-2">
+                    <pre><code><span class="comment">// Prime Number Check</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">bool</span> <span class="function">isPrime</span>(<span class="keyword">int</span> n) {
+    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) {
+        <span class="keyword">return</span> <span class="keyword">false</span>; <span class="comment">// 0 and 1 are not prime</span>
+    }
+    <span class="comment">// Check for factors from 2 up to the square root of n</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i * i &lt;= n; i++) {
+        <span class="keyword">if</span> (n % i == <span class="number">0</span>) {
+            <span class="keyword">return</span> <span class="keyword">false</span>; <span class="comment">// Found a factor, so it's not prime</span>
+        }
+    }
+    <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">// No factors found</span>
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> num;
+    cout &lt;&lt; <span class="string">"Enter a positive integer: "</span>;
+    cin &gt;&gt; num;
+    
+    <span class="keyword">if</span> (isPrime(num)) {
+        cout &lt;&lt; num &lt;&lt; <span class="string">" is a prime number."</span> &lt;&lt; endl;
+    } <span class="keyword">else</span> {
+        cout &lt;&lt; num &lt;&lt; <span class="string">" is NOT a prime number."</span> &lt;&lt; endl;
+    }
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>A prime number is only divisible by 1 and itself. The optimized check loops from 2 up to the square root of the number. If any number in this range divides the input with no remainder (<code>n % i == 0</code>), the number is not prime.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(3)">
+                    <span class="question-title">3. Reverse a string without using any built-in C++ reverse functions</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-3">
+                    <pre><code><span class="comment">// String Reversal using Swap</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">include</span> &lt;string&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">void</span> <span class="function">reverseString</span>(<span class="keyword">string</span>&amp; str) {
+    <span class="keyword">int</span> n = str.length();
+    <span class="comment">// Loop only up to half the length</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n / <span class="number">2</span>; i++) {
+        <span class="comment">// Swap characters at position i and n - 1 - i</span>
+        <span class="keyword">char</span> temp = str[i];
+        str[i] = str[n - <span class="number">1</span> - i];
+        str[n - <span class="number">1</span> - i] = temp;
+    }
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">string</span> myString = <span class="string">"UniversityLevel"</span>;
+    cout &lt;&lt; <span class="string">"Original string: "</span> &lt;&lt; myString &lt;&lt; endl;
+    
+    reverseString(myString);
+    
+    cout &lt;&lt; <span class="string">"Reversed string: "</span> &lt;&lt; myString &lt;&lt; endl;
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>This approach uses a two-pointer logic (implied by <code>i</code> and <code>n - 1 - i</code>) to swap characters. By looping only half the string's length, it ensures each pair of characters (from start and end) is swapped exactly once, efficiently reversing the string in-place.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(4)">
+                    <span class="question-title">4. Write a program to find the Transpose of a 3x3 Matrix</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-4">
+                    <pre><code><span class="comment">// Matrix Transpose (3x3)</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">const int</span> SIZE = <span class="number">3</span>;
+
+<span class="keyword">void</span> <span class="function">transposeMatrix</span>(<span class="keyword">int</span> matrix[SIZE][SIZE]) {
+    <span class="comment">// The transpose can be calculated in-place by swapping matrix[i][j] with matrix[j][i]</span>
+    <span class="comment">// We only iterate through the upper triangle to avoid double swapping</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; SIZE; i++) {
+        <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; SIZE; j++) {
+            <span class="comment">// Swap matrix[i][j] and matrix[j][i]</span>
+            <span class="keyword">int</span> temp = matrix[i][j];
+            matrix[i][j] = matrix[j][i];
+            matrix[j][i] = temp;
+        }
+    }
+}
+
+<span class="keyword">void</span> <span class="function">displayMatrix</span>(<span class="keyword">const int</span> matrix[SIZE][SIZE]) {
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; SIZE; i++) {
+        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; SIZE; j++) {
+            cout &lt;&lt; matrix[i][j] &lt;&lt; <span class="string">"\t"</span>;
+        }
+        cout &lt;&lt; endl;
+    }
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> matrix[SIZE][SIZE] = {
+        {<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>},
+        {<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>},
+        {<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>}
+    };
+    
+    cout &lt;&lt; <span class="string">"Original Matrix:"</span> &lt;&lt; endl;
+    displayMatrix(matrix);
+    
+    transposeMatrix(matrix);
+    
+    cout &lt;&lt; <span class="string">"\nTransposed Matrix:"</span> &lt;&lt; endl;
+    displayMatrix(matrix);
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The transpose of a matrix $A$ is $A^T$ where $A^T[i][j] = A[j][i]$. For a square matrix, this can be done in-place by swapping the elements symmetrically across the main diagonal. The nested loops iterate only over the upper-triangle (<code>j = i + 1</code>) to ensure each pair is swapped only once.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(5)">
+                    <span class="question-title">5. Demonstrate the use of Pointers to access and modify array elements</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-5">
+                    <pre><code><span class="comment">// Array Pointers and Dereferencing</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> arr[] = {<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>};
+    <span class="keyword">int</span> size = <span class="number">5</span>;
+
+    <span class="comment">// Create a pointer to the first element of the array</span>
+    <span class="keyword">int</span>* p = arr; 
+
+    cout &lt;&lt; <span class="string">"Original array: 10 20 30 40 50"</span> &lt;&lt; endl;
+
+    <span class="comment">/* --- Accessing Elements --- */</span>
+    cout &lt;&lt; <span class="string">"First element using pointer: "</span> &lt;&lt; *p &lt;&lt; endl; <span class="comment">// Dereference p</span>
+    cout &lt;&lt; <span class="string">"Third element using pointer arithmetic: "</span> &lt;&lt; *(p + <span class="number">2</span>) &lt;&lt; endl;
+    
+    <span class="comment">/* --- Modifying Elements --- */</span>
+    <span class="comment">// Change the second element (index 1)</span>
+    *(p + <span class="number">1</span>) = <span class="number">200</span>;
+    <span class="comment">// Change the last element (index 4)</span>
+    *(p + <span class="number">4</span>) = <span class="number">500</span>;
+
+    <span class="comment">/* --- Display Modified Array --- */</span>
+    cout &lt;&lt; <span class="string">"Modified array: "</span>;
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) {
+        cout &lt;&lt; arr[i] &lt;&lt; <span class="string">" "</span>;
+    }
+    cout &lt;&lt; endl;
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>An array name (<code>arr</code>) itself acts as a constant pointer to its first element. The pointer <code>p</code> is initialized to hold this address. Elements are accessed using the dereference operator (<code>*</code>) combined with pointer arithmetic: <code>*(p + i)</code> is equivalent to <code>arr[i]</code>. This demonstrates direct memory manipulation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(6)">
+                    <span class="question-title">6. Write a program to calculate the Area and Circumference of a circle using a global constant for PI</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-6">
+                    <pre><code><span class="comment">// Circle Calculation with Global Constant</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="comment">// Define a global constant for PI</span>
+<span class="keyword">const double</span> PI = <span class="number">3.14159265359</span>;
+
+<span class="keyword">double</span> <span class="function">calculateArea</span>(<span class="keyword">double</span> radius) {
+    <span class="keyword">return</span> PI * radius * radius;
+}
+
+<span class="keyword">double</span> <span class="function">calculateCircumference</span>(<span class="keyword">double</span> radius) {
+    <span class="keyword">return</span> <span class="number">2</span> * PI * radius;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">double</span> r = <span class="number">7.5</span>;
+    
+    cout &lt;&lt; <span class="string">"Radius: "</span> &lt;&lt; r &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Area: "</span> &lt;&lt; calculateArea(r) &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Circumference: "</span> &lt;&lt; calculateCircumference(r) &lt;&lt; endl;
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The constant <code>PI</code> is defined outside the functions using the <code>const</code> keyword, making it a global constant accessible by all functions in the file. This ensures that the value of PI is consistent and cannot be accidentally changed during program execution.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(7)">
+                    <span class="question-title">7. Find the largest and smallest element in a given integer array</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-7">
+                    <pre><code><span class="comment">// Array Min/Max</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">void</span> <span class="function">findMinMax</span>(<span class="keyword">int</span> arr[], <span class="keyword">int</span> size) {
+    <span class="keyword">if</span> (size &lt;= <span class="number">0</span>) {
+        cout &lt;&lt; <span class="string">"Array is empty or invalid size."</span> &lt;&lt; endl;
+        <span class="keyword">return</span>;
+    }
+    
+    <span class="comment">// Initialize min and max with the first element</span>
+    <span class="keyword">int</span> minVal = arr[<span class="number">0</span>];
+    <span class="keyword">int</span> maxVal = arr[<span class="number">0</span>];
+    
+    <span class="comment">// Iterate from the second element</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; size; i++) {
+        <span class="keyword">if</span> (arr[i] &lt; minVal) {
+            minVal = arr[i];
+        }
+        <span class="keyword">if</span> (arr[i] &gt; maxVal) {
+            maxVal = arr[i];
+        }
+    }
+    
+    cout &lt;&lt; <span class="string">"Largest element: "</span> &lt;&lt; maxVal &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Smallest element: "</span> &lt;&lt; minVal &lt;&lt; endl;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> numbers[] = {<span class="number">45</span>, <span class="number">12</span>, <span class="number">88</span>, <span class="number">7</span>, <span class="number">99</span>, <span class="number">33</span>};
+    <span class="keyword">int</span> n = <span class="keyword">sizeof</span>(numbers) / <span class="keyword">sizeof</span>(numbers[<span class="number">0</span>]);
+    
+    findMinMax(numbers, n);
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The program initializes both <code>minVal</code> and <code>maxVal</code> to the first element of the array. It then traverses the rest of the array only once, comparing each element against the current minimum and maximum values and updating them as necessary. This is an O(n) approach.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(8)">
+                    <span class="question-title">8. Write a program to check if a given integer is a Palindrome Number</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-8">
+                    <pre><code><span class="comment">// Palindrome Number Check</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">bool</span> <span class="function">isPalindromeNumber</span>(<span class="keyword">int</span> n) {
+    <span class="keyword">if</span> (n &lt; <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
+    
+    <span class="keyword">int</span> originalNum = n;
+    <span class="keyword">int</span> reversedNum = <span class="number">0</span>;
+    
+    <span class="comment">// Reverse the number</span>
+    <span class="keyword">while</span> (n &gt; <span class="number">0</span>) {
+        <span class="keyword">int</span> digit = n % <span class="number">10</span>;
+        reversedNum = reversedNum * <span class="number">10</span> + digit;
+        n /= <span class="number">10</span>;
+    }
+    
+    <span class="comment">// Compare the original number with the reversed number</span>
+    <span class="keyword">return</span> originalNum == reversedNum;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> num1 = <span class="number">121</span>;
+    <span class="keyword">int</span> num2 = <span class="number">12345</span>;
+    
+    cout &lt;&lt; num1 &lt;&lt; <span class="string">" is a palindrome: "</span> &lt;&lt; (isPalindromeNumber(num1) ? <span class="string">"Yes"</span> : <span class="string">"No"</span>) &lt;&lt; endl;
+    cout &lt;&lt; num2 &lt;&lt; <span class="string">" is a palindrome: "</span> &lt;&lt; (isPalindromeNumber(num2) ? <span class="string">"Yes"</span> : <span class="string">"No"</span>) &lt;&lt; endl;
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>A palindrome number reads the same backward as forward. The program iteratively extracts the last digit of the original number (using modulo 10) and uses it to build a new, reversed number. Finally, it compares the original number with the reversed number.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(9)">
+                    <span class="question-title">9. Create a class <code>Time</code> to store hours, minutes, and seconds, and a function to add two Time objects</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-9">
+                    <pre><code><span class="comment">// Class for Time Management</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Time {
+<span class="keyword">private</span>:
+    <span class="keyword">int</span> hours;
+    <span class="keyword">int</span> minutes;
+    <span class="keyword">int</span> seconds;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Constructor</span>
+    Time(<span class="keyword">int</span> h = <span class="number">0</span>, <span class="keyword">int</span> m = <span class="number">0</span>, <span class="keyword">int</span> s = <span class="number">0</span>) : hours(h), minutes(m), seconds(s) {}
+    
+    <span class="comment">// Function to add two Time objects</span>
+    Time <span class="function">addTime</span>(<span class="keyword">const</span> Time&amp; t2) <span class="keyword">const</span> {
+        <span class="keyword">int</span> s = seconds + t2.seconds;
+        <span class="keyword">int</span> m = minutes + t2.minutes + (s / <span class="number">60</span>);
+        <span class="keyword">int</span> h = hours + t2.hours + (m / <span class="number">60</span>);
+
+        <span class="keyword">return</span> Time(h % <span class="number">24</span>, m % <span class="number">60</span>, s % <span class="number">60</span>);
+    }
+    
+    <span class="keyword">void</span> <span class="function">displayTime</span>() <span class="keyword">const</span> {
+        cout &lt;&lt; hours &lt;&lt; <span class="string">"h:"</span> &lt;&lt; minutes &lt;&lt; <span class="string">"m:"</span> &lt;&lt; seconds &lt;&lt; <span class="string">"s"</span>;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    Time t1(<span class="number">2</span>, <span class="number">50</span>, <span class="number">45</span>); <span class="comment">// 2h 50m 45s</span>
+    Time t2(<span class="number">1</span>, <span class="number">15</span>, <span class="number">20</span>); <span class="comment">// 1h 15m 20s</span>
+    
+    Time sum = t1.addTime(t2);
+    
+    cout &lt;&lt; <span class="string">"Time 1: "</span>; t1.displayTime(); cout &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Time 2: "</span>; t2.displayTime(); cout &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Total Time: "</span>; sum.displayTime(); cout &lt;&lt; endl; <span class="comment">// Expected: 4h:6m:5s</span>
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The <code>Time</code> class encapsulates time data. The <code>addTime</code> method correctly handles overflows: adding seconds and carrying the minutes (<code>s / 60</code>), then adding minutes and carrying the hours (<code>m / 60</code>). Finally, it uses modulo (<code>%</code>) to keep the values within their respective ranges (60 for min/sec, 24 for hours).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(10)">
+                    <span class="question-title">10. Calculate Simple Interest using a function with default arguments for Time (T) and Rate (R)</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-10">
+                    <pre><code><span class="comment">// Default Arguments for Function</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">include</span> &lt;iomanip&gt; <span class="comment">// For setprecision</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="comment">// Function with default arguments: R=5.0% and T=1 year</span>
+<span class="keyword">double</span> <span class="function">calculateSI</span>(<span class="keyword">double</span> principal, <span class="keyword">double</span> rate = <span class="number">5.0</span>, <span class="keyword">double</span> time = <span class="number">1.0</span>) {
+    <span class="comment">// Simple Interest = (P * R * T) / 100</span>
+    <span class="keyword">return</span> (principal * rate * time) / <span class="number">100.0</span>;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">double</span> p = <span class="number">10000.0</span>;
+    
+    cout &lt;&lt; <span class="function">fixed</span> &lt;&lt; <span class="function">setprecision</span>(<span class="number">2</span>);
+
+    <span class="comment">// 1. Call with all arguments (P, R, T)</span>
+    cout &lt;&lt; <span class="string">"SI (10000, 8.0, 3.0): $"</span> &lt;&lt; calculateSI(p, <span class="number">8.0</span>, <span class="number">3.0</span>) &lt;&lt; endl;
+    
+    <span class="comment">// 2. Call omitting Time (uses T=1.0)</span>
+    cout &lt;&lt; <span class="string">"SI (10000, 6.0): $"</span> &lt;&lt; calculateSI(p, <span class="number">6.0</span>) &lt;&lt; endl;
+    
+    <span class="comment">// 3. Call omitting Rate and Time (uses R=5.0, T=1.0)</span>
+    cout &lt;&lt; <span class="string">"SI (10000): $"</span> &lt;&lt; calculateSI(p) &lt;&lt; endl;
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>Default arguments simplify function calls by providing default values for parameters. If the caller does not specify a value for a default parameter (like <code>rate</code> or <code>time</code>), the function uses the default. Note that default arguments must be placed at the end of the parameter list.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 11 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(11)">
+                    <span class="question-title">11. Overload a function <code>calculateArea</code> to find the area of a circle and a rectangle</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-11">
+                    <pre><code><span class="comment">// Function Overloading Example</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="comment">// 1. Area of a Rectangle (Length and Width)</span>
+<span class="keyword">double</span> <span class="function">calculateArea</span>(<span class="keyword">double</span> length, <span class="keyword">double</span> width) {
+    cout &lt;&lt; <span class="string">"Calculating Rectangle Area: "</span>;
+    <span class="keyword">return</span> length * width;
+}
+
+<span class="comment">// 2. Area of a Circle (Radius)</span>
+<span class="keyword">double</span> <span class="function">calculateArea</span>(<span class="keyword">double</span> radius) {
+    <span class="keyword">const double</span> PI = <span class="number">3.14159</span>;
+    cout &lt;&lt; <span class="string">"Calculating Circle Area: "</span>;
+    <span class="keyword">return</span> PI * radius * radius;
+}
+
+<span class="comment">// 3. Area of a Square (Single side) - Overloading by number of arguments</span>
+<span class="keyword">int</span> <span class="function">calculateArea</span>(<span class="keyword">int</span> side) {
+    cout &lt;&lt; <span class="string">"Calculating Square Area: "</span>;
+    <span class="keyword">return</span> side * side;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    cout &lt;&lt; calculateArea(<span class="number">5.0</span>, <span class="number">10.0</span>) &lt;&lt; endl; <span class="comment">// Calls version 1 (Rectangle)</span>
+    cout &lt;&lt; calculateArea(<span class="number">4.0</span>) &lt;&lt; endl;       <span class="comment">// Calls version 2 (Circle)</span>
+    cout &lt;&lt; calculateArea(<span class="number">7</span>) &lt;&lt; endl;          <span class="comment">// Calls version 3 (Square, different type)</span>
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>Function overloading allows defining multiple functions with the same name but distinct signatures (different number or types of parameters). The C++ compiler resolves which function to call based on the arguments provided during the function call (compile-time polymorphism).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 12 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(12)">
+                    <span class="question-title">12. Create a simple class hierarchy (<code>Animal</code> -> <code>Dog</code>) to demonstrate Single Inheritance</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-12">
+                    <pre><code><span class="comment">// Single Inheritance</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">include</span> &lt;string&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="comment">// Base Class</span>
+<span class="keyword">class</span> Animal {
+<span class="keyword">protected</span>:
+    <span class="keyword">string</span> species;
+    <span class="keyword">int</span> age;
+
+<span class="keyword">public</span>:
+    Animal(<span class="keyword">string</span> s, <span class="keyword">int</span> a) : species(s), age(a) {}
+    
+    <span class="keyword">void</span> <span class="function">eat</span>() <span class="keyword">const</span> {
+        cout &lt;&lt; species &lt;&lt; <span class="string">" is eating."</span> &lt;&lt; endl;
+    }
+    
+    <span class="keyword">void</span> <span class="function">sleep</span>() <span class="keyword">const</span> {
+        cout &lt;&lt; species &lt;&lt; <span class="string">" is sleeping."</span> &lt;&lt; endl;
+    }
+};
+
+<span class="comment">// Derived Class (inherits publicly from Animal)</span>
+<span class="keyword">class</span> Dog : <span class="keyword">public</span> Animal {
+<span class="keyword">private</span>:
+    <span class="keyword">string</span> breed;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Constructor calls base class constructor using initializer list</span>
+    Dog(<span class="keyword">string</span> b, <span class="keyword">int</span> a) : Animal(<span class="string">"Canine"</span>, a), breed(b) {}
+    
+    <span class="keyword">void</span> <span class="function">bark</span>() <span class="keyword">const</span> {
+        cout &lt;&lt; breed &lt;&lt; <span class="string">" (Age: "</span> &lt;&lt; age &lt;&lt; <span class="string">") barks: Woof!"</span> &lt;&lt; endl;
+    }
+    
+    <span class="keyword">void</span> <span class="function">displaySpecies</span>() <span class="keyword">const</span> {
+        cout &lt;&lt; <span class="string">"Species: "</span> &lt;&lt; species &lt;&lt; endl; <span class="comment">// Accessing protected member</span>
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    Dog myDog(<span class="string">"Golden Retriever"</span>, <span class="number">3</span>);
+    
+    myDog.displaySpecies();
+    myDog.bark();
+    
+    <span class="comment">// Calling inherited methods</span>
+    myDog.eat();
+    myDog.sleep();
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>Single inheritance means a derived class (<code>Dog</code>) inherits from only one base class (<code>Animal</code>). The <code>protected</code> access specifier allows members to be accessed by derived classes while remaining inaccessible to the outside world, promoting controlled reusability.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 13 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(13)">
+                    <span class="question-title">13. Implement a basic Stack data structure using an array (LIFO principle)</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-13">
+                    <pre><code><span class="comment">// Stack Implementation (Array-based)</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">const int</span> MAX_SIZE = <span class="number">5</span>;
+
+<span class="keyword">class</span> Stack {
+<span class="keyword">private</span>:
+    <span class="keyword">int</span> arr[MAX_SIZE];
+    <span class="keyword">int</span> top; <span class="comment">// Index of the top element</span>
+
+<span class="keyword">public</span>:
+    <span class="comment">// Constructor: Initialize top to -1 (empty stack)</span>
+    Stack() : top(-<span class="number">1</span>) {} 
+    
+    <span class="keyword">bool</span> <span class="function">isEmpty</span>() <span class="keyword">const</span> {
+        <span class="keyword">return</span> top == -<span class="number">1</span>;
+    }
+    
+    <span class="keyword">bool</span> <span class="function">isFull</span>() <span class="keyword">const</span> {
+        <span class="keyword">return</span> top == MAX_SIZE - <span class="number">1</span>;
+    }
+    
+    <span class="comment">// Push operation (add element)</span>
+    <span class="keyword">void</span> <span class="function">push</span>(<span class="keyword">int</span> value) {
+        <span class="keyword">if</span> (isFull()) {
+            cout &lt;&lt; <span class="string">"Stack Overflow: Cannot push "</span> &lt;&lt; value &lt;&lt; endl;
+            <span class="keyword">return</span>;
+        }
+        arr[++top] = value;
+        cout &lt;&lt; <span class="string">"Pushed: "</span> &lt;&lt; value &lt;&lt; endl;
+    }
+    
+    <span class="comment">// Pop operation (remove top element)</span>
+    <span class="keyword">int</span> <span class="function">pop</span>() {
+        <span class="keyword">if</span> (isEmpty()) {
+            cout &lt;&lt; <span class="string">"Stack Underflow"</span> &lt;&lt; endl;
+            <span class="keyword">return</span> -<span class="number">1</span>; <span class="comment">// Error code</span>
+        }
+        <span class="keyword">return</span> arr[top--];
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    Stack s;
+    
+    s.push(<span class="number">10</span>);
+    s.push(<span class="number">20</span>);
+    
+    cout &lt;&lt; <span class="string">"Popped: "</span> &lt;&lt; s.pop() &lt;&lt; endl;
+    
+    s.push(<span class="number">30</span>);
+    s.push(<span class="number">40</span>);
+    s.push(<span class="number">50</span>);
+    s.push(<span class="number">60</span>); <span class="comment">// Should cause overflow</span>
+    
+    cout &lt;&lt; <span class="string">"Popped: "</span> &lt;&lt; s.pop() &lt;&lt; endl;
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The stack is a Last In, First Out (LIFO) data structure. The array-based implementation uses the <code>top</code> integer to track the index of the last element inserted. <code>push</code> increments <code>top</code> before insertion, and <code>pop</code> returns the element at <code>top</code> before decrementing it. Checks for overflow and underflow prevent boundary errors.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 14 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(14)">
+                    <span class="question-title">14. Demonstrate passing a simple object to a function by Value and by Reference</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-14">
+                    <pre><code><span class="comment">// Pass by Value vs. Pass by Reference (Objects)</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Data {
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> value;
+    Data(<span class="keyword">int</span> v) : value(v) {}
+    
+    <span class="keyword">void</span> <span class="function">display</span>(<span class="keyword">const char</span>* msg) {
+        cout &lt;&lt; msg &lt;&lt; <span class="string">": Value = "</span> &lt;&lt; value &lt;&lt; endl;
+    }
+};
+
+<span class="comment">// Pass by Value: creates a copy of the object</span>
+<span class="keyword">void</span> <span class="function">modifyByValue</span>(Data d) {
+    d.value = <span class="number">999</span>; <span class="comment">// Changes the COPY, not the original</span>
+    d.display(<span class="string">"Inside modifyByValue"</span>);
+}
+
+<span class="comment">// Pass by Reference: operates on the original object</span>
+<span class="keyword">void</span> <span class="function">modifyByReference</span>(Data&amp; d) {
+    d.value = <span class="number">1000</span>; <span class="comment">// Changes the ORIGINAL object</span>
+    d.display(<span class="string">"Inside modifyByReference"</span>);
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    Data myData(<span class="number">100</span>);
+    myData.display(<span class="string">"Original"</span>);
+
+    cout &lt;&lt; <span class="string">"\n--- Testing Pass by Value ---"</span> &lt;&lt; endl;
+    modifyByValue(myData);
+    myData.display(<span class="string">"After modifyByValue"</span>); <span class="comment">// Original remains 100</span>
+
+    cout &lt;&lt; <span class="string">"\n--- Testing Pass by Reference ---"</span> &lt;&lt; endl;
+    modifyByReference(myData);
+    myData.display(<span class="string">"After modifyByReference"</span>); <span class="comment">// Original is changed to 1000</span>
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p><b>Pass by Value</b> creates a temporary copy of the object, so changes inside the function are lost when the function returns. <b>Pass by Reference</b> (using <code>&amp;</code>) passes the memory address, allowing the function to directly access and modify the original object, making the changes permanent.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 15 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(15)">
+                    <span class="question-title">15. Write a program to read student data (Name, ID) from a file and display it</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-15">
+                    <pre><code><span class="comment">// Simple File I/O (Reading)</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">include</span> &lt;fstream&gt;
+<span class="keyword">include</span> &lt;string&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">string</span> filename = <span class="string">"student_data.txt"</span>;
+    <span class="keyword">string</span> name;
+    <span class="keyword">int</span> id;
+
+    <span class="comment">/* --- Write sample data to file first --- */</span>
+    <span class="keyword">ofstream</span> outFile(filename);
+    <span class="keyword">if</span> (outFile.is_open()) {
+        outFile &lt;&lt; <span class="string">"Alice 101\n"</span>;
+        outFile &lt;&lt; <span class="string">"Bob 102\n"</span>;
+        outFile.close();
+        cout &lt;&lt; <span class="string">"Sample data written to file."</span> &lt;&lt; endl;
+    }
+
+    <span class="comment">/* --- Read data from file --- */</span>
+    <span class="keyword">ifstream</span> inFile(filename);
+    
+    cout &lt;&lt; <span class="string">"\n--- Student Records ---"</span> &lt;&lt; endl;
+    <span class="keyword">if</span> (inFile.is_open()) {
+        <span class="comment">// Read until end of file is reached</span>
+        <span class="keyword">while</span> (inFile &gt;&gt; name &gt;&gt; id) {
+            cout &lt;&lt; <span class="string">"Name: "</span> &lt;&lt; name &lt;&lt; <span class="string">", ID: "</span> &lt;&lt; id &lt;&lt; endl;
+        }
+        inFile.close();
+    } <span class="keyword">else</span> {
+        cerr &lt;&lt; <span class="string">"Error: Could not open file for reading."</span> &lt;&lt; endl;
+        <span class="keyword">return</span> <span class="number">1</span>;
+    }
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>File operations require the <code>&lt;fstream&gt;</code> library. An <code>ifstream</code> object (<code>inFile</code>) is used for reading. The condition <code>while (inFile >> name >> id)</code> automatically reads a string and an integer separated by whitespace, and the loop continues as long as the read operation is successful (i.e., not the end of the file or an error).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 16 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(16)">
+                    <span class="question-title">16. Merge two sorted integer arrays into a third sorted array</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-16">
+                    <pre><code><span class="comment">// Merge Two Sorted Arrays</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">void</span> <span class="function">mergeSortedArrays</span>(<span class="keyword">const int</span> arr1[], <span class="keyword">int</span> size1, 
+                       <span class="keyword">const int</span> arr2[], <span class="keyword">int</span> size2, 
+                       <span class="keyword">int</span> result[]) {
+    <span class="keyword">int</span> i = <span class="number">0</span>; <span class="comment">// Pointer for arr1</span>
+    <span class="keyword">int</span> j = <span class="number">0</span>; <span class="comment">// Pointer for arr2</span>
+    <span class="keyword">int</span> k = <span class="number">0</span>; <span class="comment">// Pointer for result array</span>
+
+    <span class="comment">// Merge elements while both arrays have elements</span>
+    <span class="keyword">while</span> (i &lt; size1 && j &lt; size2) {
+        <span class="keyword">if</span> (arr1[i] &lt; arr2[j]) {
+            result[k++] = arr1[i++];
+        } <span class="keyword">else</span> {
+            result[k++] = arr2[j++];
+        }
+    }
+
+    <span class="comment">// Copy remaining elements of arr1 (if any)</span>
+    <span class="keyword">while</span> (i &lt; size1) {
+        result[k++] = arr1[i++];
+    }
+
+    <span class="comment">// Copy remaining elements of arr2 (if any)</span>
+    <span class="keyword">while</span> (j &lt; size2) {
+        result[k++] = arr2[j++];
+    }
+}
+
+<span class="keyword">void</span> <span class="function">displayArray</span>(<span class="keyword">const int</span> arr[], <span class="keyword">int</span> size) {
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) {
+        cout &lt;&lt; arr[i] &lt;&lt; <span class="string">" "</span>;
+    }
+    cout &lt;&lt; endl;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> arrA[] = {<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>};
+    <span class="keyword">int</span> arrB[] = {<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">10</span>};
+    <span class="keyword">int</span> sizeA = <span class="number">4</span>;
+    <span class="keyword">int</span> sizeB = <span class="number">5</span>;
+    <span class="keyword">const int</span> TOTAL_SIZE = sizeA + sizeB;
+    <span class="keyword">int</span> mergedArr[TOTAL_SIZE]; <span class="comment">// Needs to be large enough</span>
+
+    mergeSortedArrays(arrA, sizeA, arrB, sizeB, mergedArr);
+
+    cout &lt;&lt; <span class="string">"Merged Array: "</span>;
+    displayArray(mergedArr, TOTAL_SIZE);
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>This program uses the standard merge technique (part of Merge Sort). It utilizes three pointers (<code>i</code>, <code>j</code>, <code>k</code>) to simultaneously iterate through both source arrays (A and B) and the destination array (C). It compares elements from A and B and places the smaller one into C, advancing only the pointer of the array from which the element was taken. Finally, it copies any remaining elements.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 17 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(17)">
+                    <span class="question-title">17. Write a program to find the sum of the digits of a given integer</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-17">
+                    <pre><code><span class="comment">// Sum of Digits</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> <span class="function">sumOfDigits</span>(<span class="keyword">int</span> n) {
+    <span class="keyword">if</span> (n &lt; <span class="number">0</span>) n = -n; <span class="comment">// Handle negative numbers</span>
+    <span class="keyword">int</span> sum = <span class="number">0</span>;
+    
+    <span class="keyword">while</span> (n &gt; <span class="number">0</span>) {
+        <span class="keyword">int</span> digit = n % <span class="number">10</span>; <span class="comment">// Get the last digit</span>
+        sum += digit;
+        n /= <span class="number">10</span>; <span class="comment">// Remove the last digit</span>
+    }
+    
+    <span class="keyword">return</span> sum;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> num = <span class="number">12345</span>;
+    
+    cout &lt;&lt; <span class="string">"The number is: "</span> &lt;&lt; num &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Sum of digits: "</span> &lt;&lt; sumOfDigits(num) &lt;&lt; endl;
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The core logic uses a <code>while</code> loop and two arithmetic operations: the modulo operator (<code>% 10</code>) to extract the last digit, and the integer division operator (<code>/ 10</code>) to remove the last digit. This process repeats until the number becomes 0, and the extracted digits are accumulated in the <code>sum</code> variable.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 18 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(18)">
+                    <span class="question-title">18. Demonstrate the execution of a Constructor and Destructor in a simple C++ class</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-18">
+                    <pre><code><span class="comment">// Constructor and Destructor Demonstration</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> Demo {
+<span class="keyword">private</span>:
+    <span class="keyword">int</span> id;
+    
+<span class="keyword">public</span>:
+    <span class="comment">// Constructor: Called when an object is created</span>
+    Demo(<span class="keyword">int</span> i) : id(i) {
+        cout &lt;&lt; <span class="string">"Constructor called for object with ID: "</span> &lt;&lt; id &lt;&lt; endl;
+    }
+    
+    <span class="comment">// Destructor: Called when an object is destroyed (goes out of scope)</span>
+    ~Demo() {
+        cout &lt;&lt; <span class="string">"Destructor called for object with ID: "</span> &lt;&lt; id &lt;&lt; endl;
+    }
+    
+    <span class="keyword">void</span> <span class="function">live</span>() {
+        cout &lt;&lt; <span class="string">"Object ID "</span> &lt;&lt; id &lt;&lt; <span class="string">" is actively running."</span> &lt;&lt; endl;
+    }
+};
+
+<span class="comment">// Function to create an object that is locally scoped</span>
+<span class="keyword">void</span> <span class="function">localScopeDemo</span>() {
+    cout &lt;&lt; <span class="string">"\nEntering localScopeDemo()"</span> &lt;&lt; endl;
+    Demo localObj(<span class="number">200</span>); <span class="comment">// Constructor called</span>
+    localObj.live();
+    cout &lt;&lt; <span class="string">"Exiting localScopeDemo()"</span> &lt;&lt; endl; <span class="comment">// Destructor called here</span>
+}
+
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    cout &lt;&lt; <span class="string">"Main function start."</span> &lt;&lt; endl;
+    
+    Demo globalObj(<span class="number">100</span>); <span class="comment">// Constructor called</span>
+    
+    localScopeDemo();
+    
+    cout &lt;&lt; <span class="string">"Main function end."</span> &lt;&lt; endl;
+    <span class="comment">// globalObj Destructor called implicitly when main returns</span>
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>The **Constructor** (named after the class, <code>Demo()</code>) is automatically executed upon object creation to initialize members. The **Destructor** (preceded by a tilde, <code>~Demo()</code>) is automatically executed when an object goes out of scope or is explicitly destroyed (e.g., using <code>delete</code> for dynamic objects). This lifecycle management is crucial for resource cleanup.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 19 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(19)">
+                    <span class="question-title">19. Count the frequency of each character in a string using an array</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-19">
+                    <pre><code><span class="comment">// Character Frequency Count</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">include</span> &lt;string&gt;
+<span class="keyword">include</span> &lt;cctype&gt; <span class="comment">// For tolower()</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">void</span> <span class="function">countFrequency</span>(<span class="keyword">const string</span>&amp; str) {
+    <span class="comment">// Array size 26 for 'a' through 'z' (assuming only lowercase letters)</span>
+    <span class="keyword">int</span> freq[<span class="number">26</span>] = {<span class="number">0</span>};
+    
+    <span class="keyword">for</span> (<span class="keyword">char</span> ch : str) {
+        <span class="keyword">if</span> (<span class="function">isalpha</span>(ch)) {
+            <span class="comment">// Convert to lowercase and calculate index (0 for 'a', 1 for 'b', etc.)</span>
+            <span class="keyword">int</span> index = <span class="function">tolower</span>(ch) - <span class="string">'a'</span>;
+            freq[index]++;
+        }
+    }
+
+    cout &lt;&lt; <span class="string">"Character Frequencies:"</span> &lt;&lt; endl;
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) {
+        <span class="keyword">if</span> (freq[i] &gt; <span class="number">0</span>) {
+            <span class="comment">// Convert index back to character</span>
+            <span class="keyword">char</span> character = (<span class="keyword">char</span>)(<span class="string">'a'</span> + i);
+            cout &lt;&lt; <span class="string">"'"</span> &lt;&lt; character &lt;&lt; <span class="string">"': "</span> &lt;&lt; freq[i] &lt;&lt; endl;
+        }
+    }
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">string</span> text = <span class="string">"Programming is FUN"</span>;
+    countFrequency(text);
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>This program uses an array of size 26 to act as a frequency map. It converts all letters to lowercase. The index in the array is determined by <code>char - 'a'</code>, which maps 'a' to index 0, 'b' to 1, and so on. This simple technique efficiently counts all alphabetical character occurrences.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 20 -->
+            <div class="question-block">
+                <div class="question-header" onclick="toggleAnswer(20)">
+                    <span class="question-title">20. Check if a number is an Armstrong Number (e.g., 153 = 1³ + 5³ + 3³)</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="answer-section" id="answer-20">
+                    <pre><code><span class="comment">// Armstrong Number Check</span>
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">include</span> &lt;cmath&gt; <span class="comment">// For pow()</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> <span class="function">countDigits</span>(<span class="keyword">int</span> n) {
+    <span class="keyword">int</span> count = <span class="number">0</span>;
+    <span class="keyword">while</span> (n != <span class="number">0</span>) {
+        n /= <span class="number">10</span>;
+        count++;
+    }
+    <span class="keyword">return</span> count;
+}
+
+<span class="keyword">bool</span> <span class="function">isArmstrong</span>(<span class="keyword">int</span> n) {
+    <span class="keyword">int</span> originalNum = n;
+    <span class="keyword">int</span> numDigits = countDigits(n);
+    <span class="keyword">int</span> sum = <span class="number">0</span>;
+    <span class="keyword">int</span> temp = n;
+
+    <span class="keyword">while</span> (temp &gt; <span class="number">0</span>) {
+        <span class="keyword">int</span> digit = temp % <span class="number">10</span>;
+        <span class="comment">// Sum of (digit raised to the power of number of digits)</span>
+        sum += <span class="function">pow</span>(digit, numDigits); 
+        temp /= <span class="number">10</span>;
+    }
+
+    <span class="keyword">return</span> originalNum == sum;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> num1 = <span class="number">153</span>;
+    <span class="keyword">int</span> num2 = <span class="number">9474</span>; <span class="comment">// 4-digit Armstrong number</span>
+    <span class="keyword">int</span> num3 = <span class="number">123</span>;
+
+    cout &lt;&lt; num1 &lt;&lt; <span class="string">" is an Armstrong number: "</span> &lt;&lt; (isArmstrong(num1) ? <span class="string">"Yes"</span> : <span class="string">"No"</span>) &lt;&lt; endl;
+    cout &lt;&lt; num2 &lt;&lt; <span class="string">" is an Armstrong number: "</span> &lt;&lt; (isArmstrong(num2) ? <span class="string">"Yes"</span> : <span class="string">"No"</span>) &lt;&lt; endl;
+    cout &lt;&lt; num3 &lt;&lt; <span class="string">" is an Armstrong number: "</span> &lt;&lt; (isArmstrong(num3) ? <span class="string">"Yes"</span> : <span class="string">"No"</span>) &lt;&lt; endl;
+    
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+                    <div class="explanation">
+                        <h4>Explanation:</h4>
+                        <p>An Armstrong number is one that is equal to the sum of its own digits raised to the power of the number of digits. The program first determines the number of digits (<code>numDigits</code>), then iterates through the number, raising each digit to that power (using <code>pow()</code> from <code>&lt;cmath&gt;</code>) and accumulating the sum. Finally, it compares the sum with the original number.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <!-- Script for Accordion Functionality -->
+            <script>
+                function toggleAnswer(id) {
+                    const answerSection = document.getElementById(`answer-${id}`);
+                    const questionHeader = answerSection.previousElementSibling;
+                    
+                    // Toggle visibility of the answer section
+                    answerSection.classList.toggle('active');
+                    questionHeader.classList.toggle('active');
+                }
+
+                function toggleAll() {
+                    const allAnswerSections = document.querySelectorAll('.answer-section');
+                    const allQuestionHeaders = document.querySelectorAll('.question-header');
+                    const expandButton = document.querySelector('.expand-all-btn');
+                    
+                    let allExpanded = Array.from(allAnswerSections).every(section => section.classList.contains('active'));
+                    
+                    allAnswerSections.forEach(section => {
+                        if (allExpanded) {
+                            section.classList.remove('active');
+                        } else {
+                            section.classList.add('active');
+                        }
+                    });
+
+                    allQuestionHeaders.forEach(header => {
+                        if (allExpanded) {
+                            header.classList.remove('active');
+                        } else {
+                            header.classList.add('active');
+                        }
+                    });
+
+                    // Update button text
+                    expandButton.textContent = allExpanded ? 'Expand All Answers' : 'Collapse All Answers';
+                }
+            </script>
+        </footer>
+    </div>
+</body>
+</html>
