@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COM 1305 — OOP Answer Script</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      background: linear-gradient(45deg, #fff, #ffd89b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 30px 0;
+      animation: fadeIn 1s ease 0.3s both;
+    }
+
+    .tab-btn {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .tab-btn:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-color: #fff;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    }
+
+    .content {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 25px;
+      color: #333;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: slideUp 0.6s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    }
+
+    .card h3 {
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 10px;
+    }
+
+    pre {
+      background: linear-gradient(135deg, #1e1e1e 0%, #2d2d30 100%);
+      color: #d4d4d4;
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 15px 0;
+      border-left: 4px solid #667eea;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    pre::before {
+      content: 'C++';
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background: #667eea;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    .output {
+      background: linear-gradient(135deg, #f6f8fa 0%, #e9ecef 100%);
+      border-left: 4px solid #28a745;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+      font-family: monospace;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .output strong {
+      color: #28a745;
+    }
+
+    .explain {
+      background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+      color: #856404;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .copy-btn {
+      background: #667eea;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .copy-btn:hover {
+      background: #764ba2;
+      transform: scale(1.05);
+    }
+
+    .copy-btn:active {
+      transform: scale(0.95);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      opacity: 0.8;
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .badge {
+      display: inline-block;
+      background: #667eea;
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      margin-right: 8px;
+      font-weight: bold;
+    }
+
+    code {
+      background: rgba(103, 126, 234, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      color: #667eea;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎓 COM 1305</h1>
+      <p class="subtitle">Object Oriented Programming — Answer Script</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="q1">Question 1</button>
+      <button class="tab-btn" data-tab="q2">Question 2</button>
+      <button class="tab-btn" data-tab="q3">Question 3</button>
+      <button class="tab-btn" data-tab="q4">Question 4</button>
+      <button class="tab-btn" data-tab="q5">Question 5</button>
+    </div>
+
+    <div id="q1" class="content active">
+      <div class="card">
+        <h3><span class="badge">1(a)</span> CuriousAdder Constructor</h3>
+        <div class="explain">This constructor increments <code>i</code> twice per loop iteration</div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class CuriousAdder {
+public:
+    CuriousAdder() {
+        for (int i = 0; i &lt; 5; i++) {
+            cout &lt;&lt; ++i &lt;&lt; " ";
+        }
+    }
+};
+
+int main() {
+    CuriousAdder ca;
+    return 0;
+}</code></pre>
+        <div class="output"><strong>Output:</strong> 1 3 5</div>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">1(b)</span> MadPrinter Class</h3>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class MadPrinter {
+public:
+    int i;
+    MadPrinter(int j) : i(j) { }
+
+    void madPrint() {
+        if (i &lt;= 5) {
+            do {
+                cout &lt;&lt; (i++) &lt;&lt; " \n";
+            } while (i &lt;= 5);
+        } else {
+            while (i &lt; 10) {
+                cout &lt;&lt; (i++) &lt;&lt; " \n";
+            }
+        }
+    }
+};
+
+int main() {
+    int i = 0;
+    cin &gt;&gt; i;
+    MadPrinter mP(i);
+    mP.madPrint();
+    return 0;
+}</code></pre>
+        <div class="output">
+          <strong>Input = 3:</strong> prints 3 4 5<br>
+          <strong>Input = 9:</strong> prints 9
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">1(c)</span> Dereference Operator (*)</h3>
+        <div class="explain">The dereference operator <code>*</code> applied to a pointer yields the object the pointer points to</div>
+        <pre><code>int x = 10;
+int *p = &x;
+cout &lt;&lt; *p; // prints 10</code></pre>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">1(d)</span> FindArea Class</h3>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class FindArea {
+    int a, b;
+public:
+    FindArea(int a, int b) : a(a), b(b) {}
+    void area() { cout &lt;&lt; a * b; }
+};
+
+int main() {
+    FindArea obj(5, 10);
+    obj.area();
+    return 0;
+}</code></pre>
+        <div class="output"><strong>Output:</strong> 50</div>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">1(e)</span> Recursive Function</h3>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+void printNumbers(int i) {
+    if (i &lt;= 10) {
+        cout &lt;&lt; i &lt;&lt; " ";
+        printNumbers(i + 1);
+    }
+}
+
+int main() {
+    printNumbers(0);
+    return 0;
+}</code></pre>
+        <div class="output"><strong>Output:</strong> 0 1 2 3 4 5 6 7 8 9 10</div>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">1(f)</span> Enum for Days</h3>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+enum Day { SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY };
+
+int main() {
+    Day d = TUESDAY;
+    cout &lt;&lt; d &lt;&lt; endl;
+    const char* names[] = {"SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"};
+    cout &lt;&lt; names[d] &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="output"><strong>Output:</strong> 2 and TUESDAY</div>
+      </div>
+    </div>
+
+    <div id="q2" class="content">
+      <div class="card">
+        <h3><span class="badge">2(a)</span> Abstract Person Class with Inheritance</h3>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Person {
+protected:
+    string name;
+    int age;
+public:
+    Person(string n, int a) : name(n), age(a) {}
+    virtual void getInfo() = 0;
+    virtual ~Person() = default;
+};
+
+class Student : public Person {
+    string grade;
+public:
+    Student(string n, int a, string g) : Person(n,a), grade(g) {}
+    void getInfo() override {
+        cout &lt;&lt; "Student - Name: " &lt;&lt; name &lt;&lt; ", Age: " &lt;&lt; age &lt;&lt; ", Grade: " &lt;&lt; grade &lt;&lt; endl;
+    }
+};
+
+class Teacher : public Person {
+    string subject;
+public:
+    Teacher(string n, int a, string s) : Person(n,a), subject(s) {}
+    void getInfo() override {
+        cout &lt;&lt; "Teacher - Name: " &lt;&lt; name &lt;&lt; ", Age: " &lt;&lt; age &lt;&lt; ", Subject: " &lt;&lt; subject &lt;&lt; endl;
+    }
+};</code></pre>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">2(b)</span> Main Function Demo</h3>
+        <pre><code>int main() {
+    Student s("Akalanka", 21, "A");
+    Teacher t("Nishantha", 50, "OOF");
+    s.getInfo();
+    t.getInfo();
+    return 0;
+}</code></pre>
+        <div class="output">
+          <strong>Output:</strong><br>
+          Student - Name: Akalanka, Age: 21, Grade: A<br>
+          Teacher - Name: Nishantha, Age: 50, Subject: OOF
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">2(c)</span> Struct Book</h3>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+struct book {
+    int bookID;
+    int numOfCopies;
+    float price;
+    string bookName;
+};
+
+int main() {
+    book b;
+    b.bookID = 101;
+    b.numOfCopies = 5;
+    b.price = 1499.99f;
+    b.bookName = "Fundamentals of OOP";
+    cout &lt;&lt; "BookID: " &lt;&lt; b.bookID &lt;&lt; ", Copies: " &lt;&lt; b.numOfCopies 
+         &lt;&lt; ", Price: " &lt;&lt; b.price &lt;&lt; ", Name: " &lt;&lt; b.bookName &lt;&lt; endl;
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">2(d)</span> Pointers and References</h3>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    double number = 1000;
+    double number01 = number;
+    double *number02 = &number;
+    double &number03 = *number02;
+
+    cout &lt;&lt; number &lt;&lt; endl;
+    *number02 = *number02 * 2;
+    cout &lt;&lt; *number02 &lt;&lt; endl;
+    cout &lt;&lt; number03 &lt;&lt; endl;
+
+    number02 = &number01;
+    cout &lt;&lt; *number02 &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="output"><strong>Output:</strong> 1000, 2000, 2000, 1000</div>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">2(e)</span> While Loop Conversion</h3>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int i = 0;
+    while (i &lt; 5) {
+        cout &lt;&lt; i &lt;&lt; " ";
+        i++;
+    }
+    return 0;
+}</code></pre>
+      </div>
+    </div>
+
+    <div id="q3" class="content">
+      <div class="card">
+        <h3><span class="badge">3(a)</span> Multiple Inheritance Ambiguity</h3>
+        <div class="explain">C++ handles ambiguity using virtual inheritance or qualifying base class members</div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class A {
+public:
+    void hello() { cout &lt;&lt; "Hello from A\n"; }
+};
+
+class B : public A { };
+class C : public A { };
+
+class D : public B, public C {
+public:
+    void call() {
+        B::hello(); // resolves to B's A::hello
+        C::hello(); // resolves to C's A::hello
+    }
+};
+
+int main() {
+    D d;
+    d.call();
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">3(b)</span> Calculator with Overloaded add</h3>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Calculator {
+public:
+    int add(int a, int b) { return a + b; }
+    int add(int a, int b, int c) { return a + b + c; }
+    double add(double a, double b) { return a + b; }
+    string add(const string &a, const string &b) { return a + b; }
+};
+
+int main() {
+    Calculator calc;
+    cout &lt;&lt; calc.add(2,3) &lt;&lt; endl;
+    cout &lt;&lt; calc.add(1,2,3) &lt;&lt; endl;
+    cout &lt;&lt; calc.add(1.5,2.25) &lt;&lt; endl;
+    cout &lt;&lt; calc.add(string("Hello "), string("World")) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="output"><strong>Output:</strong> 5, 6, 3.75, Hello World</div>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">3(c)</span> Copy Constructor</h3>
+        <div class="explain">A copy constructor initializes an object using another object of the same class</div>
+        <pre><code>class Example {
+    int value;
+public:
+    Example(int v): value(v) {}
+    Example(const Example &other): value(other.value) {}
+};</code></pre>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">3(d)</span> Destructor</h3>
+        <div class="explain">A destructor cleans up resources when an object goes out of scope</div>
+        <pre><code>class Demo {
+public:
+    Demo() { /* allocate resources */ }
+    ~Demo() { /* free resources */ }
+};</code></pre>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">3(e)</span> getDist Implementation</h3>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Distance {
+private:
+    int feet;
+    int inches;
+public:
+    Distance(int feet, int inches) : feet(feet), inches(inches) {}
+    int getDist();
+};
+
+int Distance::getDist() {
+    return feet * 12 + inches;
+}
+
+int main() {
+    Distance d(10, 5);
+    cout &lt;&lt; d.getDist() &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="output"><strong>Output:</strong> 125</div>
+      </div>
+    </div>
+
+    <div id="q4" class="content">
+      <div class="card">
+        <h3><span class="badge">4(c)</span> Temp Class with Access Specifiers</h3>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Temp {
+private:
+    double celc;
+public:
+    Temp(double t) : celc(t) {}
+    void setTemp(double t) { celc = t; }
+    double getTemp() const { return celc; }
+};
+
+int main() {
+    Temp temp1(35);
+    Temp temp2 = temp1;
+    temp2.setTemp(40);
+    cout &lt;&lt; "temp1: " &lt;&lt; temp1.getTemp() 
+         &lt;&lt; ", temp2: " &lt;&lt; temp2.getTemp() &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="output"><strong>Output:</strong> temp1: 35, temp2: 40</div>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">4(d)</span> Friend Function getCat</h3>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Cat {
+private:
+    string name;
+    int age;
+public:
+    Cat(string name, int age) : name(name), age(age) {}
+    void sayCat() { 
+        cout &lt;&lt; "Cat: " &lt;&lt; name &lt;&lt; ", Age: " &lt;&lt; age &lt;&lt; endl; 
+    }
+    friend Cat getCat(const string &n, int a);
+};
+
+Cat getCat(const string &n, int a) {
+    return Cat(n, a);
+}
+
+int main() {
+    Cat cat = getCat("Tom", 10);
+    cat.sayCat();
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">4(e)</span> Operator Overloading</h3>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Distance {
+private:
+    int feet;
+    float inches;
+public:
+    Distance(int ft, float in) : feet(ft), inches(in) {}
+    float totalInches() const { return feet * 12.0f + inches; }
+    bool operator&lt;(const Distance &d2) const {
+        return totalInches() &lt; d2.totalInches();
+    }
+    bool operator==(const Distance &d2) const {
+        return totalInches() == d2.totalInches();
+    }
+};
+
+int main() {
+    Distance d1(1, 10.5f);
+    Distance d2(2, 10.5f);
+    cout &lt;&lt; (d1 &lt; d2) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="output"><strong>Output:</strong> 1 (true)</div>
+      </div>
+    </div>
+
+    <div id="q5" class="content">
+      <div class="card">
+        <h3><span class="badge">5(a)</span> Car Class with Static Members</h3>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Car {
+private:
+    string brand;
+    string model;
+    static int totalCars;
+public:
+    Car(const string &b, const string &m) : brand(b), model(m) {
+        totalCars++;
+    }
+    void displayCarData() const {
+        cout &lt;&lt; "Brand: " &lt;&lt; brand &lt;&lt; ", Model: " &lt;&lt; model &lt;&lt; endl;
+    }
+    static void displayTotalCarNo() {
+        cout &lt;&lt; "Total cars: " &lt;&lt; totalCars &lt;&lt; endl;
+    }
+};
+
+int Car::totalCars = 0;
+
+int main() {
+    Car::displayTotalCarNo();
+    Car car1("Toyota", "Vitz");
+    Car car2("Honda", "Vezel");
+    car1.displayCarData();
+    car2.displayCarData();
+    Car::displayTotalCarNo();
+    return 0;
+}</code></pre>
+        <div class="output">
+          <strong>Output:</strong><br>
+          Total cars: 0<br>
+          Brand: Toyota, Model: Vitz<br>
+          Brand: Honda, Model: Vezel<br>
+          Total cars: 2
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="badge">5(e)</span> Const Keyword</h3>
+        <div class="explain"><code>const</code> on member functions means the method does not modify the object</div>
+        <pre><code>int getArea() const {
+    return length * width;
+}</code></pre>
+        <div class="explain"><strong>Observer Pattern:</strong> A behavioral design pattern where an object (subject) maintains a list of dependents (observers) and notifies them automatically about state changes. Useful for event handling, GUIs, and MVC architectures.</div>
+      </div>
+    </div>
+
+    <footer>
+      <p>✨ Interactive OOP Answer Script</p>
+      <p style="opacity: 0.7; margin-top: 10px;">Click tabs to navigate between questions</p>
+    </footer>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        
+        tab.classList.add('active');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    document.querySelectorAll('pre').forEach(pre => {
+      const btn = document.createElement('button');
+      btn.textContent = 'Copy Code';
+      btn.className = 'copy-btn';
+      btn.addEventListener('click', () => {
+        const code = pre.textContent.replace('C++', '').trim();
+        navigator.clipboard.writeText(code).then(() => {
+          btn.textContent = 'Copied!';
+          setTimeout(() => btn.textContent = 'Copy Code', 2000);
+        });
+      });
+      pre.appendChild(btn);
+    });
+  </script>
+</body>
+</html>
